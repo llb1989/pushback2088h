@@ -21,6 +21,8 @@ pros::Motor intmotor1(1);
 pros::Motor intmotor2(-2);
 pros::Motor intmotor3(9);
 
+pros::Motor intmotor4(6);
+
 /*
 	void setIntakeHigh(int intakePower){
 		intmotor1.move(intakePower);
