@@ -1,5 +1,7 @@
 #include "main.h"
+#include "pros/llemu.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "pros/motors.hpp"
 
 /**
@@ -9,8 +11,9 @@
  * "I was pressed!" and nothing.
  */
 
-pros::MotorGroup left_mg({18, -20, 16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup right_mg({-12, 14, -15});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::Controller master(pros::E_CONTROLLER_MASTER);
+pros::MotorGroup left_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup right_mg({12, -14, 15});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 /* pros::Motor dtmotor1(1);  
 pros::Motor dtmotor2(1);
 pros::Motor dtmotor3(1);
@@ -21,7 +24,6 @@ pros::Motor intmotor1(1);
 pros::Motor intmotor2(-2);
 pros::Motor intmotor3(9);
 
-pros::Motor intmotor4(6);
 
 /*
 	void setIntakeHigh(int intakePower){
@@ -103,24 +105,65 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
+
+		
+void opcontrol() {
+	
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
-		// Arcade control scheme. if lulas gay does that mean she goons to femboys
+		// Arcade control scheme. 
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
 		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
 		left_mg.move(dir + turn);                      // Sets left motor voltage
 		right_mg.move(dir - turn);                     // Sets right motor voltage
 
-		intmotor1.move_voltage(0);
-		intmotor2.move_voltage(0);
-		intmotor3.move_voltage(0);
+		bool locktoggle = true;
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+			locktoggle = !locktoggle;
+		}
 
+	// if (locktoggle = false){ // if button pressed
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && (!locktoggle)){
+			intmotor1.move_voltage(12000);
+			intmotor2.move_voltage(12000);
+			intmotor3.move_voltage(12000);
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && (!locktoggle)) {
+			intmotor1.move_voltage(12000);
+			intmotor2.move_voltage(12000);
+			intmotor3.move_voltage(-12000);
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) && (!locktoggle)) {
+			intmotor1.move_voltage(-12000);
+			intmotor2.move_voltage(-12000);
+			intmotor3.move_voltage(-12000);
+		} else {
+			intmotor1.move_voltage(0);
+			intmotor2.move_voltage(0);
+			intmotor3.move_voltage(0);
+		}
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && (locktoggle)){
+			intmotor1.move_voltage(12000);
+			intmotor2.move_voltage(12000);
+			intmotor3.move_voltage(0);
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && (locktoggle)) {
+			intmotor1.move_voltage(12000);
+			intmotor2.move_voltage(12000);
+			intmotor3.move_voltage(0);
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) && (locktoggle)) {
+			intmotor1.move_voltage(-12000);
+			intmotor2.move_voltage(-12000);
+			intmotor3.move_voltage(0);
+		} else {
+			intmotor1.move_voltage(0);
+			intmotor2.move_voltage(0);
+			intmotor3.move_voltage(0); // stop moving
+		}
+
+		
 		/* if(pros::E_CONTROLLER_DIGITAL_R1){
 			setIntakeHigh(127);
 		} else if (pros::E_CONTROLLER_DIGITAL_X) {
@@ -136,28 +179,6 @@ void opcontrol() {
 		} else {
 			setIntakeMid(0);
 		} */
-
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			intmotor1.move_voltage(12000);
-			intmotor2.move_voltage(12000);
-			intmotor3.move_voltage(12000);
-		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			intmotor1.move_voltage(12000);
-			intmotor2.move_voltage(12000);
-			intmotor3.move_voltage(-12000);
-		} else {
-			intmotor1.move_voltage(0);
-			intmotor2.move_voltage(0);
-			intmotor3.move_voltage(0);
-		}
-		
-		
-		
-		/* else if (pros::E_CONTROLLER_DIGITAL_L1) {
-			intmotor1.move_voltage(12000);
-			intmotor2.move_voltage(12000);
-			intmotor3.move_voltage(-12000);
-		} */  
 
 		pros::delay(20);                               // Run for 20 ms then update
 	}
