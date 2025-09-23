@@ -108,6 +108,10 @@ void opcontrol() {
 		left_mg.move(dir + turn);                      // Sets left motor voltage
 		right_mg.move(dir - turn);                     // Sets right motor voltage	
 
+	// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // little willy in my butt
+    //   littlewill.toggle();
+	// }
+
 	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) { // turn lock on and off
       locktoggle = !locktoggle; 
 	}
@@ -115,17 +119,17 @@ void opcontrol() {
 	if (locktoggle) {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(12000);
+            intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
 			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(12000);
+            intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
 			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             intmotor1.move_voltage(-12000);
-            intmotor2.move_voltage(-12000);
+            intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
 			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
         } else {
