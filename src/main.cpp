@@ -18,7 +18,7 @@
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup right_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup left_mg({12, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup left_mg({11, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 pros::Motor intmotor1(1); // bottom roller
 pros::Motor intmotor2(-2); // middle roller
@@ -56,15 +56,15 @@ lemlib::ControllerSettings angular_controller(2,  // proportional gain (kP)
 );
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(5, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              3, // derivative gain (kD)
-                                              3, // anti windup
+                                              15.7, // derivative gain (kD)
+                                              0, // anti windup
                                               1, // small error range, in inches
-                                              100, // small error range timeout, in milliseconds
+                                              500, // small error range timeout, in milliseconds
                                               3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
+                                              1000, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
 
 lemlib::Chassis chassis(drivetrain, // drivetrain settings
@@ -143,8 +143,8 @@ void autonomous() {
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
     // move 48" forwards
-    chassis.turnToHeading(90, 100000);
-    break;
+    chassis.moveToPoint(0, 48, 100000);
+    break; 
 
     }
 
@@ -243,16 +243,16 @@ void opcontrol() {
     } else if (slowtoggle) {
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(6000);
-            intmotor2.move_voltage(6000);
+            intmotor1.move_voltage(3000);
+            intmotor2.move_voltage(3000);
             intmotor3.move_voltage(6000);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(6000);
-            intmotor2.move_voltage(6000);
+            intmotor1.move_voltage(3000);
+            intmotor2.move_voltage(3000);
             intmotor3.move_voltage(-6000);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-6000);
-            intmotor2.move_voltage(-6000);
+            intmotor1.move_voltage(-3000);
+            intmotor2.move_voltage(-3000);
             intmotor3.move_voltage(-6000);
         } else {
             intmotor1.move_voltage(0);
