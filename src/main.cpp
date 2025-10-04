@@ -17,8 +17,8 @@
  */
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup left_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup right_mg({12, -14, 15});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup right_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup left_mg({12, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 pros::Motor intmotor1(1); // bottom roller
 pros::Motor intmotor2(-2); // middle roller
@@ -44,6 +44,17 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             &imu // inertial sensor
 );
 
+lemlib::ControllerSettings angular_controller(2,  // proportional gain (kP)
+                                              0, // integral gain (kI)
+                                              13, // derivative gain (kD)
+                                              0, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                                0 // maximum acceleration (slew)
+);
+
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
                                               0, // integral gain (kI)
@@ -54,18 +65,6 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
                                               3, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
                                               20 // maximum acceleration (slew)
-);
-
-// angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              10, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in degrees
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in degrees
-                                              500, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
 );
 
 lemlib::Chassis chassis(drivetrain, // drivetrain settings
@@ -143,16 +142,11 @@ void autonomous() {
     case 1:
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
+    // move 48" forwards
     chassis.turnToHeading(90, 100000);
     break;
 
     }
-
-    
-
-
-
 
 }
 
@@ -183,12 +177,8 @@ void opcontrol() {
 		// Arcade control scheme. 
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
 		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		left_mg.move(dir + turn);                      // Sets left motor voltage
-		right_mg.move(dir - turn);                     // Sets right motor voltage	
-
-	// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // little willy in my butt
-    //   littlewill.toggle();
-	// }
+		left_mg.move(dir - turn);                      // Sets left motor voltage
+		right_mg.move(dir + turn);                     // Sets right motor voltage	
 
 	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) { // turn lock on and off
       locktoggle = !locktoggle; 
