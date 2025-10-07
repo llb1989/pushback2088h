@@ -27,6 +27,7 @@ pros::Motor intmotor3(9); // top
 pros::Imu imu(19); // make real port
 
 pros::adi::Pneumatics littlewill('A', false);
+pros::adi::Pneumatics fakeewill('B', false);
 
 bool locktoggle = false;
 bool slowtoggle = false;
