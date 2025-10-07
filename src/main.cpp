@@ -26,6 +26,8 @@ pros::Motor intmotor3(9); // top
 
 pros::Imu imu(19); // make real port
 
+pros::adi::Pneumatics littlewill('A', false);
+
 bool locktoggle = false;
 bool slowtoggle = false;
 
@@ -281,6 +283,11 @@ void opcontrol() {
         }
 
     }
+
+if(master.get_digital_new_press(DIGITAL_R2)) {
+    littlewill.toggle();
+}
+
 	}
 		pros::delay(20);                               // Run for 20 ms then update
 	}
