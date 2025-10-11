@@ -31,6 +31,17 @@ pros::adi::Pneumatics littlewill('A', false);
 bool locktoggle = false;
 bool slowtoggle = false;
 
+void intakeone(int intakepower){
+    intmotor1.move_voltage(intakepower);
+}
+
+void intakeall(int intakepower){
+    intmotor1.move_voltage(intakepower);
+    intmotor2.move_voltage(intakepower);
+    intmotor3.move_voltage(intakepower);
+
+}
+
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
                               12, // 10 inch track width
@@ -138,10 +149,27 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-    int autonumber = 1;
+    int autonumber = 2;
     switch (autonumber) {
 
     case 1:
+    chassis.setPose(5,0,0);
+    pros::delay(67);
+
+    chassis.moveToPose(12, 50, 45, 6000);
+    pros::delay(67);
+    intakeone(12000);
+
+    pros::delay(3000);
+    intakeall(0);
+    pros::delay(1000);
+    intakeone(-6000);
+    pros::delay(1000);
+    intakeall(-6000);
+    pros::delay(60000);
+
+    break;
+    case 2:
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
     // move 48" forwards
@@ -182,7 +210,7 @@ void opcontrol() {
 		left_mg.move(dir - turn);                      // Sets left motor voltage
 		right_mg.move(dir + turn);                     // Sets right motor voltage	
 
-	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) { // turn lock on and off
+	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // turn lock on and off
       locktoggle = !locktoggle; 
 	}
 
@@ -284,7 +312,7 @@ void opcontrol() {
 
     }
 
-if(master.get_digital_new_press(DIGITAL_R2)) {
+if(master.get_digital_new_press(DIGITAL_A)){
     littlewill.toggle();
 }
 
