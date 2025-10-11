@@ -193,19 +193,19 @@ void opcontrol() {
     if (locktoggle && slowtoggle) {
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(6000);
+            intmotor1.move_voltage(1000);
             intmotor2.move_voltage(0);
             intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
             intmotor3.move_voltage(0);
 			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(6000);
+            intmotor1.move_voltage(1000);
             intmotor2.move_voltage(0);
             intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
             intmotor3.move_voltage(0);
 			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-6000);
+            intmotor1.move_voltage(-1000);
             intmotor2.move_voltage(0);
             intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
             intmotor3.move_voltage(0);
@@ -221,21 +221,21 @@ void opcontrol() {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intmotor1.move_voltage(12000);
             intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
             intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             intmotor1.move_voltage(12000);
             intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
             intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             intmotor1.move_voltage(-12000);
             intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
             intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
+			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE); // lock 
         } else {
             intmotor1.move_voltage(0);
             intmotor2.move_voltage(0);
@@ -245,17 +245,17 @@ void opcontrol() {
     } else if (slowtoggle) {
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(3000);
-            intmotor2.move_voltage(3000);
-            intmotor3.move_voltage(6000);
+            intmotor1.move_voltage(1000);
+            intmotor2.move_voltage(1000);
+            intmotor3.move_voltage(3000);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(3000);
-            intmotor2.move_voltage(3000);
-            intmotor3.move_voltage(-6000);
+            intmotor1.move_voltage(1000);
+            intmotor2.move_voltage(1000);
+            intmotor3.move_voltage(-3000);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-3000);
-            intmotor2.move_voltage(-3000);
-            intmotor3.move_voltage(-6000);
+            intmotor1.move_voltage(-1000);
+            intmotor2.move_voltage(-1000);
+            intmotor3.move_voltage(-3000);
         } else {
             intmotor1.move_voltage(0);
             intmotor2.move_voltage(0);
