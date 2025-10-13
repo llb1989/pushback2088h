@@ -154,32 +154,27 @@ void autonomous() {
 
     int autonumber = 1;
     switch (autonumber) {
-
+// case 1: right red will wokr 100%%! 
+//
     case 1:
     // set position to x:0, y:0, heading:0
     chassis.setPose(-160.726, -37.838, 120);
     // move 48" forwards
-    chassis.moveToPoint(-112.798, -38.234, 120);
+    chassis.moveToPoint(-112.798, -38.234, 120);//go forwards to position to get balls
     intakeone(12000, 4000);
-    chassis.moveToPoint(-58.64, -58.305, 120);
-    chassis.moveToPoint(-27.528, -27.193, 120);
-    intakeone(-8000, 1000);
-    intakeall(-8000, 500);
-    chassis.moveToPoint(-120.355, -120.023, 120);
-    chassis.turnToHeading(180, 120);
+    chassis.moveToPoint(-58.64, -58.305, 120); //grab group of 3 balls
+    chassis.moveToPoint(-27.528, -27.193, 120); // go score middle goal
+    intakeone(-8000, 1000);//outaek
+    intakeall(-8000, 500);//outake big
+    chassis.moveToPoint(-120.355, -120.023, 120); // go position matchload
+    chassis.turnToHeading(180, 120); // position matchload
     littlewill.toggle();
-    intakeone(12000, 2000);
-    chassis.moveToPoint(-150.279, -120.21, 1000);
-    chassis.moveToPoint(-75.675, -119.54, 120);
+    intakeone(12000, 2000); 
+    chassis.moveToPoint(-150.279, -120.21, 1000); //amtchlodad nice
+    chassis.moveToPoint(-75.675, -119.54, 120); // score long goal
     intakeall(12000, 2000)
     break; 
 
-    // case 1:
-    // // set position to x:0, y:0, heading:0
-    // chassis.setPose(0, 0, 0);
-    // // move 48" forwards
-    // chassis.moveToPoint(8, 20, 1000);
-    // break; 
 
     }
 
