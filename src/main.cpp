@@ -144,12 +144,27 @@ void autonomous() {
 
     case 1:
     // set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(-160.726, -37.838, 120);
     // move 48" forwards
-    chassis.moveToPoint(0, 48, 100000);
+    chassis.moveToPoint(-112.798, -38.234, 120);
+    chassis.moveToPoint(-58.64, -58.305, 120);
+    chassis.moveToPoint(-27.528, -27.193, 120);
+    chassis.moveToPoint(-120.355, -120.023, 120);
+    chassis.turnToHeading(180, 120);
+    chassis.moveToPoint(-150.279, -120.21, 120);
+
+    chassis.moveToPoint(-75.675, -119.54, 120);
     break; 
 
+    // case 1:
+    // // set position to x:0, y:0, heading:0
+    // chassis.setPose(0, 0, 0);
+    // // move 48" forwards
+    // chassis.moveToPoint(8, 20, 1000);
+    // break; 
+
     }
+
 
 }
 
