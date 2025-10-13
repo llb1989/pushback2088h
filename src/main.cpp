@@ -29,6 +29,19 @@ pros::Imu imu(19); // make real port
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
 
+void intakeall(int intakepower, int intaketime) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(intakepower);
+            intmotor3.move_voltage(intakepower);
+            pros::delay(intaketime);
+}
+void intakeone(int intakepower, int intaketime) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(0);
+            intmotor3.move_voltage(0);
+            pros::delay(intaketime);
+}
+
 bool locktoggle = false;
 bool slowtoggle = false;
 
@@ -147,13 +160,18 @@ void autonomous() {
     chassis.setPose(-160.726, -37.838, 120);
     // move 48" forwards
     chassis.moveToPoint(-112.798, -38.234, 120);
+    intakeone(12000, 4000);
     chassis.moveToPoint(-58.64, -58.305, 120);
     chassis.moveToPoint(-27.528, -27.193, 120);
+    intakeone(-8000, 1000);
+    intakeall(-8000, 500);
     chassis.moveToPoint(-120.355, -120.023, 120);
     chassis.turnToHeading(180, 120);
-    chassis.moveToPoint(-150.279, -120.21, 120);
-
+    littlewill.toggle();
+    intakeone(12000, 2000);
+    chassis.moveToPoint(-150.279, -120.21, 1000);
     chassis.moveToPoint(-75.675, -119.54, 120);
+    intakeall(12000, 2000)
     break; 
 
     // case 1:
