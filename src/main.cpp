@@ -158,22 +158,31 @@ void autonomous() {
 //
     case 1:
     // set position to x:0, y:0, heading:0
-    chassis.setPose(-160.726, -37.838, 120);
+    chassis.setPose(-161, -38, 0);
+    pros::delay(67);
     // move 48" forwards
-    chassis.moveToPoint(-112.798, -38.234, 120);//go forwards to position to get balls
-    intakeone(12000, 4000);
-    chassis.moveToPoint(-58.64, -58.305, 120); //grab group of 3 balls
-    chassis.moveToPoint(-27.528, -27.193, 120); // go score middle goal
+    chassis.moveToPoint(-113, -38, 1200);//go forwards to position to get balls
+        pros::delay(67);
+    intakeone(12000, 1000);
+    chassis.moveToPoint(-59, -58, 1200); //grab group of 3 balls
+    chassis.moveToPoint(-28, -27, 1200); // go score middle goal
     intakeone(-8000, 1000);//outaek
     intakeall(-8000, 500);//outake big
-    chassis.moveToPoint(-120.355, -120.023, 120); // go position matchload
+    chassis.moveToPoint(-120, -120, 1200); // go position matchload
     chassis.turnToHeading(180, 120); // position matchload
     littlewill.toggle();
     intakeone(12000, 2000); 
-    chassis.moveToPoint(-150.279, -120.21, 1000); //amtchlodad nice
-    chassis.moveToPoint(-75.675, -119.54, 120); // score long goal
+    chassis.moveToPoint(-150, -120, 1000); //amtchlodad nice
+    chassis.moveToPoint(-76, -120, 1200); // score long goal
     intakeall(12000, 2000);
     break; 
+
+
+    case 2:
+    chassis.setPose(5, 0, 0);
+    pros::delay(67);
+    chassis.moveToPose(12, 53, 45, 6000);
+    break;
 
 
     }
@@ -211,7 +220,7 @@ void opcontrol() {
 		left_mg.move(dir - turn);                      // Sets left motor voltage
 		right_mg.move(dir + turn);                     // Sets right motor voltage	
 
-	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) { // turn lock on and off
+	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // turn lock on and off
       locktoggle = !locktoggle; 
 	}
 
@@ -313,7 +322,7 @@ void opcontrol() {
 
     }
 
-if(master.get_digital_new_press(DIGITAL_R2)) {
+if(master.get_digital_new_press(DIGITAL_A)) {
     littlewill.toggle();
 }
 
