@@ -172,7 +172,7 @@ void autonomous() {
     intakeone(12000, 2000); 
     chassis.moveToPoint(-150.279, -120.21, 1000); //amtchlodad nice
     chassis.moveToPoint(-75.675, -119.54, 120); // score long goal
-    intakeall(12000, 2000)
+    intakeall(12000, 2000);
     break; 
 
 
