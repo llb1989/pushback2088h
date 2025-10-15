@@ -18,7 +18,7 @@
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup right_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup left_mg({11, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup left_mg({12, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 pros::Motor intmotor1(1); // bottom roller
 pros::Motor intmotor2(-2); // middle roller
