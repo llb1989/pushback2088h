@@ -327,5 +327,5 @@ if(master.get_digital_new_press(DIGITAL_A)) {
 }
 
 	}
-		pros::delay(20);                               // Run for 20 ms then update
+		pros::delay(10);                               // Run for 10 ms then update
 	}
