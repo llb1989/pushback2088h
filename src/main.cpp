@@ -18,7 +18,7 @@
 
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup right_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup left_mg({11, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup left_mg({12, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 pros::Motor intmotor1(1); // bottom roller
 pros::Motor intmotor2(-2); // middle roller
@@ -28,6 +28,19 @@ pros::Imu imu(19); // make real port
 
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
+
+void intakeall(int intakepower, int intaketime) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(intakepower);
+            intmotor3.move_voltage(intakepower);
+            pros::delay(intaketime);
+}
+void intakeone(int intakepower, int intaketime) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(0);
+            intmotor3.move_voltage(0);
+            pros::delay(intaketime);
+}
 
 bool locktoggle = false;
 bool slowtoggle = false;
@@ -152,7 +165,8 @@ void autonomous() {
 
     int autonumber = 2;
     switch (autonumber) {
-
+// case 1: right red will wokr 100%%! 
+//
     case 1:
     chassis.setPose(5,0,0);
     pros::delay(67);
@@ -172,12 +186,35 @@ void autonomous() {
     break;
     case 2:
     // set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(-161, -38, 0);
+    pros::delay(67);
     // move 48" forwards
-    chassis.moveToPoint(0, 48, 100000);
+    chassis.moveToPoint(-113, -38, 1200);//go forwards to position to get balls
+        pros::delay(67);
+    intakeone(12000, 1000);
+    chassis.moveToPoint(-59, -58, 1200); //grab group of 3 balls
+    chassis.moveToPoint(-28, -27, 1200); // go score middle goal
+    intakeone(-8000, 1000);//outaek
+    intakeall(-8000, 500);//outake big
+    chassis.moveToPoint(-120, -120, 1200); // go position matchload
+    chassis.turnToHeading(180, 120); // position matchload
+    littlewill.toggle();
+    intakeone(12000, 2000); 
+    chassis.moveToPoint(-150, -120, 1000); //amtchlodad nice
+    chassis.moveToPoint(-76, -120, 1200); // score long goal
+    intakeall(12000, 2000);
     break; 
 
+
+    case 2:
+    chassis.setPose(5, 0, 0);
+    pros::delay(67);
+    chassis.moveToPose(12, 53, 45, 6000);
+    break;
+
+
     }
+
 
 }
 
@@ -313,10 +350,10 @@ void opcontrol() {
 
     }
 
-if(master.get_digital_new_press(DIGITAL_A)){
+if(master.get_digital_new_press(DIGITAL_R2)) {
     littlewill.toggle();
 }
 
 	}
-		pros::delay(20);                               // Run for 20 ms then update
+		pros::delay(10);                               // Run for 10 ms then update
 	}
