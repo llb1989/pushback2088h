@@ -29,17 +29,23 @@ pros::Imu imu(19); // make real port
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
 
-void intakeall(int intakepower, int intaketime) {
+void intakeall(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
-            pros::delay(intaketime);
+            // pros::delay(intaketime);
+            // intmotor1.move_voltage(0);
+            // intmotor2.move_voltage(0);
+            // intmotor3.move_voltage(0);
 }
-void intakeone(int intakepower, int intaketime) {
+void intakeone(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
-            pros::delay(intaketime);
+            // pros::delay(intaketime);
+            // intmotor1.move_voltage(0);
+            // intmotor2.move_voltage(0);
+            // intmotor3.move_voltage(0);
 }
 
 bool locktoggle = false;
@@ -152,38 +158,67 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-    int autonumber = 1;
+    int autonumber = 3;
     switch (autonumber) {
 // case 1: right red will wokr 100%%! 
+
+    case 3:
+    chassis.setPose(0, 0, 0);
+    pros::delay(67);
+    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-45, 1200);
+    pros::delay(67);
+    intakeone(7000);
+    chassis.moveToPoint(-9, 40, 1200, {.maxSpeed = 40}); // forward after turn
+    chassis.turnToHeading(55, 600, {.maxSpeed = 80});
+    intakeone(4000);
+    pros::delay(80);
+    intakeone(0);
+    pros::delay(100);
+    intakeone(8000);
+    pros::delay(200);
+    intakeone(0);
+    intakeone(12000);
+    chassis.moveToPoint(2, 49, 1200, {.maxSpeed = 80}); // forward to score
+    chassis.turnToHeading(43, 1200, {.maxSpeed = 80});
+    intakeone(-6500); // regular outtake
+    pros::delay(1200);
+    intakeall(-8000);
+
+
+    // chassis.moveToPose(-163.405,-39.177,120,10000);
+    // chassis.moveToPose(-107.579,-39.496,120,10000);
+    // chassis.moveToPose(-55.314,-55.758,120,10000);
+    // chassis.moveToPose(-27.457,-29.801,120,10000);
+    break;
 //
-    case 1:
+    case 2:
     // set position to x:0, y:0, heading:0
     chassis.setPose(-161, -38, 0);
     pros::delay(67);
     // move 48" forwards
-    chassis.moveToPoint(-113, -38, 1200);//go forwards to position to get balls
+    chassis.moveToPoint(-113, -38, 1200, {.maxSpeed = 80});//go forwards to position to get balls
         pros::delay(67);
-    intakeone(12000, 1000);
-    chassis.moveToPoint(-59, -58, 1200); //grab group of 3 balls
-    chassis.moveToPoint(-28, -27, 1200); // go score middle goal
-    intakeone(-8000, 1000);//outaek
-    intakeall(-8000, 500);//outake big
-    chassis.moveToPoint(-120, -120, 1200); // go position matchload
+    intakeone(12000);
+    chassis.moveToPoint(-59, -58, 1200, {.maxSpeed = 80}); //grab group of 3 balls
+    chassis.moveToPoint(-28, -27, 1200, {.maxSpeed = 80}); // go score middle goal
+    intakeone(-8000);//outaek
+    intakeall(-8000);//outake big
+    chassis.moveToPoint(-120, -120, 1200, {.maxSpeed = 80}); // go position matchload
     chassis.turnToHeading(180, 120); // position matchload
     littlewill.toggle();
-    intakeone(12000, 2000); 
-    chassis.moveToPoint(-150, -120, 1000); //amtchlodad nice
-    chassis.moveToPoint(-76, -120, 1200); // score long goal
-    intakeall(12000, 2000);
+    intakeone(12000); 
+    chassis.moveToPoint(-150, -120, 1000, {.maxSpeed = 80}); //amtchlodad nice
+    chassis.moveToPoint(-76, -120, 1200, {.maxSpeed = 80}); // score long goal
+    intakeall(12000);
     break; 
 
 
-    case 2:
+    case 1:
     chassis.setPose(5, 0, 0);
     pros::delay(67);
     chassis.moveToPose(12, 53, 45, 6000);
     break;
-
 
     }
 
@@ -209,10 +244,11 @@ void autonomous() {
 void opcontrol() {
 	
 	while (true) {
-		
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
+
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
 		// Arcade control scheme. 
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
