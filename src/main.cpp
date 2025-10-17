@@ -199,8 +199,12 @@ void autonomous() {
     pros::delay(500);
     chassis.moveToPoint(-7, 52, 1200, {.forwards = false, .maxSpeed = 60}); // backwards to score
     chassis.turnToHeading(-222, 1200, {.maxSpeed = 80});
-    intakemiddle(-5500); // middle goal outtake
-    pros::delay(2500);
+    intakemiddle(5500); // middle goal outtake
+    pros::delay(1200);
+    intakeall(-4000);
+    pros::delay(200);
+    intakemiddle(5500);
+    pros::delay(1100);
     intakeall(0);
     chassis.moveToPoint(31, 18, 1200, {.forwards = true, .maxSpeed = 80}); // back up to avoid balls
     chassis.turnToHeading(-167, 500, {.maxSpeed = 80});
