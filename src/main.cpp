@@ -174,7 +174,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-    int autonumber = 4;
+    int autonumber = 2;
     switch (autonumber) {
 // case 1: let alliance sawp
 // case 2: left side
@@ -197,34 +197,30 @@ void autonomous() {
     chassis.turnToHeading(-235, 600, {.maxSpeed = 80});
     intakeone(4000);
     pros::delay(500);
-    chassis.moveToPoint(-7, 52, 1200, {.forwards = false, .maxSpeed = 60}); // backwards to score
-    chassis.turnToHeading(-222, 1200, {.maxSpeed = 80});
-    intakemiddle(5500); // middle goal outtake
+    chassis.moveToPoint(-6, 54, 1200, {.forwards = false, .maxSpeed = 60}); // backwards to score
+    chassis.turnToHeading(-225, 1200, {.maxSpeed = 80});
+    intakemiddle(4000); // middle goal outtake
     pros::delay(1200);
     intakeall(-4000);
     pros::delay(200);
     intakemiddle(5500);
     pros::delay(1100);
     intakeall(0);
-    chassis.moveToPoint(31, 18, 1200, {.forwards = true, .maxSpeed = 80}); // back up to avoid balls
+    chassis.moveToPoint(34, 18, 1200, {.forwards = true, .maxSpeed = 80}); // back up to avoid balls
     chassis.turnToHeading(-167, 500, {.maxSpeed = 80});
     pros::delay(67);
     littlewill.toggle();
     pros::delay(60);
     intakeone(12000);
     pros::delay(500);
-    chassis.moveToPoint(31, 2.6, 2000, {.maxSpeed = 60});
+    chassis.moveToPoint(34, 2.6, 2000, {.maxSpeed = 60});
     pros::delay(750);
-    chassis.moveToPoint(33.5, 39, 1200, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(31, 39, 1200, {.forwards = false, .maxSpeed = 70});
     intakeone(0);
     pros::delay(800);
     intakeback(12000);
-    pros::delay(400);
-    intakeall(12000);
-    pros::delay(800);
-    intakeback(12000);
-    pros::delay(200);
-
+    pros::delay(1400);
+    intakeall(0);
     break; 
 
 case 3: // RIGHT SIDE AUTO GOOD 
