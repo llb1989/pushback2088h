@@ -188,38 +188,37 @@ void autonomous() {
 
      case 2: // mirrored right side - left side auto
     chassis.setPose(0, 0, 0);    // set position to x:0, y:0, heading:0
- pros::delay(67);
-    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 85});
-    chassis.turnToHeading(45, 1200);
-    pros::delay(67);
-    intakeone(7000);
-    chassis.moveToPoint(7.1, 46.7, 1200, {.maxSpeed = 75}); // forward after turn
+    pros::delay(10);
+    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 90});
+    chassis.turnToHeading(42, 1200);
+    pros::delay(10);
+    intakeone(8000);
+    chassis.moveToPoint(7, 46.7, 1200, {.maxSpeed = 80}); // forward after turn
     chassis.turnToHeading(-235, 600, {.maxSpeed = 80});
-    intakeone(4000);
-    pros::delay(500);
-    chassis.moveToPoint(-6, 54, 1200, {.forwards = false, .maxSpeed = 60}); // backwards to score
+    intakeone(5000);
+    pros::delay(450);
+    chassis.moveToPoint(-5, 51, 1200, {.forwards = false, .maxSpeed = 70});
     chassis.turnToHeading(-225, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(-6, 52, 1200, {.forwards = false, .maxSpeed = 70});
     intakemiddle(4000); // middle goal outtake
-    pros::delay(1200);
-    intakeall(-4000);
-    pros::delay(200);
-    intakemiddle(5500);
-    pros::delay(1100);
+    pros::delay(1000);
+    intakemiddle(12000);
+    pros::delay(1000);
     intakeall(0);
     chassis.moveToPoint(34, 18, 1200, {.forwards = true, .maxSpeed = 80}); // back up to avoid balls
-    chassis.turnToHeading(-167, 500, {.maxSpeed = 80});
-    pros::delay(67);
-    littlewill.toggle();
-    pros::delay(60);
+    chassis.turnToHeading(-180, 500, {.maxSpeed = 80});
+    pros::delay(10);
+    littlewill.toggle(); // down
+    pros::delay(10);
     intakeone(12000);
     pros::delay(500);
-    chassis.moveToPoint(34, 2.6, 2000, {.maxSpeed = 60});
-    pros::delay(750);
-    chassis.moveToPoint(31, 39, 1200, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(35, 1, 2000, {.minSpeed = 80});
+    pros::delay(1750);
+    chassis.moveToPoint(30, 40, 1200, {.forwards = false, .maxSpeed = 70});
     intakeone(0);
     pros::delay(800);
-    intakeback(12000);
-    pros::delay(1400);
+    intakeall(12000);
+    pros::delay(1250);
     intakeall(0);
     break; 
 
