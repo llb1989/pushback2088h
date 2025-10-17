@@ -160,30 +160,51 @@ void autonomous() {
 
     int autonumber = 3;
     switch (autonumber) {
-// case 1: right red will wokr 100%%! 
+// case 1: let other team sawp
+    case 1:
+    chassis.setPose(0, 0, 0);
+    pros::delay(67);
+    chassis.moveToPoint(-20, 4, 0);
+    break;
 
     case 3:
     chassis.setPose(0, 0, 0);
     pros::delay(67);
-    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 85});
     chassis.turnToHeading(-45, 1200);
     pros::delay(67);
     intakeone(7000);
-    chassis.moveToPoint(-9, 40, 1200, {.maxSpeed = 40}); // forward after turn
+    chassis.moveToPoint(-7, 44, 1200, {.maxSpeed = 75}); // forward after turn
     chassis.turnToHeading(55, 600, {.maxSpeed = 80});
     intakeone(4000);
-    pros::delay(80);
-    intakeone(0);
-    pros::delay(100);
-    intakeone(8000);
-    pros::delay(200);
-    intakeone(0);
-    intakeone(12000);
-    chassis.moveToPoint(2, 49, 1200, {.maxSpeed = 80}); // forward to score
-    chassis.turnToHeading(43, 1200, {.maxSpeed = 80});
-    intakeone(-6500); // regular outtake
+    pros::delay(500);
+    chassis.moveToPoint(7, 52, 1200, {.maxSpeed = 60}); // forward to score
+    chassis.turnToHeading(42, 1200, {.maxSpeed = 80});
+    intakeone(-5500); // regular outtake
     pros::delay(1200);
     intakeall(-8000);
+    pros::delay(1300);
+    intakeall(0);
+    chassis.moveToPoint(-31, 18, 1200, {.forwards = false, .maxSpeed = 80}); // back up to avoid balls
+    chassis.turnToHeading(167, 500, {.maxSpeed = 80});
+    pros::delay(67);
+    littlewill.toggle();
+    pros::delay(60);
+    intakeone(12000);
+    pros::delay(500);
+    chassis.moveToPoint(-31, 2.2, 2000, {.maxSpeed = 60});
+    pros::delay(750);
+    chassis.moveToPoint(-33, 38, 1200, {.forwards = false, .maxSpeed = 60});
+    intakeone(0);
+    pros::delay(600);
+    intakeall(12000);
+    pros::delay(750);
+    intakeone(0);
+    chassis.moveToPoint(-33, 30, 2000, {.forwards = true}); 
+    chassis.moveToPoint(-33, 38, 1200, {.forwards = false});
+    // pros::delay(600);
+    // intakeall(12000);
+    // pros::delay(67);
 
 
     // chassis.moveToPose(-163.405,-39.177,120,10000);
@@ -214,11 +235,7 @@ void autonomous() {
     break; 
 
 
-    case 1:
-    chassis.setPose(5, 0, 0);
-    pros::delay(67);
-    chassis.moveToPose(12, 53, 45, 6000);
-    break;
+
 
     }
 
