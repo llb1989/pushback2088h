@@ -139,11 +139,11 @@ void initialize() {
     pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // delay to save resources
-            pros::delay(20);
+            pros::delay(10);
         }
     });
 }
@@ -181,20 +181,16 @@ void autonomous() {
 
     int autonumber = 4;
     switch (autonumber) {
+
+// port 1 = RIGHT
+// port 2 = LEFT
+// port 3 = SKILLS
+
 // case 1: let alliance sawp
 // case 2: left side
 // case 3: right side
 // case 4 skills
 // case 5: park (bad)
-    case 5:
-    intakeall(-12000);
-    forwards(-12000, -12000);
-    pros::delay(300);
-    forwards(12000, 9000);
-    pros::delay(1500);
-    forwards(0, 0);
-    intakeall(-12000);
-    break;
 
     case 1:
     chassis.setPose(0, 0, 0);
@@ -228,8 +224,10 @@ void autonomous() {
     pros::delay(10);
     intakeone(12000);
     pros::delay(500);
-    chassis.moveToPoint(35, 1, 2000, {.minSpeed = 80});
-    pros::delay(1750);
+    chassis.moveToPoint(35, 0.8, 2000, {.minSpeed = 60});
+    pros::delay(1000);
+    chassis.moveToPoint(35, 0.8, 2000, {.minSpeed = 60});
+     pros::delay(750);
     chassis.moveToPoint(30, 40, 1200, {.forwards = false, .maxSpeed = 70});
     intakeone(0);
     pros::delay(800);
@@ -274,6 +272,9 @@ case 3: // RIGHT SIDE AUTO GOOD
     pros::delay(800);
     intakeback(12000);
     pros::delay(200);
+    forwards(1000, 1000);
+    pros::delay(100);
+    forwards(0,0);
     // chassis.moveToPoint(-33, 30, 2000, {.forwards = true}); 
     // chassis.moveToPoint(-33, 39, 1200, {.forwards = false});
     // pros::delay(600);
@@ -319,7 +320,7 @@ case 3: // RIGHT SIDE AUTO GOOD
     pros::delay(1500);
     chassis.moveToPoint(-31.8, 1.6, 2000, {.minSpeed = 60}); // go to matchload
     pros::delay(1500);
-    chassis.moveToPoint(-36.,5, 40, 1200, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(-36.5, 40, 1200, {.forwards = false, .maxSpeed = 70});
     intakeone(0);
     pros::delay(800);
     intakeall(-12000);
@@ -344,12 +345,15 @@ case 3: // RIGHT SIDE AUTO GOOD
     forwards(0, 0);
     break;
 
-    
-//
-   
-
-
-
+    case 5: // park
+    intakeall(-12000);
+    forwards(-12000, -12000);
+    pros::delay(300);
+    forwards(12000, 9000);
+    pros::delay(1500);
+    forwards(0, 0);
+    intakeall(-12000);
+    break;
 
     }
 
@@ -376,10 +380,10 @@ void opcontrol() {
 	
 	while (true) {
 
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // // print robot location to the brain screen
+            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
 		// Arcade control scheme. 
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
