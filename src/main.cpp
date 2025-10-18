@@ -179,14 +179,14 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-    int autonumber = 5;
+    int autonumber = 4;
     switch (autonumber) {
 // case 1: let alliance sawp
 // case 2: left side
 // case 3: right side
 // case 4 skills
 // case 5: park (bad)
-    case 4:
+    case 5:
     intakeall(-12000);
     forwards(-12000, -12000);
     pros::delay(300);
@@ -298,8 +298,8 @@ case 3: // RIGHT SIDE AUTO GOOD
     chassis.turnToHeading(55, 600, {.maxSpeed = 80});
     intakeone(7000);
     // pros::delay(500);
-    chassis.moveToPoint(4.5, 52, 1200, {.maxSpeed = 60}); // forward to score
-    chassis.turnToHeading(42, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(5, 52, 1200, {.maxSpeed = 60}); // forward to score
+    chassis.turnToHeading(42.5, 1200, {.maxSpeed = 80});
     intakeone(-5500); // regular outtake
     pros::delay(1200);
     intakeall(-8000);
@@ -311,7 +311,6 @@ case 3: // RIGHT SIDE AUTO GOOD
     littlewill.toggle(); // matchload down
     pros::delay(60);
     intakeone(9000);
-    // pros::delay(800);
     chassis.moveToPoint(-31.8, 2, 2000, {.minSpeed = 60}); // go to matchload
     pros::delay(1500);
     chassis.moveToPoint(-31.8, 1.8, 2000, {.minSpeed = 60}); // go to matchload
@@ -320,7 +319,7 @@ case 3: // RIGHT SIDE AUTO GOOD
     pros::delay(1500);
     chassis.moveToPoint(-31.8, 1.6, 2000, {.minSpeed = 60}); // go to matchload
     pros::delay(1500);
-    chassis.moveToPoint(-35.7, 40, 1200, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(-36.,5, 40, 1200, {.forwards = false, .maxSpeed = 70});
     intakeone(0);
     pros::delay(800);
     intakeall(-12000);
@@ -333,12 +332,16 @@ case 3: // RIGHT SIDE AUTO GOOD
     pros::delay(4000);
     littlewill.toggle();
     intakeall(0);
-    // chassis.moveToPoint(-30, 14, 2000, {.forwards = true});
-    // // chassis.moveToPoint(10, -18, 2000, {.forwards = true});
-    chassis.moveToPoint(34, -10, 2000);
-    chassis.turnToPoint(1, 20, 200);
+    chassis.moveToPoint(-30, 30, 2000);
+    chassis.turnToPoint(15,3,1000);
+    pros::delay(10);
+    chassis.moveToPoint(10, 3,3000, {.minSpeed = 127});
+    chassis.cancelAllMotions();
+    forwards(-12000, -12000);
+    pros::delay(120);
     forwards(12000, 12000);
-    
+    pros::delay(1800);
+    forwards(0, 0);
     break;
 
     
