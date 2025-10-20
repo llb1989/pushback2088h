@@ -5,36 +5,85 @@
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({-5, 4, -3},
-                            pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
-pros::MotorGroup rightMotors({6, -9, 7}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+pros::MotorGroup leftMotors({18, -20, 16}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup rightMotors({-12, 14, -17}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-// Inertial Sensor on port 10
-pros::Imu imu(10);
+//intake mototrso
+pros::Motor intmotor1(1); // bottom roller
+pros::Motor intmotor2(-2); // middle roller
+pros::Motor intmotor3(9); // top 
 
-// tracking wheels
-// horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
-pros::Rotation horizontalEnc(20);
-// vertical tracking wheel encoder. Rotation sensor, port 11, reversed
-pros::Rotation verticalEnc(-11);
-// horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -5.75);
-// vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.5);
+// Inertial Sensor on port 19
+pros::Imu imu(19);
+
+pros::adi::Pneumatics littlewill('A', false);
+pros::adi::Pneumatics fakeewill('B', false);
+
+void intakeall(int intakepower) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(intakepower);
+            intmotor3.move_voltage(intakepower);
+            // pros::delay(intaketime);
+            // intmotor1.move_voltage(0);
+            // intmotor2.move_voltage(0);
+            // intmotor3.move_voltage(0);
+}
+void intakeone(int intakepower) {
+            intmotor1.move_voltage(intakepower);
+            intmotor2.move_voltage(0);
+            intmotor3.move_voltage(0);
+            // pros::delay(intaketime);
+            // intmotor1.move_voltage(0);
+            // intmotor2.move_voltage(0);
+            // intmotor3.move_voltage(0);
+}
+
+void intakeback(int intakepower) {
+            intmotor1.move_voltage(0);
+            intmotor2.move_voltage(intakepower);
+            intmotor3.move_voltage(intakepower);
+            // pros::delay(intaketime);
+            // intmotor1.move_voltage(0);
+            // intmotor2.move_voltage(0);
+            // intmotor3.move_voltage(0);
+}
+
+void intakemiddle(int intakepower) {
+    intmotor1.move_voltage(intakepower);
+    intmotor2.move_voltage(intakepower);
+    intmotor3.move_voltage(-intakepower);
+}
+
+void forwards(int intakepower, int left) {
+    rightMotors.move_voltage(intakepower);
+    leftMotors.move_voltage(left);
+}
+
+bool locktoggle = false;
+bool slowtoggle = false;
+// // tracking wheels
+// // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
+// pros::Rotation horizontalEnc(20);
+// // vertical tracking wheel encoder. Rotation sensor, port 11, reversed
+// pros::Rotation verticalEnc(-11);
+// // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
+// lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -5.75);
+// // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
+// lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.5);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              10, // 10 inch track width
-                              lemlib::Omniwheel::NEW_4, // using new 4" omnis
-                              360, // drivetrain rpm is 360
+                              11.5, // 11.5 inch track width
+                              lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
+                              450, // drivetrain rpm is 450
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+lemlib::ControllerSettings linearController(5, // proportional gain (kP)
                                             0, // integral gain (kI)
-                                            3, // derivative gain (kD)
+                                            17.5, // derivative gain (kD)
                                             3, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -46,7 +95,7 @@ lemlib::ControllerSettings linearController(10, // proportional gain (kP)
 // angular motion controller
 lemlib::ControllerSettings angularController(2, // proportional gain (kP)
                                              0, // integral gain (kI)
-                                             10, // derivative gain (kD)
+                                             13, // derivative gain (kD)
                                              3, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
@@ -56,10 +105,11 @@ lemlib::ControllerSettings angularController(2, // proportional gain (kP)
 );
 
 // sensors for odometry
-lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            &horizontal, // horizontal tracking wheel
-                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
+lemlib::OdomSensors sensors(
+    // &vertical, // vertical tracking wheel
+                            // nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
+                            // // &horizontal, // horizontal tracking wheel
+                            // nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
 
@@ -172,6 +222,68 @@ void opcontrol() {
         // move the chassis with curvature drive
         chassis.arcade(leftY, rightX);
         // delay to save resources
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // turn lock on and off
+      locktoggle = !locktoggle; 
+	}
+
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) { // turn lock on and off
+      slowtoggle = !slowtoggle; 
+	}
+
+    if (locktoggle && slowtoggle) {
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intakeone(5000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intakeone(5000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intakeone(-5000);
+        } else {
+            intakeall(0);
+        }
+
+    } else if (locktoggle) {
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intakeone(12000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intakeone(12000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intakeone(-12000);
+        } else {
+            intakeall(0);
+        }
+
+    } else if (slowtoggle) {
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intakeall(5000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intakemiddle(5000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intakeall(-5000);
+        } else {
+            intakeall(0);
+        }
+
+    } else {
+    
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intakeall(12000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            intakemiddle(12000);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intakeall(-12000);
+        } else {
+            intakeall(0);
+        }
+
+    }
+
+if(master.get_digital_new_press(DIGITAL_Y)) {
+    littlewill.toggle();
+}
         pros::delay(10);
     }
 }
