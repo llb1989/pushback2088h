@@ -1,130 +1,82 @@
 #include "main.h"
-#include "lemlib/chassis/trackingWheel.hpp"
-#include "pros/abstract_motor.hpp"
-#include "pros/llemu.hpp"
-#include "pros/misc.h"
-#include "pros/motors.h"
-#include "pros/motors.hpp"
-#include "pros/rtos.hpp"
-#include <cmath>
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
+// controller
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::MotorGroup right_mg({-18, 20, -16});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup left_mg({12, -14, 17});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+// motor groups
+pros::MotorGroup leftMotors({-5, 4, -3},
+                            pros::MotorGearset::blue); // left motor group - ports 3 (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors({6, -9, 7}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
-pros::Motor intmotor1(1); // bottom roller
-pros::Motor intmotor2(-2); // middle roller
-pros::Motor intmotor3(9); // top 
+// Inertial Sensor on port 10
+pros::Imu imu(10);
 
-pros::Imu imu(19); // make real port
+// tracking wheels
+// horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
+pros::Rotation horizontalEnc(20);
+// vertical tracking wheel encoder. Rotation sensor, port 11, reversed
+pros::Rotation verticalEnc(-11);
+// horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
+lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -5.75);
+// vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.5);
 
-pros::adi::Pneumatics littlewill('A', false);
-pros::adi::Pneumatics fakeewill('B', false);
-
-void intakeall(int intakepower) {
-            intmotor1.move_voltage(intakepower);
-            intmotor2.move_voltage(intakepower);
-            intmotor3.move_voltage(intakepower);
-            // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
-}
-void intakeone(int intakepower) {
-            intmotor1.move_voltage(intakepower);
-            intmotor2.move_voltage(0);
-            intmotor3.move_voltage(0);
-            // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
-}
-
-void intakeback(int intakepower) {
-            intmotor1.move_voltage(0);
-            intmotor2.move_voltage(intakepower);
-            intmotor3.move_voltage(intakepower);
-            // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
-}
-
-void intakemiddle(int intakepower) {
-    intmotor1.move_voltage(intakepower);
-    intmotor2.move_voltage(intakepower);
-    intmotor3.move_voltage(-intakepower);
-}
-
-void forwards(int intakepower, int left) {
-    right_mg.move_voltage(intakepower);
-    left_mg.move_voltage(left);
-}
-
-bool locktoggle = false;
-bool slowtoggle = false;
-
-lemlib::Drivetrain drivetrain(&left_mg, // left motor group
-                              &right_mg, // right motor group
-                              12, // 10 inch track width
-                              lemlib::Omniwheel::NEW_325, // using new 4" omnis
-                              450, // drivetrain rpm is 360
-                              2 // horizontal drift is 2 (for now)
+// drivetrain settings
+lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
+                              &rightMotors, // right motor group
+                              10, // 10 inch track width
+                              lemlib::Omniwheel::NEW_4, // using new 4" omnis
+                              360, // drivetrain rpm is 360
+                              2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            nullptr, // horizontal tracking wheel 1
+// lateral motion controller
+lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+                                            0, // integral gain (kI)
+                                            3, // derivative gain (kD)
+                                            3, // anti windup
+                                            1, // small error range, in inches
+                                            100, // small error range timeout, in milliseconds
+                                            3, // large error range, in inches
+                                            500, // large error range timeout, in milliseconds
+                                            20 // maximum acceleration (slew)
+);
+
+// angular motion controller
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+                                             0, // integral gain (kI)
+                                             10, // derivative gain (kD)
+                                             3, // anti windup
+                                             1, // small error range, in degrees
+                                             100, // small error range timeout, in milliseconds
+                                             3, // large error range, in degrees
+                                             500, // large error range timeout, in milliseconds
+                                             0 // maximum acceleration (slew)
+);
+
+// sensors for odometry
+lemlib::OdomSensors sensors(&vertical, // vertical tracking wheel
+                            nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
+                            &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
 
-lemlib::ControllerSettings angular_controller(2,  // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              13, // derivative gain (kD)
-                                              0, // anti windup
-                                              0, // small error range, in inches
-                                              0, // small error range timeout, in milliseconds
-                                              0, // large error range, in inches
-                                              0, // large error range timeout, in milliseconds
-                                                0 // maximum acceleration (slew)
+// input curve for throttle input during driver control
+lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
+                                     10, // minimum output where drivetrain will move out of 127
+                                     1.019 // expo curve gain
 );
 
-// lateral PID controller
-lemlib::ControllerSettings lateral_controller(5, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              15.7, // derivative gain (kD)
-                                              0, // anti windup
-                                              1, // small error range, in inches
-                                              500, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              1000, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
+// input curve for steer input during driver control
+lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
+                                  10, // minimum output where drivetrain will move out of 127
+                                  1.019 // expo curve gain
 );
 
-lemlib::Chassis chassis(drivetrain, // drivetrain settings
-                        lateral_controller, // lateral PID settings
-                        angular_controller, // angular PID settings
-                        sensors // odometry sensors
-);
-
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
+// create the chassis
+lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -135,368 +87,91 @@ void on_center_button() {
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
-    // print position to brain screen
-    pros::Task screen_task([&]() {
+
+    // the default rate is 50. however, if you need to change the rate, you
+    // can do the following.
+    // lemlib::bufferedStdout().setRate(...);
+    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
+
+    // for more information on how the formatting for the loggers
+    // works, refer to the fmtlib docs
+
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
         while (true) {
             // print robot location to the brain screen
-            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
-            pros::delay(10);
+            pros::delay(50);
         }
     });
 }
 
 /**
- * Runs while the robot is in the disabled state of Field Management System or
- * the VEX Competition Switch, following either autonomous or opcontrol. When
- * the robot is enabled, this task will exit.
+ * Runs while the robot is disabled
  */
 void disabled() {}
 
 /**
- * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
- * competition-specific initialization routines, such as an autonomous selector
- * on the LCD.
- *
- * This task will exit when the robot is enabled and autonomous or opcontrol
- * starts.
+ * runs after initialize if the robot is connected to field control
  */
 void competition_initialize() {}
 
+// get a path used for pure pursuit
+// this needs to be put outside a function
+ASSET(example_txt); // '.' replaced with "_" to make c++ happy
+
 /**
- * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the autonomous
- * mode. Alternatively, this function may be called in initialize or opcontrol
- * for non-competition testing purposes.
+ * Runs during auto
  *
- * If the robot is disabled or communications is lost, the autonomous task
- * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
+ * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
-
-    int autonumber = 1; 
-    switch (autonumber) {
-
-// port 1 = RIGHT
-// port 2 = LEFT
-// port 3 = SKILLS
-
-// case 1: let alliance sawp
-// case 2: left side
-// case 3: right side
-// case 4 skills
-// case 5: park (bad)
-
-    // case 1:
-    // chassis.setPose(0, 0, 0);
-    // pros::delay(67);
-    // chassis.moveToPoint(0, 4, 1200, {.maxSpeed = 40});
-    // break;
-
-    //  case 2: // mirrored right side - left side auto
-    // chassis.setPose(0, 0, 0);    // set position to x:0, y:0, heading:0
-    // pros::delay(10);
-    // chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 90});
-    // chassis.turnToHeading(42, 1200);
-    // pros::delay(10);
-    // intakeone(8000);
-    // chassis.moveToPoint(7, 46.7, 1200, {.maxSpeed = 80}); // forward after turn
-    // chassis.turnToHeading(-235, 600, {.maxSpeed = 80});
-    // intakeone(5000);
-    // pros::delay(450);
-    // chassis.moveToPoint(-5, 51, 1200, {.forwards = false, .maxSpeed = 70});
-    // chassis.turnToHeading(-225, 1200, {.maxSpeed = 80});
-    // chassis.moveToPoint(-6, 52, 1200, {.forwards = false, .maxSpeed = 70});
-    // intakemiddle(4000); // middle goal outtake
-    // pros::delay(1000);
-    // intakemiddle(12000);
-    // pros::delay(1000);
-    // intakeall(0);
-    // chassis.moveToPoint(34, 18, 1200, {.forwards = true, .maxSpeed = 80}); // back up to avoid balls
-    // chassis.turnToHeading(-180, 500, {.maxSpeed = 80});
-    // pros::delay(10);
-    // littlewill.toggle(); // down
-    // pros::delay(10);
-    // intakeone(12000);
-    // pros::delay(500);
-    // chassis.moveToPoint(35, 0.8, 2000, {.minSpeed = 60});
-    // pros::delay(1000);
-    // chassis.moveToPoint(35, 0.8, 2000, {.minSpeed = 60});
-    //  pros::delay(750);
-    // chassis.moveToPoint(30, 40, 1200, {.forwards = false, .maxSpeed = 70});
-    // intakeone(0);
-    // pros::delay(800);
-    // intakeall(12000);
-    // pros::delay(1250);
-    // intakeall(0);
-    // break; 
-
-case 1: // RIGHT SIDE AUTO GOOD 
-    chassis.setPose(0, 0, 0);
-    pros::delay(67);
-    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 85});
-    chassis.turnToHeading(-45, 1200);
-    pros::delay(67);
-    intakeone(7000);
-    chassis.moveToPoint(-7.1, 46.7, 1200, {.maxSpeed = 75}); // forward after turn
-    chassis.turnToHeading(55, 600, {.maxSpeed = 80});
-    intakeone(4000);
-    pros::delay(500);
-    intakeone(-5500); // regular outtake
-    chassis.moveToPoint(7, 52, 1200, {.maxSpeed = 60}); // forward to score
-    chassis.turnToHeading(42, 1200, {.maxSpeed = 80});
-    pros::delay(1200);
-    intakeall(-8000);
-    pros::delay(1300);
-    intakeall(0);
-    chassis.moveToPoint(-31, 18, 1200, {.forwards = false, .maxSpeed = 80}); // back up to avoid balls
-    chassis.turnToHeading(167, 500, {.maxSpeed = 80});
-    pros::delay(67);
-    littlewill.toggle();
-    pros::delay(60);
-    intakeone(12000);
-    pros::delay(500);
-    chassis.moveToPoint(-31, 2.6, 2000, {.maxSpeed = 60});
-    pros::delay(750);
-    chassis.moveToPoint(-33.5, 39, 1200, {.forwards = false, .maxSpeed = 70});
-    intakeone(0);
-    pros::delay(800);
-    intakeback(12000);
-    pros::delay(400);
-    intakeall(12000);
-    pros::delay(800);
-    intakeback(12000);
-    pros::delay(200);
-    forwards(1000, 1000);
-    pros::delay(100);
-    forwards(0,0);
-    // chassis.moveToPoint(-33, 30, 2000, {.forwards = true}); 
-    // chassis.moveToPoint(-33, 39, 1200, {.forwards = false});
-    // pros::delay(600);
-    // intakeall(12000);
-    // pros::delay(67);
-
-
-    // chassis.moveToPose(-163.405,-39.177,120,10000);
-    // chassis.moveToPose(-107.579,-39.496,120,10000);
-    // chassis.moveToPose(-55.314,-55.758,120,10000);
-    // chassis.moveToPose(-27.457,-29.801,120,10000);
-    break;
-
-    // case 4: // skills (untested)
-    // chassis.setPose(0, 0, 0);
-    // pros::delay(67);
-    // chassis.moveToPoint(0, 24, 1200, {.maxSpeed = 85});
-    // chassis.turnToHeading(-43, 1200);
-    // pros::delay(67);
-    // intakeone(7000);
-    // chassis.moveToPoint(-10, 45, 1200, {.maxSpeed = 75}); // forward after turn
-    // chassis.turnToHeading(55, 600, {.maxSpeed = 80});
-    // intakeone(7000);
-    // // pros::delay(500);
-    // chassis.moveToPoint(5, 52, 1200, {.maxSpeed = 60}); // forward to score
-    // chassis.turnToHeading(42.5, 1200, {.maxSpeed = 80});
-    // intakeone(-5500); // regular outtake
-    // pros::delay(1200);
-    // intakeall(-8000);
-    // pros::delay(1300);
-    // intakeall(0);
-    // chassis.moveToPoint(-31, 18, 1200, {.forwards = false, .maxSpeed = 80}); // back up to avoid balls
-    // chassis.turnToHeading(167, 500, {.maxSpeed = 80});
-    // pros::delay(67);
-    // littlewill.toggle(); // matchload down
-    // pros::delay(60);
-    // intakeone(9000);
-    // chassis.moveToPoint(-31.8, 2, 2000, {.minSpeed = 60}); // go to matchload
-    // pros::delay(1500);
-    // chassis.moveToPoint(-31.8, 1.8, 2000, {.minSpeed = 60}); // go to matchload
-    // pros::delay(2000);
-    // chassis.moveToPoint(-31.8, 1.6, 2000, {.minSpeed = 60}); // go to matchload
-    // pros::delay(1500);
-    // chassis.moveToPoint(-31.8, 1.6, 2000, {.minSpeed = 60}); // go to matchload
-    // pros::delay(1500);
-    // chassis.moveToPoint(-36.5, 40, 1200, {.forwards = false, .maxSpeed = 70});
-    // intakeone(0);
-    // pros::delay(800);
-    // intakeall(-12000);
-    // pros::delay(50);
-    // intakeback(12000);
-    // pros::delay(400);
-    // intakeall(-12000);
-    // pros::delay(50);
-    // intakeall(12000);
-    // pros::delay(4000);
-    // littlewill.toggle();
-    // intakeall(0);
-    // chassis.moveToPoint(-30, 30, 2000);
-    // chassis.turnToPoint(15,3,1000);
-    // pros::delay(10);
-    // chassis.moveToPoint(10, 3,3000, {.minSpeed = 127});
-    // chassis.cancelAllMotions();
-    // forwards(-12000, -12000);
-    // pros::delay(120);
-    // forwards(12000, 12000);
-    // pros::delay(1800);
-    // forwards(0, 0);
-    // break;
-
-    // case 5: // park
-    // intakeall(-12000);
-    // forwards(-12000, -12000);
-    // pros::delay(300);
-    // forwards(12000, 9000);
-    // pros::delay(1500);
-    // forwards(0, 0);
-    // intakeall(-12000);
-    // break;
-
-    }
-
-
+    // Move to x: 20 and y: 15, and face heading 90. Timeout set to 4000 ms
+    chassis.moveToPose(20, 15, 90, 4000);
+    // Move to x: 0 and y: 0 and face heading 270, going backwards. Timeout set to 4000ms
+    chassis.moveToPose(0, 0, 270, 4000, {.forwards = false});
+    // cancel the movement after it has traveled 10 inches
+    chassis.waitUntil(10);
+    chassis.cancelMotion();
+    // Turn to face the point x:45, y:-45. Timeout set to 1000
+    // dont turn faster than 60 (out of a maximum of 127)
+    chassis.turnToPoint(45, -45, 1000, {.maxSpeed = 60});
+    // Turn to face a direction of 90º. Timeout set to 1000
+    // will always be faster than 100 (out of a maximum of 127)
+    // also force it to turn clockwise, the long way around
+    chassis.turnToHeading(90, 1000, {.direction = AngularDirection::CW_CLOCKWISE, .minSpeed = 100});
+    // Follow the path in path.txt. Lookahead at 15, Timeout set to 4000
+    // following the path with the back of the robot (forwards = false)
+    // see line 116 to see how to define a path
+    chassis.follow(example_txt, 15, 4000, false);
+    // wait until the chassis has traveled 10 inches. Otherwise the code directly after
+    // the movement will run immediately
+    // Unless its another movement, in which case it will wait
+    chassis.waitUntil(10);
+    pros::lcd::print(4, "Traveled 10 inches during pure pursuit!");
+    // wait until the movement is done
+    chassis.waitUntilDone();
+    pros::lcd::print(4, "pure pursuit finished!");
 }
 
 /**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
+ * Runs in driver control
  */
-
-
-		
 void opcontrol() {
-	
-	while (true) {
-
-            // // print robot location to the brain screen
-            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-
-		// Arcade control scheme. 
-		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		left_mg.move(dir - turn);                      // Sets left motor voltage
-		right_mg.move(dir + turn);                     // Sets right motor voltage	
-
-	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // turn lock on and off
-      locktoggle = !locktoggle; 
-	}
-
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) { // turn lock on and off
-      slowtoggle = !slowtoggle; 
-	}
-
-    if (locktoggle && slowtoggle) {
-
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(6000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(6000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-6000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else {
-            intmotor1.move_voltage(0);
-            intmotor2.move_voltage(0);
-            intmotor3.move_voltage(0); // stop moving
-        }
-
-    } else if (locktoggle) {
-
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-12000);
-            intmotor2.move_voltage(0);
-            intmotor2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-            intmotor3.move_voltage(0);
-			intmotor3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); // lock 
-        } else {
-            intmotor1.move_voltage(0);
-            intmotor2.move_voltage(0);
-            intmotor3.move_voltage(0); // stop moving
-        }
-
-    } else if (slowtoggle) {
-
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(3000);
-            intmotor2.move_voltage(3000);
-            intmotor3.move_voltage(6000);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(3000);
-            intmotor2.move_voltage(3000);
-            intmotor3.move_voltage(-6000);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-3000);
-            intmotor2.move_voltage(-3000);
-            intmotor3.move_voltage(-6000);
-        } else {
-            intmotor1.move_voltage(0);
-            intmotor2.move_voltage(0);
-            intmotor3.move_voltage(0); // stop moving
-        }
-
-    } else {
-    
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(12000);
-            intmotor3.move_voltage(12000);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            intmotor1.move_voltage(12000);
-            intmotor2.move_voltage(12000);
-            intmotor3.move_voltage(-12000);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            intmotor1.move_voltage(-12000);
-            intmotor2.move_voltage(-12000);
-            intmotor3.move_voltage(-12000);
-        } else {
-            intmotor1.move_voltage(0);
-            intmotor2.move_voltage(0);
-            intmotor3.move_voltage(0); // stop moving
-        }
-
+    // controller
+    // loop to continuously update motors
+    while (true) {
+        // get joystick positions
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        // move the chassis with curvature drive
+        chassis.arcade(leftY, rightX);
+        // delay to save resources
+        pros::delay(10);
     }
-
-if(master.get_digital_new_press(DIGITAL_A)) {
-    littlewill.toggle();
 }
-
-	}
-		pros::delay(10);                               // Run for 10 ms then update
-	}
