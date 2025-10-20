@@ -2,7 +2,7 @@
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
 // controller
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
+pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups
 pros::MotorGroup leftMotors({18, -20, 16}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
