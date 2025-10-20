@@ -139,11 +139,11 @@ void initialize() {
     pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
-            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // delay to save resources
-            pros::delay(10);
+            pros::delay(20);
         }
     });
 }
@@ -189,6 +189,7 @@ void autonomous() {
 // case 1: let alliance sawp
 // case 2: left side
 // case 3: right side
+// case 3: right side
 // case 4 skills
 // case 5: park (bad)
 
@@ -198,7 +199,31 @@ void autonomous() {
     // chassis.moveToPoint(0, 4, 1200, {.maxSpeed = 40});
     // break;
 
-    //  case 2: // mirrored right side - left side auto
+    case 1:
+    forwards(12000,12000);
+    pros::delay(100);
+    forwards(0, 0);
+    break;
+
+    case 2:
+    intakeone(12000);
+    forwards(12000, 12000);
+    pros::delay(200);
+    forwards(12000, 12000);
+    break;
+
+    case 3:
+    intakeone(12000);
+    forwards(12000, 12000);
+    chassis.turnToHeading(-90, 1200);
+    pros::delay(2400);
+    littlewill.toggle();
+    chassis.cancelAllMotions();
+    forwards(-12000, -12000);
+    pros::delay(200);
+    forwards(12000, 12000);
+    break;
+    //  case 1: // mirrored right side - left side auto
     // chassis.setPose(0, 0, 0);    // set position to x:0, y:0, heading:0
     // pros::delay(10);
     // chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 90});
@@ -228,7 +253,7 @@ void autonomous() {
     // pros::delay(1000);
     // chassis.moveToPoint(35, 0.8, 2000, {.minSpeed = 60});
     //  pros::delay(750);
-    // chassis.moveToPoint(30, 40, 1200, {.forwards = false, .maxSpeed = 70});
+    // chassis.moveToPoint(33, 40, 1200, {.forwards = false, .maxSpeed = 70});
     // intakeone(0);
     // pros::delay(800);
     // intakeall(12000);
@@ -236,57 +261,57 @@ void autonomous() {
     // intakeall(0);
     // break; 
 
-case 1: // RIGHT SIDE AUTO GOOD 
-    chassis.setPose(0, 0, 0);
-    pros::delay(67);
-    chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 85});
-    chassis.turnToHeading(-45, 1200);
-    pros::delay(67);
-    intakeone(7000);
-    chassis.moveToPoint(-7.1, 46.7, 1200, {.maxSpeed = 75}); // forward after turn
-    chassis.turnToHeading(55, 600, {.maxSpeed = 80});
-    intakeone(4000);
-    pros::delay(500);
-    intakeone(-5500); // regular outtake
-    chassis.moveToPoint(7, 52, 1200, {.maxSpeed = 60}); // forward to score
-    chassis.turnToHeading(42, 1200, {.maxSpeed = 80});
-    pros::delay(1200);
-    intakeall(-8000);
-    pros::delay(1300);
-    intakeall(0);
-    chassis.moveToPoint(-31, 18, 1200, {.forwards = false, .maxSpeed = 80}); // back up to avoid balls
-    chassis.turnToHeading(167, 500, {.maxSpeed = 80});
-    pros::delay(67);
-    littlewill.toggle();
-    pros::delay(60);
-    intakeone(12000);
-    pros::delay(500);
-    chassis.moveToPoint(-31, 2.6, 2000, {.maxSpeed = 60});
-    pros::delay(750);
-    chassis.moveToPoint(-33.5, 39, 1200, {.forwards = false, .maxSpeed = 70});
-    intakeone(0);
-    pros::delay(800);
-    intakeback(12000);
-    pros::delay(400);
-    intakeall(12000);
-    pros::delay(800);
-    intakeback(12000);
-    pros::delay(200);
-    forwards(1000, 1000);
-    pros::delay(100);
-    forwards(0,0);
-    // chassis.moveToPoint(-33, 30, 2000, {.forwards = true}); 
-    // chassis.moveToPoint(-33, 39, 1200, {.forwards = false});
-    // pros::delay(600);
-    // intakeall(12000);
-    // pros::delay(67);
+// case 3: // RIGHT SIDE AUTO GOOD 
+//     chassis.setPose(0, 0, 0);
+//     pros::delay(67);
+//     chassis.moveToPoint(0, 30, 1200, {.maxSpeed = 85});
+//     chassis.turnToHeading(-45, 1200);
+//     pros::delay(67);
+//     intakeone(7000);
+//     chassis.moveToPoint(-7.1, 46.7, 1200, {.maxSpeed = 75}); // forward after turn
+//     chassis.turnToHeading(55, 600, {.maxSpeed = 80});
+//     intakeone(4000);
+//     pros::delay(500);
+//     intakeone(-5500); // regular outtake
+//     chassis.moveToPoint(7, 52, 1200, {.maxSpeed = 60}); // forward to score
+//     chassis.turnToHeading(42, 1200, {.maxSpeed = 80});
+//     pros::delay(1200);
+//     intakeall(-8000);
+//     pros::delay(1300);
+//     intakeall(0);
+//     chassis.moveToPoint(-31, 18, 1200, {.forwards = false, .maxSpeed = 80}); // back up to avoid balls
+//     chassis.turnToHeading(167, 500, {.maxSpeed = 80});
+//     pros::delay(67);
+//     littlewill.toggle();
+//     pros::delay(60);
+//     intakeone(12000);
+//     pros::delay(500);
+//     chassis.moveToPoint(-31, 2.6, 2000, {.maxSpeed = 60});
+//     pros::delay(750);
+//     chassis.moveToPoint(-33.5, 39, 1200, {.forwards = false, .maxSpeed = 70});
+//     intakeone(0);
+//     pros::delay(800);
+//     intakeback(12000);
+//     pros::delay(400);
+//     intakeall(12000);
+//     pros::delay(800);
+//     intakeback(12000);
+//     pros::delay(200);
+//     forwards(1000, 1000);
+//     pros::delay(100);
+//     forwards(0,0);
+//     // chassis.moveToPoint(-33, 30, 2000, {.forwards = true}); 
+//     // chassis.moveToPoint(-33, 39, 1200, {.forwards = false});
+//     // pros::delay(600);
+//     // intakeall(12000);
+//     // pros::delay(67);
 
 
-    // chassis.moveToPose(-163.405,-39.177,120,10000);
-    // chassis.moveToPose(-107.579,-39.496,120,10000);
-    // chassis.moveToPose(-55.314,-55.758,120,10000);
-    // chassis.moveToPose(-27.457,-29.801,120,10000);
-    break;
+//     // chassis.moveToPose(-163.405,-39.177,120,10000);
+//     // chassis.moveToPose(-107.579,-39.496,120,10000);
+//     // chassis.moveToPose(-55.314,-55.758,120,10000);
+//     // chassis.moveToPose(-27.457,-29.801,120,10000);
+//     break;
 
     // case 4: // skills (untested)
     // chassis.setPose(0, 0, 0);
@@ -345,15 +370,15 @@ case 1: // RIGHT SIDE AUTO GOOD
     // forwards(0, 0);
     // break;
 
-    // case 5: // park
-    // intakeall(-12000);
-    // forwards(-12000, -12000);
-    // pros::delay(300);
-    // forwards(12000, 9000);
-    // pros::delay(1500);
-    // forwards(0, 0);
-    // intakeall(-12000);
-    // break;
+    case 5: // park
+    intakeall(-12000);
+    forwards(-12000, -12000);
+    pros::delay(300);
+    forwards(12000, 9000);
+    pros::delay(1500);
+    forwards(0, 0);
+    intakeall(-12000);
+    break;
 
     }
 
@@ -381,9 +406,9 @@ void opcontrol() {
 	while (true) {
 
             // // print robot location to the brain screen
-            // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
 		// Arcade control scheme. 
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
