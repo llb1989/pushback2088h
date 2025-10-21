@@ -195,8 +195,6 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  */
 void autonomous() {
 
-
-    // x, y, timeout
     int autonumber = currAuto;
     switch (autonumber) {
         case 1:
