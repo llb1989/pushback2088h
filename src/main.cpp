@@ -8,7 +8,11 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup leftMotors({-18, 20, -16}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 pros::MotorGroup rightMotors({12, -14, 17}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-//intake mototrso
+pros::adi::Button autonselectbutton('C');
+
+std::string job = "thanks";
+
+//intake mototro
 pros::Motor intmotor1(1); // bottom roller
 pros::Motor intmotor2(-2); // middle roller
 pros::Motor intmotor3(9); // top 
@@ -157,15 +161,27 @@ void initialize() {
 
     // for more information on how the formatting for the loggers
     // works, refer to the fmtlib docs
-
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
+            
+            if (currAuto == 1) {
+            job = "turn 90 degree";
+            } else if (currAuto == 2) {
+            job = "go backwards";
+            } else if (currAuto == 3) {
+            job = "do nothing";
+            } else {
+                job = "no auto selected";
+            }
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(3, "Auto: %d", currAuto);
+            pros::lcd::print(4, "Auto name: %s", job);
+
+
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -177,7 +193,13 @@ void initialize() {
 /**
  * Runs while the robot is disabled
  */
-void disabled() {}
+void disabled() { // auto select
+    while (true) {
+        if (autonselectbutton.get_new_press()) {
+    nextState();
+    }
+}
+}
 
 /**
  * runs after initialize if the robot is connected to field control
@@ -225,10 +247,10 @@ void opcontrol() {
         // move the chassis with curvature drive
         chassis.arcade(leftY, rightX);
         // delay to save resources
-
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) { // change auto nolan is so awesome and smart and awesome and smart
-      nextState(); 
-	}
+        
+        if (autonselectbutton.get_new_press()) {
+    nextState();
+    }
 
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) { // turn lock on and off
       locktoggle = !locktoggle; 
