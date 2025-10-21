@@ -86,32 +86,32 @@ bool slowtoggle = false;
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              11.5, // 11.5 inch track width
+                              13.5, // 11.5 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 450
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5, // proportional gain (kP)
+lemlib::ControllerSettings linearController(5.58, // proportional gain (kP) meowigga
                                             0, // integral gain (kI)
-                                            17.5, // derivative gain (kD)
-                                            3, // anti windup
-                                            1, // small error range, in inches
+                                            19.05, // derivative gain (kD) yayayayayayayay
+                                            3, // anti windup NNNIIIII
+                                            1, // small error range, in inchesGGG
                                             100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
+                                            2, // large error range, in inchesEEERRR
                                             500, // large error range timeout, in milliseconds
-                                            20 // maximum acceleration (slew)
+                                            16 // maximum acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             13, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.968, // proportional gain (kP) 
+                                             0, // integral gain (kI) 
+                                             13.17, // derivative gain (kD)
                                              3, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
-                                             3, // large error range, in degrees
+                                             2, // large error range, in degrees
                                              500, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
 );
@@ -198,7 +198,7 @@ void autonomous() {
     int autonumber = currAuto;
     switch (autonumber) {
         case 1:
-chassis.moveToPoint(0, 10, 2000);
+    chassis.turnToHeading(90, 1200);
     break;
 
     case 2: 
@@ -216,6 +216,7 @@ chassis.moveToPoint(0, 10, 2000);
  */
 void opcontrol() {
     // controller
+    master.print(1, 0, "Auto mb: %d", currAuto);
     // loop to continuously update motors
     while (true) {
         // get joystick positions
