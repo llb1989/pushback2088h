@@ -219,32 +219,37 @@ void autonomous() {
 
     int autonumber = currAuto;
     switch (autonumber) {
-        // x,y,timeout
+        // x,y,timeout WHY IS IT Y then X
         case 1: // right auto
     chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 20.566, 1000);
-    intakeone(12000);
+    chassis.moveToPoint(0, 20.566, 1000); // forwards
+    intakeone(9000);
+    chassis.moveToPoint(6.328, 41.076, 1000, {.maxSpeed = 70});
     pros::delay(500);
-    chassis.moveToPoint(6.328, 40.076, 1000);
-    pros::delay(250);
     littlewill.toggle();
     pros::delay(1500);
-    intakeone(0);
     littlewill.toggle();
-    chassis.moveToPoint(-10, 52, 1000 , {.maxSpeed = 80});
-    chassis.turnToHeading(-45, 1000);
+    intakeone(0);
+    chassis.turnToHeading(-38, 1000);
+    chassis.moveToPoint(-10, 52.8, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-43, 1000);
     pros::delay(400);
+    intakeall(-12000);
+    pros::delay(1000);
+    intakeone(12000);
+    pros::delay(200);
     intakeall(-6500);
-    pros::delay(3000);
+    pros::delay(2000);
     chassis.moveToPoint(29, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
-    chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(29, -2, 1000);
+    chassis.turnToHeading(185, 1000); // move to matchload>
+    chassis.moveToPoint(30, -6.5, 2000, {.maxSpeed = 30});
     intakeone(12000);
-    pros::delay(1000);
+    chassis.moveToPoint(28, -6.5, 500, {.maxSpeed = 50});
+    pros::delay(2500);
     intakeall(0);
     chassis.moveToPoint(30.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
-    pros::delay(500);
+    pros::delay(1000);
     intakeall(12000);
     pros::delay(1250);
     intakeall(0);
@@ -252,26 +257,30 @@ void autonomous() {
     break;
 
     case 2: 
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(20.566, 0, 1000);
+     chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 20.566, 1000);
     intakeone(12000);
+    pros::delay(500);
+    chassis.moveToPoint(-6.328, 40.076, 1000);
+    pros::delay(250);
+    littlewill.toggle();
     pros::delay(1500);
-    chassis.moveToPoint(40.076, 6.328, 1000);
+    intakeone(0);
     littlewill.toggle();
-    pros::delay(750);
-    littlewill.toggle();
-    chassis.moveToPoint(50, -3.691, 1000, {.forwards = false ,.maxSpeed = 80});
+    chassis.moveToPoint(10, 52, 1000 , {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(45, 1000);
     pros::delay(400);
-    intakemiddle(8000);
+    intakeall(-6500);
     pros::delay(3000);
-    chassis.moveToPoint(17.665, 31.693, 1000 , { .forwards = true ,.maxSpeed = 80});
+    chassis.moveToPoint(-29, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
     chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(5.273, 31.693, 1000);
+    chassis.moveToPoint(-29, -2, 1000);
     intakeone(12000);
-    pros::delay(2500);
+    pros::delay(1000);
     intakeall(0);
-    chassis.moveToPoint(34, 31.693, 1000, { .forwards = false ,.maxSpeed = 80});
+    chassis.moveToPoint(-30.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
+    pros::delay(500);
     intakeall(12000);
     pros::delay(1250);
     intakeall(0);
@@ -319,7 +328,7 @@ void opcontrol() {
       slowtoggle = !slowtoggle; 
 	}
 
-    if (locktoggle && slowtoggle) {
+    if (locktoggle && slowtoggle) { 
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intakeone(5000);
