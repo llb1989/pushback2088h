@@ -166,11 +166,11 @@ void initialize() {
         while (true) {
             
             if (currAuto == 1) {
-            job = "turn 90 degree";
+            job = "right auto";
             } else if (currAuto == 2) {
-            job = "go backwards";
+            job = "left auto";
             } else if (currAuto == 3) {
-            job = "do nothing";
+            job = "alliance do sawp";
             } else {
                 job = "no auto selected";
             }
@@ -219,18 +219,73 @@ void autonomous() {
 
     int autonumber = currAuto;
     switch (autonumber) {
-        case 1:
-    chassis.turnToHeading(90, 1200);
+        // x,y,timeout
+        case 1: // right auto
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 20.566, 1000);
+    intakeone(12000);
+    pros::delay(500);
+    chassis.moveToPoint(6.328, 40.076, 1000);
+    pros::delay(250);
+    littlewill.toggle();
+    pros::delay(1000);
+    intakeone(0);
+    littlewill.toggle();
+    chassis.moveToPoint(-5, 51.5, 1000);
+    chassis.turnToHeading(-45, 1000);
+    pros::delay(400);
+    intakeall(-8000);
+    pros::delay(1500);
+    chassis.moveToPoint(28, 17.665, 1000 , {.forwards = false ,.maxSpeed = 80});
+    littlewill.toggle();
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(28,  3, 1000);
+    intakeone(12000);
+    pros::delay(3000);
+    intakeall(0);
+    chassis.moveToPoint(28.5, 36, 1000, { .forwards = false ,.maxSpeed = 80});
+    pros::delay(500);
+    intakeall(12000);
+    pros::delay(1250);
+    intakeall(0);
+
     break;
 
     case 2: 
-    forwards(-12000, -12000);
-    pros::delay(200);
-    forwards(0,0);
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(20.566, 0, 1000);
+    intakeone(12000);
+    pros::delay(1500);
+    chassis.moveToPoint(40.076, 6.328, 1000);
+    littlewill.toggle();
+    pros::delay(750);
+    littlewill.toggle();
+    chassis.moveToPoint(50, -3.691, 1000, {.forwards = false ,.maxSpeed = 80});
+    pros::delay(400);
+    intakemiddle(8000);
+    pros::delay(3000);
+    chassis.moveToPoint(17.665, 31.693, 1000 , { .forwards = true ,.maxSpeed = 80});
+    littlewill.toggle();
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(5.273, 31.693, 1000);
+    intakeone(12000);
+    pros::delay(2500);
+    intakeall(0);
+    chassis.moveToPoint(34, 31.693, 1000, { .forwards = false ,.maxSpeed = 80});
+    intakeall(12000);
+    pros::delay(1250);
+    intakeall(0);
     break;
+
+    case 3:
+    forwards(12000, 12000);
+    pros::delay(500);
+    forwards(0, 0); 
+    break;
+
+
+
     }
-
-
 }
 
 /**
@@ -248,6 +303,10 @@ void opcontrol() {
         chassis.arcade(leftY, rightX);
         // delay to save resources
         
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B) && (pros::E_CONTROLLER_DIGITAL_DOWN)){ // run auto
+      autonomous();
+	}
+
         if (autonselectbutton.get_new_press()) {
     nextState();
     }
