@@ -13,9 +13,10 @@ pros::adi::Button autonselectbutton('C');
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(1); // bottom roller
+pros::Motor intmotor1(-1); // second stage
 pros::Motor intmotor2(-2); // middle roller
 pros::Motor intmotor3(9); // top 
+pros::Motor intmotor4(4); // first stage 
 
 // Inertial Sensor on port 19
 pros::Imu imu(19);
@@ -39,6 +40,7 @@ void intakeall(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
+            intmotor4.move_voltage(intakepower);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -48,6 +50,7 @@ void intakeone(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
+            intmotor4.move_voltage(intakepower);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -58,6 +61,7 @@ void intakeback(int intakepower) {
             intmotor1.move_voltage(0);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
+            intmotor4.move_voltage(0);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -68,6 +72,7 @@ void intakemiddle(int intakepower) {
     intmotor1.move_voltage(intakepower);
     intmotor2.move_voltage(intakepower);
     intmotor3.move_voltage(-intakepower);
+    intmotor4.move_voltage(intakepower);
 }
 
 void forwards(int intakepower, int left) {
