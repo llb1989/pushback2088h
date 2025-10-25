@@ -13,7 +13,7 @@ pros::adi::Button autonselectbutton('C');
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(-1); // second stage
+pros::Motor intmotor1(1); // second stage
 pros::Motor intmotor2(-2); // middle roller
 pros::Motor intmotor3(9); // top 
 pros::Motor intmotor4(4); // first stage 
@@ -228,16 +228,18 @@ void autonomous() {
         case 1: // right auto
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
-    intakeone(9000);
+    intakeone(12000);
     chassis.moveToPoint(6.328, 41.076, 1000, {.maxSpeed = 70});
     pros::delay(500);
     littlewill.toggle();
-    pros::delay(1500);
-    littlewill.toggle();
+    pros::delay(800);
     intakeone(0);
+    pros::delay(700);
+    littlewill.toggle();
+
     chassis.turnToHeading(-38, 1000);
-    chassis.moveToPoint(-10, 52.8, 1200, {.maxSpeed = 80});
-    chassis.turnToHeading(-43, 1000);
+    chassis.moveToPoint(-12, 55, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-45, 1000);
     pros::delay(400);
     intakeall(-12000);
     pros::delay(1000);
@@ -250,10 +252,10 @@ void autonomous() {
     chassis.turnToHeading(185, 1000); // move to matchload>
     chassis.moveToPoint(30, -6.5, 2000, {.maxSpeed = 30});
     intakeone(12000);
-    chassis.moveToPoint(28, -6.5, 500, {.maxSpeed = 50});
+    chassis.moveToPoint(30, -6.5, 500, {.maxSpeed = 50});
     pros::delay(2500);
     intakeall(0);
-    chassis.moveToPoint(30.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
+    chassis.moveToPoint(31.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
     pros::delay(1000);
     intakeall(12000);
     pros::delay(1250);
