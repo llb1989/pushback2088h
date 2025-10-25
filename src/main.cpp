@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "pros/misc.h"
 
 // controller
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -13,10 +14,9 @@ pros::adi::Button autonselectbutton('C');
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(1); // second stage
+pros::Motor intmotor1(1); // first stage
 pros::Motor intmotor2(-2); // middle roller
 pros::Motor intmotor3(9); // top 
-pros::Motor intmotor4(4); // first stage 
 
 // Inertial Sensor on port 19
 pros::Imu imu(19);
@@ -24,9 +24,9 @@ pros::Imu imu(19);
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
 
-    const int numAutos = 4;
+    const int numAutos = 5;
 //These are in  NOT degrees
-int states[numAutos] = {0, 1, 2, 3};
+int states[numAutos] = {0, 1, 2, 3, 4};
 int currAuto = 0;
 
 void nextState() {
@@ -40,7 +40,6 @@ void intakeall(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
-            intmotor4.move_voltage(intakepower);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -50,7 +49,6 @@ void intakeone(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
-            intmotor4.move_voltage(intakepower);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -61,7 +59,6 @@ void intakeback(int intakepower) {
             intmotor1.move_voltage(0);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
-            intmotor4.move_voltage(0);
             // pros::delay(intaketime);
             // intmotor1.move_voltage(0);
             // intmotor2.move_voltage(0);
@@ -72,7 +69,6 @@ void intakemiddle(int intakepower) {
     intmotor1.move_voltage(intakepower);
     intmotor2.move_voltage(intakepower);
     intmotor3.move_voltage(-intakepower);
-    intmotor4.move_voltage(intakepower);
 }
 
 void forwards(int intakepower, int left) {
@@ -163,7 +159,6 @@ void initialize() {
     // can do the following.
     // lemlib::bufferedStdout().setRate(...);
     // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
-
     // for more information on how the formatting for the loggers
     // works, refer to the fmtlib docs
     // thread to for brain screen and position logging
@@ -176,6 +171,8 @@ void initialize() {
             job = "left auto";
             } else if (currAuto == 3) {
             job = "alliance do sawp";
+            } else if (currAuto == 4) {
+            job = "frek=aky left autop";
             } else {
                 job = "no auto selected";
             }
@@ -201,6 +198,9 @@ void initialize() {
 void disabled() { // auto select
     while (true) {
         if (autonselectbutton.get_new_press()) {
+    nextState();
+        }
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
     nextState();
     }
 }
@@ -229,27 +229,24 @@ void autonomous() {
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
     intakeone(12000);
-    chassis.moveToPoint(6.328, 41.076, 1000, {.maxSpeed = 70});
+    chassis.moveToPoint(8, 41.076, 1000, {.maxSpeed = 70});
     pros::delay(500);
     littlewill.toggle();
-    pros::delay(800);
+    pros::delay(600);
     intakeone(0);
-    pros::delay(700);
+    pros::delay(100);
     littlewill.toggle();
-
-    chassis.turnToHeading(-38, 1000);
-    chassis.moveToPoint(-12, 55, 1200, {.maxSpeed = 80});
     chassis.turnToHeading(-45, 1000);
-    pros::delay(400);
-    intakeall(-12000);
-    pros::delay(1000);
-    intakeone(12000);
+    chassis.moveToPoint(-6, 48, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-45, 1000);
+     pros::delay(100);
+    intakeall(-7500);
     pros::delay(200);
-    intakeall(-6500);
+    intakeall(-4500);
     pros::delay(2000);
-    chassis.moveToPoint(29, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
+    chassis.moveToPoint(30, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
-    chassis.turnToHeading(185, 1000); // move to matchload>
+    chassis.turnToHeading(180, 1000); // move to matchload>
     chassis.moveToPoint(30, -6.5, 2000, {.maxSpeed = 30});
     intakeone(12000);
     chassis.moveToPoint(30, -6.5, 500, {.maxSpeed = 50});
@@ -260,11 +257,10 @@ void autonomous() {
     intakeall(12000);
     pros::delay(1250);
     intakeall(0);
-
     break;
 
     case 2: 
-     chassis.setPose(0, 0, 0);
+    chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000);
     intakeone(12000);
     pros::delay(500);
@@ -272,21 +268,22 @@ void autonomous() {
     pros::delay(250);
     littlewill.toggle();
     pros::delay(1500);
+    littlewill.toggle();
     intakeone(0);
-    littlewill.toggle();
-    chassis.moveToPoint(10, 52, 1000 , {.forwards = false, .maxSpeed = 80});
-    chassis.turnToHeading(45, 1000);
+    chassis.moveToPoint(3, 52, 1000 , {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(225, 1000);
     pros::delay(400);
-    intakeall(-6500);
+    intakemiddle(6500);
     pros::delay(3000);
-    chassis.moveToPoint(-29, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
+    chassis.moveToPoint(-30, 17.665, 1500 , {.forwards = true ,.maxSpeed = 80}); // move to match
     littlewill.toggle();
-    chassis.turnToHeading(180, 1000);
-    chassis.moveToPoint(-29, -2, 1000);
+    // ecds
+    chassis.turnToHeading(0, 1000);
+    chassis.moveToPoint(-30, -2, 1000);
     intakeone(12000);
     pros::delay(1000);
     intakeall(0);
-    chassis.moveToPoint(-30.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
+    chassis.moveToPoint(-30.5, 33, 1500, { .forwards = true ,.maxSpeed = 60});
     pros::delay(500);
     intakeall(12000);
     pros::delay(1250);
@@ -298,7 +295,25 @@ void autonomous() {
     pros::delay(500);
     forwards(0, 0); 
     break;
-
+    
+    case 4:
+    chassis.setPose(0, 0, 0);
+    chassis.moveToPoint(0, 20.566, 1000); // forwards
+    intakeone(12000);
+    chassis.moveToPoint(-6.328, 41.076, 1000, {.maxSpeed = 70});
+    pros::delay(500);
+    littlewill.toggle();
+    pros::delay(800);
+    intakeone(0);
+    pros::delay(700);
+    littlewill.toggle();
+    // bad 
+    chassis.turnToHeading(135, 1000); // do i change theta
+    chassis.moveToPoint(-9, 54, 1200, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(-45, 1000);
+    pros::delay(400);
+    intakemiddle(-6500);
+    break;
 
 
     }
@@ -309,7 +324,7 @@ void autonomous() {
  */
 void opcontrol() {
     // controller
-    master.print(1, 0, "Auto mb: %d", currAuto);
+    master.print(1, 1, "Auto mb: %d", currAuto);
     // loop to continuously update motors
     while (true) {
         // get joystick positions
@@ -324,6 +339,10 @@ void opcontrol() {
 	}
 
         if (autonselectbutton.get_new_press()) {
+    nextState();
+    }
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
     nextState();
     }
 
