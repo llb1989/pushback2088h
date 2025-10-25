@@ -237,7 +237,7 @@ void autonomous() {
     pros::delay(100);
     littlewill.toggle();
     chassis.turnToHeading(-45, 1000);
-    chassis.moveToPoint(-6, 48, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(-6, 49.5, 1200, {.maxSpeed = 80});
     chassis.turnToHeading(-45, 1000);
      pros::delay(100);
     intakeall(-7500);
