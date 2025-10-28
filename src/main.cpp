@@ -305,7 +305,7 @@ void autonomous() {
     chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 85}); // move to matchload>
     pros::delay(800);
     intakeall(0);
-    chassis.moveToPoint(35.8, 33, 1200, { .forwards = false ,.maxSpeed = 70});
+    chassis.moveToPoint(36, 34, 1200, { .forwards = false ,.maxSpeed = 70});
     pros::delay(1000);
     intakeall(12000);
     pros::delay(1600);
@@ -314,7 +314,7 @@ void autonomous() {
     chassis.turnToHeading(-45, 1000);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 70});
+    chassis.moveToPoint(-1, 49, 2000, {.maxSpeed = 70});
     pros::delay(1000);
     // littlewill.toggle();
     pros::delay(100);
