@@ -14,7 +14,7 @@ pros::adi::Button autonselectbutton('C');
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(1); // first stage
+pros::Motor intmotor1(8); // first stage
 pros::Motor intmotor2(-2); // middle roller
 pros::Motor intmotor3(9); // top 
 
@@ -24,9 +24,9 @@ pros::Imu imu(19);
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
 
-    const int numAutos = 5;
+    const int numAutos = 6;
 //These are in  NOT degrees
-int states[numAutos] = {0, 1, 2, 3, 4};
+int states[numAutos] = {0, 1, 2, 3, 4, 5};
 int currAuto = 0;
 
 void nextState() {
@@ -172,7 +172,7 @@ void initialize() {
             } else if (currAuto == 3) {
             job = "alliance do sawp";
             } else if (currAuto == 4) {
-            job = "frek=aky left autop";
+            job = "100% working sawp";
             } else {
                 job = "no auto selected";
             }
@@ -237,7 +237,7 @@ void autonomous() {
     pros::delay(100);
     littlewill.toggle();
     chassis.turnToHeading(-45, 1000);
-    chassis.moveToPoint(-6, 49.5, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(-6, 48, 1200, {.maxSpeed = 80});
     chassis.turnToHeading(-45, 1000);
      pros::delay(100);
     intakeall(-7500);
@@ -297,22 +297,48 @@ void autonomous() {
     break;
     
     case 4:
-    chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 20.566, 1000); // forwards
+    chassis.setPose(-8, 15, 90);
+    chassis.moveToPoint(35, 15.292, 1500 , {.maxSpeed = 75});
+    littlewill.toggle();
     intakeone(12000);
-    chassis.moveToPoint(-6.328, 41.076, 1000, {.maxSpeed = 70});
-    pros::delay(500);
-    littlewill.toggle();
+    chassis.turnToHeading(180, 900); // turn to matchload>
+    chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 85}); // move to matchload>
     pros::delay(800);
-    intakeone(0);
-    pros::delay(700);
-    littlewill.toggle();
-    // bad 
-    chassis.turnToHeading(135, 1000); // do i change theta
-    chassis.moveToPoint(-9, 54, 1200, {.forwards = false, .maxSpeed = 80});
+    intakeall(0);
+    chassis.moveToPoint(35.8, 33, 1200, { .forwards = false ,.maxSpeed = 70});
+    pros::delay(1000);
+    intakeall(12000);
+    pros::delay(1600);
+    intakeall(0);
+    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 80});
     chassis.turnToHeading(-45, 1000);
+    intakeone(12000);
+    littlewill.toggle();
+    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 70});
+    pros::delay(1000);
+    // littlewill.toggle();
+    pros::delay(100);
+    intakeone(0);
+    // littlewill.toggle();
+    chassis.turnToHeading(-45, 1000);
+     pros::delay(100);
+    intakeone(-7500);
+    pros::delay(500);
+    intakeall(-5500);
+    pros::delay(700);
+    chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 70});
+    chassis.turnToHeading(-90, 1000);
+    chassis.moveToPoint(-60, 20, 2000 , {.maxSpeed = 80});
+    intakeone(12000);
+    chassis.turnToHeading(180, 1000); // turn to matchload>
+    littlewill.toggle();
+    chassis.moveToPoint(-60, -5, 1500 , {.maxSpeed = 80});
+    intakeone(12000);
+    chassis.moveToPoint(-59, 33, 1500, { .forwards = false ,.maxSpeed = 60});
     pros::delay(400);
-    intakemiddle(-6500);
+    intakeall(0);
+    pros::delay(500);
+    intakeall(12000);
     break;
 
 
