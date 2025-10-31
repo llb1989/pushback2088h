@@ -24,9 +24,9 @@ pros::Imu imu(19);
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics fakeewill('B', false);
 
-    const int numAutos = 6;
+    const int numAutos = 7;
 //These are in  NOT degrees
-int states[numAutos] = {0, 1, 2, 3, 4, 5};
+int states[numAutos] = {0, 1, 2, 3, 4, 5, 6};
 int currAuto = 0;
 
 void nextState() {
@@ -173,6 +173,8 @@ void initialize() {
             job = "alliance do sawp";
             } else if (currAuto == 4) {
             job = "100% working sawp";
+            } else if (currAuto == 5){
+            job = "better sawp";
             } else {
                 job = "no auto selected";
             }
@@ -298,46 +300,73 @@ void autonomous() {
     
     case 4:
     chassis.setPose(-8, 15, 90);
-    chassis.moveToPoint(35, 15.292, 1500 , {.maxSpeed = 75});
+    chassis.moveToPoint(35, 15.292, 1500 , {.maxSpeed = 80});
     littlewill.toggle();
     intakeone(12000);
     chassis.turnToHeading(180, 900); // turn to matchload>
-    chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 85}); // move to matchload>
-    pros::delay(800);
+    chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 80}); // move to matchload>
+    pros::delay(1000);
     intakeall(0);
-    chassis.moveToPoint(36, 34, 1200, { .forwards = false ,.maxSpeed = 70});
+    chassis.moveToPoint(35.8, 33, 1200, { .forwards = false ,.maxSpeed = 70});
     pros::delay(1000);
     intakeall(12000);
     pros::delay(1600);
-    intakeall(0);
-    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 80});
-    chassis.turnToHeading(-45, 1000);
     intakeone(12000);
+    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 80}); // pull out?
+    chassis.turnToHeading(-45, 1000);
     littlewill.toggle();
-    chassis.moveToPoint(-1, 49, 2000, {.maxSpeed = 70});
+    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80});
     pros::delay(1000);
-    // littlewill.toggle();
-    pros::delay(100);
     intakeone(0);
-    // littlewill.toggle();
     chassis.turnToHeading(-45, 1000);
      pros::delay(100);
-    intakeone(-7500);
-    pros::delay(500);
-    intakeall(-5500);
-    pros::delay(700);
-    chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 70});
+    intakeone(-8500);
+    pros::delay(600);
+    intakeone(12000);
+    chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(-90, 1000);
     chassis.moveToPoint(-60, 20, 2000 , {.maxSpeed = 80});
-    intakeone(12000);
     chassis.turnToHeading(180, 1000); // turn to matchload>
     littlewill.toggle();
     chassis.moveToPoint(-60, -5, 1500 , {.maxSpeed = 80});
     intakeone(12000);
-    chassis.moveToPoint(-59, 33, 1500, { .forwards = false ,.maxSpeed = 60});
+    chassis.moveToPoint(-60, 33, 1500, { .forwards = false ,.maxSpeed = 70});
     pros::delay(400);
-    intakeall(0);
-    pros::delay(500);
+    intakeall(12000);
+    break;
+
+    case 5:
+    chassis.setPose(-8, 15, 90);
+    chassis.moveToPoint(35, 15.292, 1500 , {.maxSpeed = 80});
+    littlewill.toggle();
+    intakeone(12000);
+    chassis.turnToHeading(180, 900); // turn to matchload>
+    chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 50}); // move to matchload>
+    pros::delay(450);
+    intakeone(0);
+    chassis.moveToPoint(35.8, 33, 1200, {.forwards = false ,.maxSpeed = 80});
+    pros::delay(1000);
+    intakeall(12000);
+    pros::delay(1400);
+    intakeone(12000);
+    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 90}); // pull out?
+    chassis.turnToHeading(-45, 1000);
+    littlewill.toggle();
+    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80});
+    pros::delay(1000);
+    intakeone(0);
+    chassis.turnToHeading(-45, 1000);
+    pros::delay(100);
+    intakeone(-8500);
+    pros::delay(900);
+    intakeone(12000);
+    chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(-90, 1000);
+    chassis.moveToPoint(-60, 20, 1500 , {.maxSpeed = 70});
+    chassis.moveToPoint(-60, 10, 1000, {.minSpeed = 50});
+    chassis.turnToHeading(180, 1000); // turn to matchload
+    chassis.moveToPoint(-59, 33, 1500, { .forwards = false ,.maxSpeed = 70});
+    pros::delay(400);
     intakeall(12000);
     break;
 
