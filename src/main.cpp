@@ -230,34 +230,35 @@ void autonomous() {
         case 1: // right auto
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
-    intakeone(12000);
+    intakeone(7000);
     chassis.moveToPoint(8, 41.076, 1000, {.maxSpeed = 70});
     pros::delay(500);
     littlewill.toggle();
     pros::delay(600);
-    intakeone(0);
-    pros::delay(100);
-    littlewill.toggle();
-    chassis.turnToHeading(-45, 1000);
-    chassis.moveToPoint(-6, 48, 1200, {.maxSpeed = 80});
-    chassis.turnToHeading(-45, 1000);
-     pros::delay(100);
-    intakeall(-7500);
-    pros::delay(200);
-    intakeall(-4500);
-    pros::delay(2000);
-    chassis.moveToPoint(30, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
-    littlewill.toggle();
-    chassis.turnToHeading(180, 1000); // move to matchload>
-    chassis.moveToPoint(30, -6.5, 2000, {.maxSpeed = 30});
     intakeone(12000);
-    chassis.moveToPoint(30, -6.5, 500, {.maxSpeed = 50});
+    littlewill.toggle();
+    chassis.turnToHeading(-45, 1000);
+    chassis.moveToPoint(-9.5, 51, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-43, 1000);
+    pros::delay(100);
+    intakeall(-12000);
     pros::delay(2500);
+    chassis.moveToPoint(30.5, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
+    littlewill.toggle();
+    chassis.turnToHeading(180, 1000); // move to matchload
+    chassis.moveToPoint(30, -6.5, 1800, {.maxSpeed = 70});
+    intakeone(12000);
+    chassis.moveToPoint(30, -6.5, 500, {.maxSpeed = 60});
+    pros::delay(100);
     intakeall(0);
-    chassis.moveToPoint(31.5, 33, 1500, { .forwards = false ,.maxSpeed = 60});
-    pros::delay(1000);
+    chassis.moveToPoint(30.5, 31, 1500, { .forwards = false ,.maxSpeed = 60});
+    pros::delay(700);
     intakeall(12000);
-    pros::delay(1250);
+    pros::delay(800);  
+    intakeall(-12000);
+    pros::delay(500); 
+    intakeall(12000);
+    pros::delay(1700); 
     intakeall(0);
     break;
 
