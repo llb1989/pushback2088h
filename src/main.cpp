@@ -237,9 +237,9 @@ void autonomous() {
     pros::delay(600);
     intakeone(12000);
     littlewill.toggle();
-    chassis.turnToHeading(-45, 1000);
-    chassis.moveToPoint(-9.5, 51, 1200, {.maxSpeed = 80});
     chassis.turnToHeading(-43, 1000);
+    chassis.moveToPoint(-9.2, 51, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(-40, 1000);
     pros::delay(100);
     intakeall(-12000);
     pros::delay(2500);
@@ -248,48 +248,45 @@ void autonomous() {
     chassis.turnToHeading(180, 1000); // move to matchload
     chassis.moveToPoint(30, -6.5, 1800, {.maxSpeed = 70});
     intakeone(12000);
-    chassis.moveToPoint(30, -6.5, 500, {.maxSpeed = 60});
+    chassis.moveToPoint(30.6, -6.5, 500, {.maxSpeed = 60});
     pros::delay(100);
     intakeall(0);
-    chassis.moveToPoint(30.5, 31, 1500, { .forwards = false ,.maxSpeed = 60});
+    chassis.moveToPoint(30.6, 31, 1500, { .forwards = false ,.maxSpeed = 60});
     pros::delay(700);
     intakeall(12000);
     pros::delay(800);  
     intakeall(-12000);
-    pros::delay(500); 
+    pros::delay(100); 
     intakeall(12000);
-    pros::delay(1700); 
+    pros::delay(750); 
     intakeall(0);
     break;
 
     case 2: 
     chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 20.566, 1000);
+    chassis.moveToPoint(0, 20.566, 1000); // forward
     intakeone(12000);
+    chassis.moveToPoint(-8, 42, 1000);  // move to blocks
     pros::delay(500);
-    chassis.moveToPoint(-6.328, 40.076, 1000);
-    pros::delay(250);
-    littlewill.toggle();
-    pros::delay(1500);
-    littlewill.toggle();
-    intakeone(0);
-    chassis.moveToPoint(3, 52, 1000 , {.forwards = false, .maxSpeed = 80});
+    littlewill.toggle(); // down
+    intakeone(12000);
+    chassis.moveToPoint(4, 50, 1000 , {.forwards = false, .maxSpeed = 80}); // back into goal?
     chassis.turnToHeading(225, 1000);
-    pros::delay(400);
+    // littlewill.toggle(); // up
+    pros::delay(1500);
     intakemiddle(6500);
     pros::delay(3000);
-    chassis.moveToPoint(-30, 17.665, 1500 , {.forwards = true ,.maxSpeed = 80}); // move to match
-    littlewill.toggle();
-    // ecds
-    chassis.turnToHeading(0, 1000);
-    chassis.moveToPoint(-30, -2, 1000);
+
+    // littlewill.toggle(); // down
+    chassis.moveToPoint(-31.5, 17.665, 1500 , {.forwards = true ,.maxSpeed = 80}); // move to match
+    chassis.turnToHeading(180, 1000);
+
+    chassis.moveToPoint(-31.5, -7, 1000);
     intakeone(12000);
-    pros::delay(1000);
-    intakeall(0);
-    chassis.moveToPoint(-30.5, 33, 1500, { .forwards = true ,.maxSpeed = 60});
-    pros::delay(500);
+    chassis.moveToPoint(-31.5, 32, 1500, {.forwards = false ,.maxSpeed = 60}); // goal?
+    pros::delay(800);
     intakeall(12000);
-    pros::delay(1250);
+    pros::delay(2000);
     intakeall(0);
     break;
 
