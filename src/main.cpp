@@ -164,7 +164,7 @@ void initialize() {
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
-            
+        
             if (currAuto == 1) {
             job = "right auto";
             } else if (currAuto == 2) {
@@ -184,6 +184,7 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(3, "Auto: %d", currAuto);
             pros::lcd::print(4, "Auto name: %s", job);
+            master.print(1, 2, "Auto: %f", currAuto);
 
 
             // log position telemetry
@@ -205,6 +206,7 @@ void disabled() { // auto select
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
     nextState();
     }
+    master.print(1, 2, "Auto: %f", currAuto);
 }
 }
 
@@ -226,40 +228,48 @@ void autonomous() {
 
     int autonumber = currAuto;
     switch (autonumber) {
-        // x,y,timeout WHY IS IT Y then X
+
         case 1: // right auto
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
     intakeone(7000);
-    chassis.moveToPoint(8, 41.076, 1000, {.maxSpeed = 70});
+    chassis.moveToPoint(7.5, 41.076, 1000, {.maxSpeed = 70});
     pros::delay(500);
     littlewill.toggle();
     pros::delay(600);
     intakeone(12000);
     littlewill.toggle();
     chassis.turnToHeading(-43, 1000);
-    chassis.moveToPoint(-9.2, 51, 1200, {.maxSpeed = 80});
-    chassis.turnToHeading(-40, 1000);
+    chassis.moveToPoint(-8, 50.7, 1200, {.maxSpeed = 60});
+    intakeone(12000);
+    chassis.turnToHeading(-39, 1000);
     pros::delay(100);
-    intakeall(-12000);
-    pros::delay(2500);
+    intakeall(-10000);
+    pros::delay(1000);
+    intakeall(12000);
+    pros::delay(200);
+    intakeall(-11000);
+    pros::delay(1000);
     chassis.moveToPoint(30.5, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
     chassis.turnToHeading(180, 1000); // move to matchload
-    chassis.moveToPoint(30, -6.5, 1800, {.maxSpeed = 70});
+    chassis.moveToPoint(30, -6.5, 900, {.maxSpeed = 60});
     intakeone(12000);
-    chassis.moveToPoint(30.6, -6.5, 500, {.maxSpeed = 60});
+    chassis.moveToPoint(30.6, -6.5, 200, {.maxSpeed = 60});
     pros::delay(100);
     intakeall(0);
-    chassis.moveToPoint(30.6, 31, 1500, { .forwards = false ,.maxSpeed = 60});
+    intakeall(12000);
+    chassis.moveToPoint(30.6, 32, 1200, {.forwards = false ,.maxSpeed = 80});
     pros::delay(700);
     intakeall(12000);
     pros::delay(800);  
     intakeall(-12000);
-    pros::delay(100); 
+    pros::delay(100);
+    chassis.moveToPoint(30.6, 33, 1200, {.forwards = false ,.maxSpeed = 80}); 
     intakeall(12000);
-    pros::delay(750); 
-    intakeall(0);
+    pros::delay(4000); 
+    chassis.cancelAllMotions();
+    forwards(-10000,-10000);
     break;
 
     case 2: 
@@ -271,20 +281,21 @@ void autonomous() {
     littlewill.toggle(); // down
     intakeone(12000);
     chassis.moveToPoint(4, 50, 1000 , {.forwards = false, .maxSpeed = 80}); // back into goal?
-    chassis.turnToHeading(225, 1000);
+    chassis.turnToHeading(223, 1000);
     // littlewill.toggle(); // up
     pros::delay(1500);
-    intakemiddle(6500);
+    intakemiddle(5500);
     pros::delay(3000);
-
     // littlewill.toggle(); // down
-    chassis.moveToPoint(-31.5, 17.665, 1500 , {.forwards = true ,.maxSpeed = 80}); // move to match
-    chassis.turnToHeading(180, 1000);
-
-    chassis.moveToPoint(-31.5, -7, 1000);
     intakeone(12000);
-    chassis.moveToPoint(-31.5, 32, 1500, {.forwards = false ,.maxSpeed = 60}); // goal?
-    pros::delay(800);
+    chassis.moveToPoint(-31.5, 17.665, 1500 , {.forwards = true ,.maxSpeed = 67}); // move to match
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(-31.5, -7, 1000);
+    pros::delay(1000);
+    chassis.moveToPoint(-32, 32, 1500, {.forwards = false ,.maxSpeed = 60}); // goal?
+    pros::delay(1000);
+    intakeall(12000);
+    chassis.moveToPoint(-31.5, 34, 1500, {.forwards = false ,.maxSpeed = 60}); // goal?
     intakeall(12000);
     pros::delay(2000);
     intakeall(0);
@@ -303,7 +314,7 @@ void autonomous() {
     intakeone(12000);
     chassis.turnToHeading(180, 900); // turn to matchload>
     chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 80}); // move to matchload>
-    pros::delay(1000);
+    pros::delay(1200);
     intakeall(0);
     chassis.moveToPoint(35.8, 33, 1200, { .forwards = false ,.maxSpeed = 70});
     pros::delay(1000);
@@ -335,38 +346,46 @@ void autonomous() {
 
     case 5:
     chassis.setPose(-8, 15, 90);
-    chassis.moveToPoint(35, 15.292, 1500 , {.maxSpeed = 80});
+    chassis.moveToPoint(35, 15.292, 1200 , {.maxSpeed = 80});
     littlewill.toggle();
     intakeone(12000);
-    chassis.turnToHeading(180, 900); // turn to matchload>
-    chassis.moveToPoint(35, -1, 1000, {.maxSpeed = 50}); // move to matchload>
-    pros::delay(500);
-    intakeone(0);
-    chassis.moveToPoint(35.8, 33, 1200, {.forwards = false ,.maxSpeed = 80});
-    pros::delay(800);
+    chassis.turnToHeading(180, 500); // turn to matchload>
+    chassis.moveToPoint(35.5, -3, 1000, {.maxSpeed = 70}); // move to matchload>
+    pros::delay(1000);
+    chassis.moveToPoint(36, 33, 1500, {.forwards = false ,.maxSpeed = 90});
+    pros::delay(600);
     intakeall(12000);
-    pros::delay(1400);
-    intakeone(12000);
-    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 90}); // pull out?
+    pros::delay(1800);
+    chassis.moveToPoint(34, 14, 1200 , {.maxSpeed = 90}); // pull out?
+    pros::delay(10);
+    intakeone(0);
     chassis.turnToHeading(-45, 1000);
     littlewill.toggle();
-    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80});
-    pros::delay(1000);
-    intakeone(0);
+    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80}); // yaihdwjpl[]
+    pros::delay(800);
     chassis.turnToHeading(-45, 800);
-    pros::delay(100);
-    intakeone(-8500);
-    pros::delay(500);
+    intakeone(-9500);
+    pros::delay(700);
     intakeone(12000); // score middle
     chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 80});
-    // chassis.turnToHeading(-90, 800);
-    chassis.moveToPoint(-60, 20, 1200 , {.maxSpeed = 100});
-    // chassis.moveToPoint(-60, 10, 500, {.minSpeed = 60});
-    chassis.turnToHeading(180, 1000); // turn to matchload
-    intakeall(5000);
-    chassis.moveToPoint(-55, 33, 1500, {.forwards = false ,.maxSpeed = 70});
-    pros::delay(400);
+    chassis.turnToHeading(-90, 800);
+    chassis.moveToPoint(-59, 20, 1800 , {.maxSpeed = 80});
+    chassis.turnToHeading(180, 1000); // turn to matchload>
+    intakeone(12000);
+    chassis.moveToPoint(-59, 32, 1500, { .forwards = false ,.maxSpeed = 70});
     intakeall(12000);
+    pros::delay(4000);
+
+    // chassis.moveToPoint(8, 41.076, 1200, {.forwards = false, .maxSpeed = 80});
+    // chassis.turnToHeading(-90, 800);
+    // chassis.moveToPoint(-60, 18, 1200 , {.maxSpeed = 80});
+    // // chassis.moveToPoint(-60, 10, 500, {.minSpeed = 60});
+    // chassis.turnToHeading(180, 1000); // turn to matchload
+    // intakeone(5000);
+    // chassis.moveToPoint(-60, 31, 1500, {.forwards = false ,.maxSpeed = 60});
+    // pros::delay(400);
+    // intakeall(12000);
+    // pros::delay(200);
     break;
 
 
@@ -378,7 +397,7 @@ void autonomous() {
  */
 void opcontrol() {
     // controller
-    master.print(1, 1, "Auto mb: %d", currAuto);
+    master.print(1, 2, "Auto: %f", currAuto);
     // loop to continuously update motors
     while (true) {
         // get joystick positions
