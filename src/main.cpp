@@ -277,21 +277,21 @@ void autonomous() {
     chassis.moveToPoint(0, 20.566, 1000); // forward
     intakeone(12000);
     chassis.moveToPoint(-8, 42, 1000);  // move to blocks
-    pros::delay(500);
+    pros::delay(300);
     littlewill.toggle(); // down
     intakeone(12000);
-    chassis.moveToPoint(4, 50, 1000 , {.forwards = false, .maxSpeed = 80}); // back into goal?
-    chassis.turnToHeading(223, 1000);
+    chassis.moveToPoint(4, 48.5, 1000 , {.forwards = false, .maxSpeed = 80}); // back into goal?
+    chassis.turnToHeading(225, 1000);
     // littlewill.toggle(); // up
     pros::delay(1500);
     intakemiddle(5500);
-    pros::delay(3000);
+    pros::delay(1500);
     // littlewill.toggle(); // down
     intakeone(12000);
     chassis.moveToPoint(-31.5, 17.665, 1500 , {.forwards = true ,.maxSpeed = 67}); // move to match
     chassis.turnToHeading(180, 1000);
     chassis.moveToPoint(-31.5, -7, 1000);
-    pros::delay(1000);
+    pros::delay(1100);
     chassis.moveToPoint(-32, 32, 1500, {.forwards = false ,.maxSpeed = 60}); // goal?
     pros::delay(1000);
     intakeall(12000);
