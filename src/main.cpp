@@ -320,7 +320,7 @@ void autonomous() {
     chassis.moveToPoint(36, -2, 1000, {.maxSpeed = 80}); // move to matchload>
     pros::delay(1050);
 
-    chassis.moveToPoint(38, 33, 1200, { .forwards = false ,.maxSpeed = 70});
+    chassis.moveToPoint(36.5, 33, 1200, { .forwards = false ,.maxSpeed = 70});
     pros::delay(400);
 intakeall(0);
     pros::delay(600);
