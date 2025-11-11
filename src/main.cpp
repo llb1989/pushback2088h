@@ -227,7 +227,7 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 void autonomous() {
 
     int autonumber = currAuto;
-    switch (autonumber) {
+    switch (4) {
 
         case 1: // right auto
     chassis.setPose(0, 0, 0);
@@ -318,40 +318,43 @@ void autonomous() {
     intakeone(12000);
     chassis.turnToHeading(180, 900); // turn to matchload>
     chassis.moveToPoint(36, -2, 1000, {.maxSpeed = 80}); // move to matchload>
-    pros::delay(1500);
-    intakeall(0);
+    pros::delay(1050);
+
     chassis.moveToPoint(38, 33, 1200, { .forwards = false ,.maxSpeed = 70});
-    pros::delay(1000);
+    pros::delay(400);
+intakeall(0);
+    pros::delay(600);
     intakeall(12000);
-    pros::delay(1600);
+    pros::delay(2000);
     intakeone(12000);
     chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 80}); // pull out?
-    chassis.turnToHeading(-45, 1000);
+    chassis.turnToHeading(-45, 500);
     littlewill.toggle();
     chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80});
-    pros::delay(1000);
+    pros::delay(850);
     intakeone(0);
     chassis.turnToHeading(-45, 1000);
      pros::delay(100);
     intakeone(-8500);
     pros::delay(600);
     intakeone(12000);
-    chassis.moveToPoint(8, 39, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(8, 36, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(-90, 1000);
 
 
-    chassis.moveToPoint(-30, 39, 1000 , {.maxSpeed = 80});
-        pros::delay(1000);
+    chassis.moveToPoint(-35, 37.5, 1000 , {.maxSpeed = 80});
+    pros::delay(700);
     littlewill.toggle();
+
     chassis.turnToHeading(225, 500);
-        chassis.moveToPoint(-20, 49.5, 2000, {.forwards = false, .maxSpeed = 80});
+        chassis.moveToPoint(-21, 44, 2000, {.forwards = false, .maxSpeed = 80});
     pros::delay(1000);
     intakeone(0);
-    chassis.turnToHeading(225, 1000);
+    chassis.turnToHeading(230, 1000);
      pros::delay(100);
-    intakeone(-8500);
-    pros::delay(600);
-    intakeone(12000);
+    intakemiddle(6000);
+    pros::delay(50000);
+
 
     // chassis.turnToHeading(180, 1000); // turn to matchload>
     // littlewill.toggle();
