@@ -22,7 +22,6 @@ pros::Motor intmotor3(9); // top
 pros::Imu imu(19);
 
 pros::adi::Pneumatics littlewill('A', false);
-pros::adi::Pneumatics fakeewill('B', false);
 
     const int numAutos = 7;
 //These are in  NOT degrees
@@ -184,7 +183,8 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(3, "Auto: %d", currAuto);
             pros::lcd::print(4, "Auto name: %s", job);
-            master.print(1, 2, "Auto: %f", currAuto);
+            master.print(1, 2, "Auto: %d", currAuto);
+            //master.print(1, 2, "Auto?: %s", job);
 
 
             // log position telemetry
