@@ -498,7 +498,7 @@ intakeall(0);
     pros::delay(3000);
     intakeone(6000);
     chassis.moveToPoint(43, 116, 1200, {.forwards = true,.maxSpeed = 80});  
-    pros::delay(4000);
+    pros::delay(000);
     chassis.moveToPoint(43, 110, 1200, {.forwards = true,.maxSpeed = 80});  
     chassis.moveToPoint(42, 118, 1200, {.forwards = true,.maxSpeed = 80});  
     pros::delay(2000);
