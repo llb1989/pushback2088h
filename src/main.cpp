@@ -231,12 +231,12 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  * Runs during auto
  *
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
+ //67676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767
  */
 void autonomous() {
-
+ 
     int autonumber = currAuto;
-    switch (autonumber) {
-
+    switch (1) {
         case 1: // right auto
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
@@ -249,7 +249,7 @@ void autonomous() {
     littlewill.toggle();
     chassis.turnToHeading(-43, 1000);
     chassis.moveToPoint(-9, 52, 1200, {.maxSpeed = 60});
-    pros::delay(700);
+    pros::delay(700);                                   
     intakeone(0);
     chassis.turnToHeading(-45, 1000);
     pros::delay(100);
@@ -258,7 +258,7 @@ void autonomous() {
     intakeone(12000);
     pros::delay(300);
     intakeall(-12000);
-    pros::delay(600);
+    pros::delay(600);                                                                                                                                                                                                                                                                                                                
     intakeall(0);
     chassis.moveToPoint(30.5, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
@@ -340,7 +340,7 @@ void autonomous() {
     chassis.moveToPoint(34, 16, 1400 , {.maxSpeed = 80}); // pull out?
     chassis.turnToHeading(-45, 500);
     littlewill.toggle();
-    chassis.moveToPoint(-1.5, 49.5, 2000, {.maxSpeed = 90});
+    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 90});
     pros::delay(550);
     intakeone(0);
     chassis.turnToHeading(-45, 500);
@@ -356,7 +356,7 @@ void autonomous() {
     littlewill.toggle();
 
     chassis.turnToHeading(227, 500);
-    chassis.moveToPoint(-20, 47, 2000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-21, 47.5, 2000, {.forwards = false, .maxSpeed = 80});
     pros::delay(1000);
     intakeone(0);
     intakefreaky(4000);
@@ -366,35 +366,56 @@ void autonomous() {
 
     case 5: // idek what this is - maybe a BAD SAWP
     chassis.setPose(-8, 15, 90);
-    chassis.moveToPoint(35, 15.292, 1200 , {.maxSpeed = 80});
+    chassis.moveToPoint(34.5, 15.292, 1500 , {.maxSpeed = 80});
     littlewill.toggle();
     intakeone(12000);
-    chassis.turnToHeading(180, 500); // turn to matchload>
-    chassis.moveToPoint(35.5, -3, 1000, {.maxSpeed = 70}); // move to matchload>
-    pros::delay(1000);
-    chassis.moveToPoint(36, 33, 1500, {.forwards = false ,.maxSpeed = 90});
-    pros::delay(600);
+    chassis.turnToHeading(180, 900); // turn to matchload>
+    chassis.moveToPoint(34.5, -5, 1000, {.maxSpeed = 80}); // move to matchload>
+    pros::delay(2000);
+
+    chassis.moveToPoint(36.5, 34, 1200, { .forwards = false ,.maxSpeed = 70});
+    pros::delay(1050);
+    // intakeall(0);
+    // pros::delay(400);
     intakeall(12000);
-    pros::delay(1800);
-    chassis.moveToPoint(34, 14, 1200 , {.maxSpeed = 90}); // pull out?
-    pros::delay(10);
+    pros::delay(2500);
+    intakeone(12000);
+    chassis.moveToPoint(34, 16, 1400 , {.maxSpeed = 80}); // pull out?
+    chassis.turnToHeading(-45, 500);
+    littlewill.toggle();
+    chassis.moveToPoint(-2.5, 49.5, 2000, {.maxSpeed = 90});
+    pros::delay(550);
     intakeone(0);
-    chassis.turnToHeading(-45, 1000);
-    littlewill.toggle();
-    chassis.moveToPoint(-2, 49.5, 2000, {.maxSpeed = 80}); // yaihdwjpl[]
-    pros::delay(800);
-    chassis.turnToHeading(-45, 800);
-    intakeone(-9500);
-    pros::delay(700);
-    intakeone(12000); // score middle
-    chassis.moveToPoint(8, 41.076, 1000, {.forwards = false, .maxSpeed = 80});
-    chassis.turnToHeading(-90, 800);
-    chassis.moveToPoint(-59, 20, 1800 , {.maxSpeed = 80});
-    chassis.turnToHeading(180, 1000); // turn to matchload>
+    chassis.turnToHeading(-45, 500);
+    intakeone(-12000);
+    pros::delay(2000);
     intakeone(12000);
-    chassis.moveToPoint(-59, 32, 1500, { .forwards = false ,.maxSpeed = 70});
-    intakeall(12000);
-    pros::delay(4000);
+    chassis.moveToPoint(8, 35, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(-90, 1000);
+
+
+    chassis.moveToPoint(-38, 35, 1000 , {.maxSpeed = 80});
+    pros::delay(1000);
+    littlewill.toggle();
+
+    chassis.turnToHeading(225, 500);
+    chassis.moveToPoint(-20, 47, 2000, {.forwards = false, .maxSpeed = 80});
+    pros::delay(1000);
+    intakeone(0);
+    intakefreaky(4000);
+    pros::delay(3000);
+    
+    chassis.moveToPoint(-38, 35, 1000 , {.forwards = false, .maxSpeed = 80});
+    littlewill.toggle();
+    chassis.moveToPoint(-40, -2, 2000, {.forwards = true, .maxSpeed = 80});
+    chassis.turnToHeading(90, 1000);
+    pros::delay(1000);
+    chassis.moveToPoint(-20, -4, 2000, {.forwards = true, .maxSpeed = 80});
+    pros::delay(1000);
+    chassis.cancelAllMotions(); //neckhurt :()
+    forwards(12000,12000);
+    pros::delay(1000);
+    forwards(0,0);
     break;
 
     case 6: // path
@@ -509,10 +530,10 @@ void autonomous() {
     intakeall(12000);
     pros::delay(4000);
     littlewill.toggle();
-    chassis.moveToPoint(25, 124, 2000, {.forwards = true,.maxSpeed = 60}); 
+    chassis.moveToPoint(24, 124, 2000, {.forwards = true,.maxSpeed = 60}); 
     chassis.turnToHeading(180, 900);
 
-    chassis.moveToPoint(28, -10, 4000, {.forwards = true,.maxSpeed = 70});
+    chassis.moveToPoint(24, -10, 4000, {.forwards = true,.maxSpeed = 70});
     chassis.turnToHeading(250, 1000); 
     chassis.moveToPoint(20, -20, 2000, {.forwards = true,.maxSpeed = 70}); 
     intakeone(12000);
@@ -591,11 +612,11 @@ void opcontrol() {
         leftMotors.move_voltage((leftY + rightX) * 12000 / 127);
         rightMotors.move_voltage((leftY - rightX) * 12000 / 127);
 
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X) && (pros::E_CONTROLLER_DIGITAL_UP)){ // run auto
-        autonomous();
-        } 
+        // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X) && (pros::E_CONTROLLER_DIGITAL_UP)){ // run auto
+        // autonomous();
+        // } 
 
-            if (autonselectbutton.get_new_press()) {
+        if (autonselectbutton.get_new_press()) {
         nextState();
         }
 
