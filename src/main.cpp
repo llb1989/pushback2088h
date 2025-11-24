@@ -255,17 +255,15 @@ void autonomous() {
     pros::delay(100);
     intakeall(-12000);
     pros::delay(400);
-    intakeone(12000);
-    pros::delay(300);
     intakeall(-12000);
-    pros::delay(600);                                                                                                                                                                                                                                                                                                                
+    pros::delay(800);                                                                                                                                                                                                                                                                                                                
     intakeall(0);
     chassis.moveToPoint(30.5, 17.665, 1500 , {.forwards = false ,.maxSpeed = 80});
     littlewill.toggle();
     chassis.turnToHeading(180, 1000); // move to matchload
     chassis.moveToPoint(30, -7.5, 900, {.maxSpeed = 60});
     intakeone(12000);
-    chassis.moveToPoint(30.6, -7.5, 200, {.maxSpeed = 60});
+    chassis.moveToPoint(30.6, -7.5, 200, {.maxSpeed = 80});
     pros::delay(300);
     intakeall(0);
 
@@ -277,9 +275,9 @@ void autonomous() {
     intakeall(-12000);
     pros::delay(100);
 
-    chassis.moveToPoint(31.5, 33, 1200, {.forwards = false ,.maxSpeed = 80}); 
+    chassis.moveToPoint(32, 33, 1200, {.forwards = false ,.maxSpeed = 80}); 
     intakeall(12000);
-    pros::delay(1500); 
+    pros::delay(1600); 
     chassis.cancelAllMotions();
     forwards(-10000,-10000);
     break;
