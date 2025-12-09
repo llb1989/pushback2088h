@@ -6,8 +6,16 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({-18, 20, -16}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup rightMotors({12, -14, 17}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup leftMotors({16, -15, -7}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup rightMotors({-20, 19, 8}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+// top right is 20
+// bottom back right is 19
+// bottom front right is 8
+
+// top left is 16
+// bottom back left is 15
+// bottom front left is 7
+
 
 pros::adi::Button autonselectbutton('C');
 
