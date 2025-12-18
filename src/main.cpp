@@ -6,15 +6,16 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({16, -15, -7}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup rightMotors({-20, 19, 8}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
-// top right is 20
-// bottom back right is 19
-// bottom front right is 8
+pros::MotorGroup leftMotors({-16, 9, -5}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+pros::MotorGroup rightMotors({8, -15, 17}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
-// top left is 16
-// bottom back left is 15
-// bottom front left is 7
+// top right is 15
+// bottom back right is 8
+// bottom front right is 17
+
+// top left is 9
+// bottom back left is 5
+// bottom front left is 16 emily is a nigga
 
 
 pros::adi::Button autonselectbutton('C');
@@ -22,9 +23,9 @@ pros::adi::Button autonselectbutton('C');
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(8); // first stage
-pros::Motor intmotor2(-2); // middle roller
-pros::Motor intmotor3(9); // top 
+pros::Motor intmotor1(20); // first stage // 20 lyla hates dirty niggers
+pros::Motor intmotor2(-2); // middle roller // 2
+pros::Motor intmotor3(-4); // top // 41
 
 // Inertial Sensor on port 19
 pros::Imu imu(19);
@@ -48,7 +49,7 @@ void intakeall(int intakepower) {
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
             // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
+            // intmotor1.move_vn igger niggert mniger nigfgeroltage(0);
             // intmotor2.move_voltage(0);
             // intmotor3.move_voltage(0);
 }
@@ -74,8 +75,8 @@ void intakeback(int intakepower) {
 
 void intakemiddle(int intakepower) {
     intmotor1.move_voltage(intakepower);
-    intmotor2.move_voltage(intakepower);
-    intmotor3.move_voltage(-intakepower);
+    intmotor2.move_voltage(-intakepower);
+    intmotor3.move_voltage(intakepower);
 }
 
 void intakefreaky(int intakepower) {
