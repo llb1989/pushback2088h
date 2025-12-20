@@ -1,13 +1,16 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "pros/llemu.hpp"
 #include "pros/misc.h"
+#include "pros/rotation.hpp"
+#include "pros/rtos.hpp"
 
 // controller
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups
 pros::MotorGroup leftMotors({-16, 9, -5}, pros::MotorGearset::blue);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-pros::MotorGroup rightMotors({8, -15, 17}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+pros::MotorGroup rightMotors({8, -15, 12}, pros::MotorGearset::blue);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 // top right is 15
 // bottom back right is 8
@@ -15,20 +18,22 @@ pros::MotorGroup rightMotors({8, -15, 17}, pros::MotorGearset::blue);  // Create
 
 // top left is 9
 // bottom back left is 5
-// bottom front left is 16 emily is a nigga
-
+// bottom front left is 16 
 
 pros::adi::Button autonselectbutton('C');
 
 std::string job = "thanks";
 
 //intake mototro
-pros::Motor intmotor1(20); // first stage // 20 lyla hates dirty niggers
+pros::Motor intmotor1(-20); // first stage // 20 
 pros::Motor intmotor2(-2); // middle roller // 2
 pros::Motor intmotor3(-4); // top // 41
 
 // Inertial Sensor on port 19
-pros::Imu imu(19);
+pros::Imu imu(14);
+
+pros::Rotation rotation(17);
+lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_275, -4.66);
 
 pros::adi::Pneumatics littlewill('A', false);
 pros::adi::Pneumatics chickenstars('B', false);
@@ -48,29 +53,20 @@ void intakeall(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
-            // pros::delay(intaketime);
-            // intmotor1.move_vn igger niggert mniger nigfgeroltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
+        
 }
 void intakeone(int intakepower) {
             intmotor1.move_voltage(intakepower);
             intmotor2.move_voltage(0);
             intmotor3.move_voltage(0);
-            // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
+ 
 }
 
 void intakeback(int intakepower) {
             intmotor1.move_voltage(0);
             intmotor2.move_voltage(intakepower);
             intmotor3.move_voltage(intakepower);
-            // pros::delay(intaketime);
-            // intmotor1.move_voltage(0);
-            // intmotor2.move_voltage(0);
-            // intmotor3.move_voltage(0);
+
 }
 
 void intakemiddle(int intakepower) {
@@ -92,6 +88,7 @@ void forwards(int intakepower, int left) {
 
 bool locktoggle = false;
 bool slowtoggle = false;
+
 // // tracking wheels
 // // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
 // pros::Rotation horizontalEnc(20);
@@ -105,16 +102,16 @@ bool slowtoggle = false;
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              13.5, // 11.5 inch track width
+                              13.5, // 25 holes?
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 450
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5.58, // proportional gain (kP) meowigga
+lemlib::ControllerSettings linearController(12, // proportional gain (kP) 5.58
                                             0, // integral gain (kI)
-                                            19.05, // derivative gain (kD)
+                                            4, // derivative gain (kD) 19.05
                                             3, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -124,23 +121,24 @@ lemlib::ControllerSettings linearController(5.58, // proportional gain (kP) meow
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.968, // proportional gain (kP) 
+lemlib::ControllerSettings angularController(1.85, // proportional gain (kP) 
                                              0, // integral gain (kI) 
-                                             13.17, // derivative gain (kD)
-                                             3, // anti windup
-                                             1, // small error range, in degrees
-                                             100, // small error range timeout, in milliseconds
+                                             13.15, // derivative gain (kD)
+                                             0, // anti windup
+                                             0, // small error range, in degrees
+                                             0, // small error range timeout, in milliseconds
                                              2, // large error range, in degrees
-                                             500, // large error range timeout, in milliseconds
+                                             0, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
 );
+
 
 // sensors for odometry
 lemlib::OdomSensors sensors(
     // &vertical, // vertical tracking wheel
                             nullptr,
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            nullptr, // &horizontal, // horizontal tracking wheel
+                            &horizontal_tracking_wheel, // &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
@@ -166,6 +164,7 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
@@ -178,7 +177,13 @@ void initialize() {
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
         while (true) {
-        
+        double drivetrainTemp = (rightMotors.get_temperature() + leftMotors.get_temperature()) / 2;
+
+        // print measurements from the rotation sensor
+        pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
+        pros::lcd::print(7, "Temp: %0.1f", drivetrainTemp);
+        // make double avg motor temp
+       
             if (currAuto == 1) {
             job = "right auto";
             } else if (currAuto == 2) {
@@ -200,7 +205,8 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             pros::lcd::print(3, "Auto: %d", currAuto);
             pros::lcd::print(4, "Auto name: %s", job);
-            master.print(1, 2, "Auto: %d", currAuto);
+            // master.print(1, 2, "Auto: %d", currAuto);
+            master.print(1, 2, "Y: %f", chassis.getPose().y);
             //master.print(1, 2, "Auto?: %s", job);
 
 
@@ -223,7 +229,8 @@ void disabled() { // auto select
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
     nextState();
     }
-    master.print(1, 2, "Auto: %f", currAuto);
+    // master.print(1, 2, "Auto: %f", currAuto);
+    master.print(1, 3, "Y: %f", chassis.getPose().y);
 }
 }
 
@@ -240,12 +247,75 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  * Runs during auto
  *
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
- //67676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767
  */
 void autonomous() {
  
     int autonumber = currAuto;
-    switch (1) {
+    switch (12) {
+
+        case 10:
+        chassis.setPose(0,0,0);
+        chassis.moveToPoint(-2, 26, 1000);
+        intakeone(8000);
+        chassis.turnToHeading(40, 1000, {.maxSpeed = 50});
+        chassis.moveToPoint(12, 38, 2000, {.maxSpeed = 40});
+        // littlewill.toggle();
+        pros::delay(1000);
+        chassis.turnToHeading(-45, 1000);
+        // littlewill.toggle();
+        chassis.moveToPoint(-12, 54, 1000, {.maxSpeed = 40});
+        intakeone(-12000);
+        break;
+
+        case 11: 
+         chassis.setPose(0,0,0);
+         chassis.moveToPoint(0, 32, 2000, {.maxSpeed = 60});
+         pros::delay(10);
+         chassis.turnToHeading(90, 1000);
+         littlewill.toggle();
+         intakeone(12000);
+         pros::delay(10);
+         chassis.moveToPoint(12, 32,1000);
+         pros::delay(1000);
+         intakeall(0);
+        //  pros::delay(100);
+        //  chassis.moveToPoint(-24, 33.5, 1000, {.forwards = false, .maxSpeed = 60});
+        //  pros::delay(900);
+        //  intakeall(12000);
+        //  littlewill.toggle();
+         break;
+
+         case 12: 
+         chassis.setPose(0,0,0);
+         chassis.moveToPoint(0, 30, 2000, {.maxSpeed = 60});
+         pros::delay(10);
+         chassis.turnToHeading(-90, 1000);
+         littlewill.toggle();
+         intakeone(12000);
+         chassis.moveToPoint(-24, 30,1000, {.forwards = true, .maxSpeed = 50});
+         pros::delay(1000);
+          intakeone(6000);
+
+        chassis.moveToPoint(-6, 30, 1000,{.forwards = false, .maxSpeed = 50});
+         intakeall(0);
+        littlewill.toggle();
+        chassis.turnToHeading(-215, 1000);
+        intakeone(6000);
+        chassis.moveToPoint(24, 6, 2000, {.forwards = true, .maxSpeed = 40});
+        pros::delay(500);
+        // littlewill.toggle();
+
+        chassis.moveToPoint(-2, 30, 1000, {.forwards = false, .maxSpeed = 50});
+        chassis.turnToHeading(-90, 1000);
+
+        chassis.moveToPoint(24, 30, 1000, {.forwards = false, .maxSpeed = 50});
+        intakeall(12000);
+        //  chassis.moveToPoint(24, 30, 1000, {.forwards = false, .maxSpeed = 60});
+        //  pros::delay(900);
+        //  intakeall(12000);
+        //  littlewill.toggle();
+         break;
+
         case 1: // right auto
     chassis.setPose(0, 0, 0);
     chassis.moveToPoint(0, 20.566, 1000); // forwards
@@ -600,7 +670,11 @@ void autonomous() {
     pros::delay(2000);
 
     break;
-
+    
+    case 67: // pid tuning 
+        chassis.setPose(0,0,0);
+        chassis.moveToPoint(0, 24, 1500);
+    break;
     }
 }
 
@@ -609,7 +683,8 @@ void autonomous() {
  */
 void opcontrol() {
     // controller
-    master.print(1, 2, "Auto: %f", currAuto);
+    // master.print(1, 2, "Auto: %f", currAuto);
+    master.print(1, 3, "Y: %f", chassis.getPose().y);
     // loop to continuously update motors
     while (true) {
         // get joystick positions
