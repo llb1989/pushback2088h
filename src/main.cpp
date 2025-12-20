@@ -109,15 +109,15 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(12, // proportional gain (kP) 5.58
+lemlib::ControllerSettings linearController(11, // proportional gain (kP) 5.58
                                             0, // integral gain (kI)
-                                            4, // derivative gain (kD) 19.05
+                                            6, // derivative gain (kD) 19.05
                                             3, // anti windup
                                             1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
                                             2, // large error range, in inches
                                             500, // large error range timeout, in milliseconds
-                                            16 // maximum acceleration (slew)
+                                            0 // maximum acceleration (slew)
 );
 
 // angular motion controller
@@ -254,17 +254,20 @@ void autonomous() {
     switch (12) {
 
         case 10:
+
         chassis.setPose(0,0,0);
-        chassis.moveToPoint(-2, 26, 1000);
-        intakeone(8000);
-        chassis.turnToHeading(40, 1000, {.maxSpeed = 50});
-        chassis.moveToPoint(12, 38, 2000, {.maxSpeed = 40});
-        // littlewill.toggle();
-        pros::delay(1000);
-        chassis.turnToHeading(-45, 1000);
-        // littlewill.toggle();
-        chassis.moveToPoint(-12, 54, 1000, {.maxSpeed = 40});
-        intakeone(-12000);
+        chassis.moveToPoint(0, 24, 2000);
+        // chassis.setPose(0,0,0);
+        // chassis.moveToPoint(-2, 26, 1000);
+        // intakeone(8000);
+        // chassis.turnToHeading(40, 1000, {.maxSpeed = 50});
+        // chassis.moveToPoint(12, 38, 2000, {.maxSpeed = 40});
+        // // littlewill.toggle();
+        // pros::delay(1000);
+        // chassis.turnToHeading(-45, 1000);
+        // // littlewill.toggle();
+        // chassis.moveToPoint(-12, 54, 1000, {.maxSpeed = 40});
+        // intakeone(-12000);
         break;
 
         case 11: 
@@ -292,23 +295,28 @@ void autonomous() {
          chassis.turnToHeading(-90, 1000);
          littlewill.toggle();
          intakeone(12000);
-         chassis.moveToPoint(-24, 30,1000, {.forwards = true, .maxSpeed = 50});
+         chassis.moveToPoint(-18, 29,1000, {.forwards = true, .maxSpeed = 50});
          pros::delay(1000);
-          intakeone(6000);
+         chassis.moveToPoint(-20, 20,1000, {.forwards = true, .maxSpeed = 50});
+         pros::delay(2000);
+          intakeone(1000);
 
         chassis.moveToPoint(-6, 30, 1000,{.forwards = false, .maxSpeed = 50});
          intakeall(0);
         littlewill.toggle();
         chassis.turnToHeading(-215, 1000);
-        intakeone(6000);
-        chassis.moveToPoint(24, 6, 2000, {.forwards = true, .maxSpeed = 40});
-        pros::delay(500);
-        // littlewill.toggle();
+        intakeone(12000);
+        chassis.moveToPoint(30, 0, 2000, {.forwards = true, .maxSpeed = 40});
+        pros::delay(1000);
+        littlewill.toggle();
 
-        chassis.moveToPoint(-2, 30, 1000, {.forwards = false, .maxSpeed = 50});
+        chassis.moveToPoint(0, 30, 1350, {.forwards = false, .maxSpeed = 60});
         chassis.turnToHeading(-90, 1000);
 
         chassis.moveToPoint(24, 30, 1000, {.forwards = false, .maxSpeed = 50});
+        chassis.turnToHeading(-90, 1000);
+        pros::delay(1000);
+        chassis.turnToHeading(-90, 1000);
         intakeall(12000);
         //  chassis.moveToPoint(24, 30, 1000, {.forwards = false, .maxSpeed = 60});
         //  pros::delay(900);
