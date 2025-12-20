@@ -678,7 +678,85 @@ void autonomous() {
     pros::delay(2000);
 
     break;
+
+        case 9: // true sawp
+    chassis.setPose(-8, 15, 90);
+    chassis.moveToPoint(37, 15.292, 1000 , {.maxSpeed = 90});
+    littlewill.toggle();
+    intakeone(12000);
+    chassis.turnToHeading(180, 900); // turn to matchload>
+    chassis.moveToPoint(35.5, -2, 1000, {.maxSpeed = 90}); // move to matchload>
+    pros::delay(1050);
+
+    chassis.moveToPoint(36, 33, 1200, { .forwards = false ,.maxSpeed = 90});
+    intakeall(12000);
+    pros::delay(2100);
+    intakeone(12000);
+    chassis.moveToPoint(34, 16, 1500 , {.maxSpeed = 90}); // pull out?
+    chassis.turnToHeading(-45, 500);
+    littlewill.toggle();
+    chassis.moveToPoint(-2.5, 50, 500, {.maxSpeed = 90});
+    pros::delay(1200);
+    chassis.moveToPoint(8, 35, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.turnToHeading(-90, 1000);
+
+    chassis.moveToPoint(-40, 36, 1000 , {.forwards = true, .maxSpeed = 90});
+    pros::delay(500);
+    littlewill.toggle();
+
+    chassis.turnToHeading(225, 500);
+    chassis.moveToPoint(-21.8, 46, 2000, {.forwards = false, .maxSpeed = 90});
+    pros::delay(1000);
+    intakeone(0);
+    chassis.turnToHeading(225, 200);
+    pros::delay(100);
+    intakemiddle(7000);
+    pros::delay(500);
+    intakeone(0);
+    pros::delay(100);
+    intakeone(10000);
+
+
+    chassis.moveToPoint(-57, 5, 1200, {.forwards = true, .maxSpeed = 90});
+    chassis.turnToHeading(180, 800);
+    intakeone(12000);
+    // chassis.moveToPoint(-57, -6.5, 1000, {.forwards = true, .maxSpeed = 90}); // matchload ?
+    // pros::delay(600);
+    // intakeone(0);
+    // chassis.turnToHeading(180, 800);
+    chassis.moveToPoint(-56, 30, 1200, {.forwards = false, .maxSpeed = 90});
+    pros::delay(100);
+    intakeall(12000);
+    pros::delay(2000);
+
+    break;
     
+    case 15: // 7+ wing
+    intakeone(12000);
+     chassis.moveToPoint(0, 19.511, 500, {.maxSpeed = 90});
+     chassis.turnToHeading(15, 200);
+     pros::delay(200);
+          littlewill.toggle();
+     chassis.moveToPoint(5.273, 35.067, 750, {.maxSpeed = 50});
+     chassis.turnToPoint(31.375, 12.919, 500);
+     chassis.moveToPoint(31.375, 12.919, 1000, {.maxSpeed = 90});
+
+     chassis.turnToHeading(180, 500);
+     chassis.moveToPoint(31.375, 0, 500, {.maxSpeed = 60});
+     pros::delay(750);
+    chassis.moveToPoint(31.375, 28, 1000, {.forwards = false, .maxSpeed = 50});
+    pros::delay(500);
+    intakeall(12000);
+    pros::delay(1500);
+    intakeall(0);
+    chassis.moveToPoint(22.411, 12.128, 1000);
+    chassis.turnToHeading(-180, 500);
+    chassis.moveToPoint(22.411, 42, 1000, {.forwards = false, .maxSpeed = 50});
+     
+
+
+break;
+
     case 67: // pid tuning 
         chassis.setPose(0,0,0);
         chassis.moveToPoint(0, 24, 1500);
