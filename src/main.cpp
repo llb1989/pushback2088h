@@ -252,7 +252,14 @@ void autonomous() {
  
     int autonumber = currAuto;
     switch (15) {
-        case 41:
+
+        case 21: // forwards
+        forwards(8000, 8000);
+        pros::delay(100);
+        forwards(0, 0);
+        break;
+
+        case 41: // left? 
         chassis.setPose(0,0,0);
          chassis.moveToPoint(0, 36, 2000, {.maxSpeed = 60});
          pros::delay(10);
@@ -798,7 +805,7 @@ void autonomous() {
      chassis.moveToPoint(29.375, 12.919, 1000, {.maxSpeed = 90});
 
      chassis.turnToHeading(180, 500);
-     chassis.moveToPoint(30.8, 0, 500, {.maxSpeed = 60});
+     chassis.moveToPoint(29.8, 0, 500, {.maxSpeed = 60});
      pros::delay(1000);
      chassis.moveToPoint(30.8, -2, 500, {.maxSpeed = 60});
      pros::delay(1000);
@@ -810,22 +817,23 @@ void autonomous() {
     intakeall(-12000);
     pros::delay(300);
     intakeall(12000);
-    pros::delay(2000);
+    pros::delay(2400);
     intakeall(0);
-    chassis.moveToPoint(19.2, 20.128, 1000);// og 20.5
+    chassis.moveToPoint(20.5, 25.128, 1000);// og 20.5
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(19.2, 44, 2000, {.forwards = false, .maxSpeed = 50});
+    chassis.moveToPoint(20.5, 44, 2000, {.forwards = false, .maxSpeed = 50});
+    pros::delay(10); 
 
-        pros::delay(100);
-    chassis.cancelAllMotions();
-    forwards(6000, -6000);
-    pros::delay(100);
-  forwards(0, 0);
+     //   pros::delay(1000);
+//     chassis.cancelAllMotions();
+//     forwards(6000, -6000);
+//     pros::delay(100);
+//   forwards(0, 0);
 
 
 break;
 
-case 2088: // skill
+case 2088: // skills
 intakeone(12000);
      chassis.moveToPoint(0, 19.511, 500, {.maxSpeed = 90});
      chassis.turnToHeading(15, 200);
@@ -857,8 +865,8 @@ intakeone(12000);
     chassis.moveToPoint(20.7, 44, 2000, {.forwards = false, .maxSpeed = 50});
     chassis.moveToPoint(20, 20, 1000);
 
-    chassis.turnToPoint(-4, -4, 1000);
-    chassis.moveToPoint(-4, -4, 1000, {.forwards = true, .minSpeed = 70});
+    chassis.turnToPoint(0, -8, 1000);
+    chassis.moveToPoint(0, -8, 1000, {.forwards = true, .minSpeed = 70});
 
 break;
 
