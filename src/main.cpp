@@ -883,7 +883,7 @@ void autonomous() {
     pros::delay(1200);
     chassis.moveToPoint(30.8, 34, 1000, {.forwards = false, .maxSpeed = 90});
     intakeall(12000);
-    pros::delay(1000);
+    pros::delay(1000); // commit
     intakeall(-12000);
     pros::delay(300);
     intakeall(12000);
