@@ -194,7 +194,7 @@ if (c > a) {
 else {
     w = a - c;
 }
-tan(w/b);
+theta = tan(w/b);
 
 d2 = d + width/2;
 e2 = cos(theta) * d2;
