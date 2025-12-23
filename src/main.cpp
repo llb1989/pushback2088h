@@ -89,6 +89,28 @@ void forwards(int intakepower, int left) {
 bool locktoggle = false;
 bool slowtoggle = false;
 
+
+ pros::Distance sensor1(5); // right side
+ pros::Distance sensor2(6); //  right side middle
+ pros::Distance sensor3(7); // left side middle
+ pros::Distance sensor4(8); // left side
+
+int d = 1;
+int c = 1;
+int a = 1;
+int w = 1;
+int b = 5;
+int d2 = 1;
+int e2 = 1;
+int y2 = 1;
+int x2 = 1;
+int width = 67;
+int length = 67;
+int theta = 67;
+
+
+
+
 // // tracking wheels
 // // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
 // pros::Rotation horizontalEnc(20);
@@ -157,6 +179,54 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
+
+
+void distancesensorresetright() {
+sensor1.get();
+sensor2.get();
+sensor3.get();
+c = sensor2.get();
+a = sensor3.get();
+d = sensor1.get();
+if (c > a) {
+    w = c - a;
+}
+else {
+    w = a - c;
+}
+tan(w/b);
+
+d2 = d + width/2;
+e2 = cos(theta) * d2;
+y2 = ((c + a) / 2) + length / 2;
+x2 = cos(theta) * y2;
+
+chassis.setPose(e2,x2,theta);
+};
+
+void distancesensorresetleft() {
+sensor4.get();
+sensor2.get();
+sensor3.get();
+c = sensor2.get();
+a = sensor3.get();
+d = sensor4.get();
+if (c > a) {
+    w = c - a;
+}
+else {
+    w = a - c;
+}
+tan(w/b);
+
+d2 = d + width/2;
+e2 = cos(theta) * d2;
+y2 = ((c + a) / 2) + length / 2;
+x2 = cos(theta) * y2;
+
+chassis.setPose(e2,x2,theta);
+};
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
