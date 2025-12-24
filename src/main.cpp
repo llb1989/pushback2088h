@@ -204,7 +204,7 @@ x2 = cos(theta * M_PI / 180.0) * y2;
 chassis.setPose(e2,x2,theta);
 };
 
-void distancesensorresetright() {
+void distancesensorresetleft() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
