@@ -95,18 +95,18 @@ bool slowtoggle = false;
  pros::Distance sensor3(7); // left side middle
  pros::Distance sensor4(8); // left side
 
-int d = 1;
-int c = 1;
-int a = 1;
-int w = 1;
+double d = 1;
+double c = 1;
+double  a = 1;
+double  w = 1;
 int b = 5;
-int d2 = 1;
-int e2 = 1;
-int y2 = 1;
-int x2 = 1;
-int width = 67;
-int length = 67;
-int theta = 67;
+double  d2 = 1;
+double  e2 = 1;
+double  y2 = 1;
+double  x2 = 1;
+int  width = 67;
+int  length = 67;
+double  theta = 67;
 
 
 
@@ -182,9 +182,7 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 
 void distancesensorresetright() {
-sensor1.get();
-sensor2.get();
-sensor3.get();
+    //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
 d = sensor1.get();
@@ -194,20 +192,20 @@ if (c > a) {
 else {
     w = a - c;
 }
-theta = tan(w/b);
+theta = atan(w / b) * 180.0 / M_PI;
 
-d2 = d + width/2;
-e2 = cos(theta) * d2;
-y2 = ((c + a) / 2) + length / 2;
-x2 = cos(theta) * y2;
+
+
+d2 = d + (width / 2);
+e2 = cos(theta * M_PI / 180.0) * d2;
+y2 = ((c + a) / 2) + (length / 2);
+x2 = cos(theta * M_PI / 180.0) * y2;
 
 chassis.setPose(e2,x2,theta);
 };
 
-void distancesensorresetleft() {
-sensor4.get();
-sensor2.get();
-sensor3.get();
+void distancesensorresetright() {
+    //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
 d = sensor4.get();
@@ -217,12 +215,14 @@ if (c > a) {
 else {
     w = a - c;
 }
-tan(w/b);
+theta = atan(w / b) * 180.0 / M_PI;
 
-d2 = d + width/2;
-e2 = cos(theta) * d2;
-y2 = ((c + a) / 2) + length / 2;
-x2 = cos(theta) * y2;
+
+
+d2 = d + (width / 2);
+e2 = cos(theta * M_PI / 180.0) * d2;
+y2 = ((c + a) / 2) + (length / 2);
+x2 = cos(theta * M_PI / 180.0) * y2;
 
 chassis.setPose(e2,x2,theta);
 };
