@@ -21,10 +21,8 @@ void nextState() {
     }
 }
 
-
 bool locktoggle = false;
-bool slowtoggle = false;
-
+// bool slowtoggle = false;
 
  pros::Distance sensor1(5); // right side
  pros::Distance sensor2(6); //  right side middle
@@ -181,7 +179,7 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 void autonomous() {
  
     int autonumber = currAuto;
-    switch (1) {
+    switch (67) {
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -206,8 +204,9 @@ void autonomous() {
         break;
 
         case 67: // pid tuning 
-        chassis.setPose(0,0,0);
-        chassis.moveToPoint(0, 24, 1500);
+        chassis.setPose(0, 0, 0);
+    // turn to face heading 90 with a very long timeout
+    chassis.turnToHeading(90, 100000);
         break;
     }
 }
@@ -244,21 +243,11 @@ void opcontrol() {
             locktoggle = !locktoggle; 
         }
 
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) { // turn lock on and off
-            slowtoggle = !slowtoggle; 
-        }
-        
-        if (locktoggle && slowtoggle) { 
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-                intakeone(5000);
-            } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                intakeone(5000);
-            } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-                intakeone(-5000);
-            } else {
-                intakeall(0);
-            }
-        } else if (locktoggle) {
+        // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) { // turn lock on and off
+        //     slowtoggle = !slowtoggle; 
+        // }
+
+        if (locktoggle) {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
                 intakeone(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
@@ -267,22 +256,12 @@ void opcontrol() {
                 intakeone(-12000);
             } else {
                 intakeall(0);
-            }
-        } else if (slowtoggle) {
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-                intakeall(5000);
-            } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                intakemiddle(5000);
-            } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-                intakeall(-5000);
-            } else {
-                intakeall(0);
-            }
+            } 
         } else {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
                 intakeall(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                intakemiddle(12000);
+                intakemiddle(12000); //. intake middle meow
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
                 intakeall(-12000);
             } else {
@@ -290,9 +269,9 @@ void opcontrol() {
             }
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-            chickenstars.toggle();
-        }
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        chickenstars.toggle();
+    }
 
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();

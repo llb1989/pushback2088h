@@ -140,6 +140,10 @@ void left_elims(){
 }
 //right elims
 void right_elims(){
-    
+
 }
 
+// void tuning_pid (){
+//     chassis.setPose(0,0,0);
+//     chassis.moveToPoint(0, 24, 10000);
+// }
