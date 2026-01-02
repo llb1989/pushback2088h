@@ -172,14 +172,14 @@ void competition_initialize() {}
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  
 /**
- * Runs during auto
+ * Runs during auto-mode
  *
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
  
     int autonumber = currAuto;
-    switch (67) {
+    switch (3) {
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -203,10 +203,51 @@ void autonomous() {
         skills();
         break;
 
+        case 6: //right 
+        chassis.setPose(0, 0, 0);
+    intakeone(12000);
+     chassis.moveToPoint(0, 22, 500, {.maxSpeed = 90});
+     chassis.turnToHeading(15, 200);
+     pros::delay(500);
+
+    chassis.moveToPoint(5.273, 38.067, 1000, {.maxSpeed = 40});
+    pros::delay(500);
+    littlewill.toggle();
+    chassis.turnToPoint(30, 12,600, {.maxSpeed = 40});
+    chassis.moveToPoint(30, 12, 1000);
+
+    chassis.turnToHeading(180, 1050);
+    chassis.moveToPoint(34, 36, 1000, {.forwards = false, .maxSpeed = 90});
+    pros::delay(500);
+    intakeall(12000);
+     pros::delay(500);
+     intakeone(12000);
+
+    chassis.moveToPoint(34, -4, 700, {.maxSpeed = 90});
+    chassis.turnToHeading(180, 500);
+    pros::delay(400);
+    chassis.moveToPoint(34, -5, 500, {.maxSpeed = 90});
+    pros::delay(300);
+    chassis.moveToPoint(37, 35, 1000, {.forwards = false, .maxSpeed = 50});
+    chassis.moveToPoint(35, 37, 1000, {.forwards = false, .maxSpeed = 50});
+    pros::delay(1800);
+    intakeall(12000);
+    pros::delay(1000); // commit
+    intakeall(-12000);
+    pros::delay(300);
+    intakeall(12000);
+    pros::delay(2500);
+    intakeall(0);
+    chassis.moveToPoint(22, 18.128, 1000);// og 20.5
+    chassis.turnToHeading(180, 500);
+    chassis.moveToPoint(25, 47, 2000, {.forwards = false, .maxSpeed = 50});
+    pros::delay(10); 
+        break;
+
         case 67: // pid tuning 
         chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(90, 100000);
+    chassis.turnToHeading(90, 5000);
         break;
     }
 }
@@ -253,7 +294,7 @@ void opcontrol() {
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
                 intakeone(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-                intakeone(-12000);
+                intakeall(-12000);
             } else {
                 intakeall(0);
             } 

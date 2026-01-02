@@ -6,10 +6,18 @@ void intakeall(int intakepower) {
     intmotor3.move_voltage(intakepower);
         
 }
+
+void intakeout(int intakepower) {
+    midgoal.set_value(true);
+    intmotor1.move_voltage(intakepower);
+    intmotor3.move_voltage(-intakepower);
+        
+}
+
 void intakeone(int intakepower) {
     midgoal.set_value(true);
     intmotor1.move_voltage(intakepower);
-    intmotor3.move_voltage(-intakepower + 8000);
+    intmotor3.move_voltage(-intakepower + 6000 );
  
 }
 

@@ -20,25 +20,28 @@ void left_auto(){
 
 //right
 void right_auto() {
+    chassis.setPose(0, 0, 0);
     intakeone(12000);
-     chassis.moveToPoint(0, 19.511, 500, {.maxSpeed = 90});
+     chassis.moveToPoint(0, 22, 500, {.maxSpeed = 90});
      chassis.turnToHeading(15, 200);
      pros::delay(500);
 
-     chassis.moveToPoint(5.273, 35.067, 750, {.maxSpeed = 50});
-     pros::delay(500);
-         littlewill.toggle();
-     chassis.turnToPoint(29.375, 12.919, 500); // 31 12
-     chassis.moveToPoint(29.375, 12.919, 1000, {.maxSpeed = 90});
+    chassis.moveToPoint(5.273, 38.067, 1000, {.maxSpeed = 50});
+    pros::delay(500);
+    littlewill.toggle();
+    chassis.turnToPoint(33, 12,600, {.maxSpeed = 50});
+    chassis.moveToPoint(33, 12, 1000);
 
-     chassis.turnToHeading(180, 500);
-     chassis.moveToPoint(29.8, 0, 500, {.maxSpeed = 60});
-     pros::delay(1000);
-     chassis.moveToPoint(30.8, -2, 500, {.maxSpeed = 60});
-     pros::delay(1000);
-    chassis.moveToPoint(30.8, 32, 1000, {.forwards = false, .maxSpeed = 90});
-    pros::delay(1200);
-    chassis.moveToPoint(30.8, 34, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.turnToHeading(180, 1050);
+    pros::delay(100); 
+    chassis.moveToPoint(35, -4, 700, {.maxSpeed = 90});
+    chassis.turnToHeading(180, 500);
+    pros::delay(400);
+    chassis.moveToPoint(35, -5, 500, {.maxSpeed = 90});
+    pros::delay(300);
+    chassis.moveToPoint(36, 35, 1000, {.forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(34.4, 37, 800, {.forwards = false, .maxSpeed = 70});
+    pros::delay(1800);
     intakeall(12000);
     pros::delay(1000); // commit
     intakeall(-12000);
@@ -46,9 +49,9 @@ void right_auto() {
     intakeall(12000);
     pros::delay(2400);
     intakeall(0);
-    chassis.moveToPoint(20.5, 25.128, 1000);// og 20.5
+    chassis.moveToPoint(22, 18.128, 1000);// og 20.5
     chassis.turnToHeading(180, 500);
-    chassis.moveToPoint(20.5, 44, 2000, {.forwards = false, .maxSpeed = 50});
+    chassis.moveToPoint(26, 47, 2000, {.forwards = false, .maxSpeed = 50});
     pros::delay(10); 
 }
 

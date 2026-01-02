@@ -31,42 +31,42 @@ pros::Motor intmotor3(-19); // top // 19
 // Inertial Sensor on port 19
 pros::Imu imu(14);
 
-pros::Rotation rotation(17);
-lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_275, -2);
+pros::Rotation rotation(16);
+lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_2, -4.25);
 
 pros::adi::Pneumatics littlewill('E', false);
 pros::adi::Pneumatics chickenstars('A', false); // die
-pros::adi::Pneumatics midgoal('B', true);
+pros::adi::Pneumatics midgoal('B', false);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              13.5, // 25 holes?
+                              12.5, // 25 holes?
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 450
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5, // proportional gain (kP) 5.58
+lemlib::ControllerSettings linearController(5.18, // proportional gain (kP) 5.58
                                             0, // integral gain (kI) 
-                                            2, // derivative gain (kD) 19.05
+                                            5.8, // derivative gain (kD) 19.05
                                             3, // anti windup
-                                            1, // small error range, in inches
+                                            0.1, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
-                                            2, // large error range, in inches
+                                            1, // large error range, in inches
                                             500, // large error range timeout, in milliseconds
-                                            127 // maximum acceleration (slew)
+                                            100 // maximum acceleration (slew)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP) 
+lemlib::ControllerSettings angularController(1.844, // proportional gain (kP) 
                                              0, // integral gain (kI) 
-                                             20, // derivative gain (kD)
+                                             13.222, // derivative gain (kD)
                                              0, // anti windup
                                              0, // small error range, in degrees
                                              0, // small error range timeout, in milliseconds
-                                             2, // large error range, in degrees
+                                             0.5, // large error range, in degrees
                                              0, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
 );
