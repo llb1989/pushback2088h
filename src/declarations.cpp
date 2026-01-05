@@ -10,7 +10,7 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({15, -8, -14}, pros::MotorGearset::blue);   
+pros::MotorGroup leftMotors({15, -20, -14}, pros::MotorGearset::blue);   
 pros::MotorGroup rightMotors({-1, 6, 12 }, pros::MotorGearset::blue);  
 
 // top right is 1
@@ -35,7 +35,7 @@ pros::Rotation rotation(16);
 lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_2, -4.25);
 
 pros::adi::Pneumatics littlewill('E', false);
-pros::adi::Pneumatics chickenstars('A', false); // die
+pros::adi::Pneumatics chickenstars('D', false);
 pros::adi::Pneumatics midgoal('B', false);
 
 // drivetrain settings
@@ -48,7 +48,7 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5.18, // proportional gain (kP) 5.58
+lemlib::ControllerSettings linearController(4.8, // proportional gain (kP) 5.58
                                             0, // integral gain (kI) 
                                             5.8, // derivative gain (kD) 19.05
                                             3, // anti windup
@@ -62,7 +62,7 @@ lemlib::ControllerSettings linearController(5.18, // proportional gain (kP) 5.58
 // angular motion controller
 lemlib::ControllerSettings angularController(1.844, // proportional gain (kP) 
                                              0, // integral gain (kI) 
-                                             13.222, // derivative gain (kD)
+                                             13.24, // derivative gain (kD)
                                              0, // anti windup
                                              0, // small error range, in degrees
                                              0, // small error range timeout, in milliseconds

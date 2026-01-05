@@ -177,7 +177,7 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
- 
+
     int autonumber = currAuto;
     switch (2) {
 
@@ -247,7 +247,7 @@ void autonomous() {
         case 67: // pid tuning 
         chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(90, 5000);
+    chassis.moveToPoint(0, 48, 5000);
         break;
     }
 }
