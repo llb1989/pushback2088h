@@ -179,7 +179,7 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 void autonomous() {
 
     int autonumber = currAuto;
-    switch (2) {
+    switch (3) {
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -247,7 +247,7 @@ void autonomous() {
         case 67: // pid tuning 
         chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.moveToPoint(0, 48, 5000);
+    chassis.turnToHeading(90, 1000);
         break;
     }
 }

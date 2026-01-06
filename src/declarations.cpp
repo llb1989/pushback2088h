@@ -29,7 +29,7 @@ pros::Motor intmotor1(-4); // first stage // 4
 pros::Motor intmotor3(-19); // top // 19
 
 // Inertial Sensor on port 19
-pros::Imu imu(14);
+pros::Imu imu(2);
 
 pros::Rotation rotation(16);
 lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_2, -4.25);
@@ -60,7 +60,7 @@ lemlib::ControllerSettings linearController(4.8, // proportional gain (kP) 5.58
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.844, // proportional gain (kP) 
+lemlib::ControllerSettings angularController(1.834, // proportional gain (kP) 
                                              0, // integral gain (kI) 
                                              13.24, // derivative gain (kD)
                                              0, // anti windup
