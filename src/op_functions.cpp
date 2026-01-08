@@ -1,35 +1,35 @@
 #include "declarations.hpp"
 
 void intakeall(int intakepower) {
-    midgoal.set_value(true);
+    midgoal.set_value(false);
     intmotor1.move_voltage(intakepower);
     intmotor3.move_voltage(intakepower);
         
 }
 
 void intakeout(int intakepower) {
-    midgoal.set_value(true);
+    midgoal.set_value(false);
     intmotor1.move_voltage(intakepower);
     intmotor3.move_voltage(-intakepower);
         
 }
 
 void intakeone(int intakepower) {
-    midgoal.set_value(true);
+    midgoal.set_value(false);
     intmotor1.move_voltage(intakepower);
     intmotor3.move_voltage(-intakepower + 6000 );
  
 }
 
 void intakeback(int intakepower) {
-    midgoal.set_value(true);
+    midgoal.set_value(false);
     intmotor1.move_voltage(0);
     intmotor3.move_voltage(intakepower);
 
 }
 
 void intakemiddle(int intakepower) {
-    midgoal.set_value(false);
+    midgoal.set_value(true);
     intmotor1.move_voltage(intakepower);
     intmotor3.move_voltage(- intakepower);
 } 

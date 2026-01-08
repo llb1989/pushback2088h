@@ -9,33 +9,33 @@
 // controller
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-// motor groups
-pros::MotorGroup leftMotors({15, -20, -14}, pros::MotorGearset::blue);   
-pros::MotorGroup rightMotors({-1, 6, 12 }, pros::MotorGearset::blue);  
+// motor groups   
+pros::MotorGroup leftMotors({-17, 9, -18}, pros::MotorGearset::blue);   
+pros::MotorGroup rightMotors({20, -16, 14 }, pros::MotorGearset::blue);  
 
-// top right is 1
-// bottom back right is 6
-// bottom front right is 12
+// top right is 1 - acc 20 real
+// bottom back right is 6 - acc 16 real
+// bottom front right is 12 - acc 14 real
 
-// top left is 15
-// bottom back left is 8
-// bottom front left is 14 
+// top left is 15 - acc 17 real
+// bottom back left is 8 - acc 11 real
+// bottom front left is 14 - acc 18 real
 
 pros::adi::Button autonselectbutton('C');
 
 
 //intake mototro
-pros::Motor intmotor1(-4); // first stage // 4
-pros::Motor intmotor3(-19); // top // 19
+pros::Motor intmotor1(-8); // first stage // 4
+pros::Motor intmotor3(-15); // top // 19
 
 // Inertial Sensor on port 19
 pros::Imu imu(2);
 
-pros::Rotation rotation(16);
+pros::Rotation rotation(1);
 lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_2, -4.25);
 
 pros::adi::Pneumatics littlewill('E', false);
-pros::adi::Pneumatics chickenstars('D', false);
+pros::adi::Pneumatics chickenstars('D', true);
 pros::adi::Pneumatics midgoal('B', false);
 
 // drivetrain settings
