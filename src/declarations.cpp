@@ -35,7 +35,7 @@ pros::Rotation rotation(1);
 lemlib::TrackingWheel horizontal_tracking_wheel(&rotation, lemlib::Omniwheel::NEW_2, -4.25);
 
 pros::adi::Pneumatics littlewill('E', false);
-pros::adi::Pneumatics chickenstars('D', true);
+pros::adi::Pneumatics chickenstars('D', false);
 pros::adi::Pneumatics midgoal('B', false);
 
 // drivetrain settings
