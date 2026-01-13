@@ -179,14 +179,14 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 void autonomous() {
 
     int autonumber = currAuto;
-    switch (4) {
+    switch (3) {
 
         case 1: // forwards
         forwards(8000, 8000);
         pros::delay(100);
         forwards(0, 0);
         break;
-
+                                                                                                                                                                      
         case 2: // left
         left_auto();
         break;
