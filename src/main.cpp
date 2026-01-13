@@ -47,12 +47,12 @@ void distancesensorresetright() {
 c = sensor2.get();
 a = sensor3.get();
 d = sensor1.get();
-if (c > a) {
-    w = c - a;
-}
-else {
-    w = a - c;
-}
+// if (c > a) {
+     w = c - a;
+// }
+// else {
+//     w = a - c;
+// }
 theta = atan(w / b) * 180.0 / M_PI;
 
 
@@ -312,8 +312,8 @@ void opcontrol() {
 
     if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         chickenstars.toggle();
-    }
-
+      }
+    
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();
     }
