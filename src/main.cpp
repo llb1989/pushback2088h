@@ -42,7 +42,7 @@ int  width = 67;
 int  length = 67;
 double  theta = 67;
 
-void distancesensorresetright() {
+void rightdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
@@ -64,7 +64,7 @@ x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x
 chassis.setPose(e2,x2,theta);
 };
 
-void distancesensorresetleft() {
+void leftdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
