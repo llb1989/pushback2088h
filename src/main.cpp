@@ -42,17 +42,17 @@ int  width = 67;
 int  length = 15; 
 double  theta = 1;
 
-void distancesensorresetright() {
+void rightdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
 d = sensor1.get();
-if (c > a) {
-    w = c - a;
-}
-else {
-    w = a - c;
-}
+// if (c > a) {
+     w = c - a;
+// }
+// else {
+//     w = a - c;
+// }
 theta = atan(w / b) * 180.0 / M_PI;
 
 d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
@@ -65,7 +65,7 @@ x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x
 chassis.setPose(e2,x2,theta);
 };
 
-void distancesensorresetleft() {
+void leftdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
@@ -338,8 +338,8 @@ void opcontrol() {
 
     if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         chickenstars.toggle();
-    }
-
+      }
+    
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();
     }
