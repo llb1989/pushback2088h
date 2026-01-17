@@ -25,7 +25,7 @@ bool locktoggle = false;
 // bool slowtoggle = false;
 
  pros::Distance sensor1(6); // right side
- pros::Distance sensor2(5); //  right side middle
+ pros::Distance sensor2(5); // right side middle
  pros::Distance sensor3(4); // left side middle
  pros::Distance sensor4(7); // left side
 
