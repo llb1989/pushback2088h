@@ -20,26 +20,30 @@ void nextState() {
         currAuto = 1;
     }
 }
-
+void intakeonemid(int intakepower) {
+    midgoal.set_value(true);
+    intmotor1.move_voltage(intakepower);
+    intmotor3.move_voltage(-intakepower + 6000 );
+}
 bool locktoggle = false;
 // bool slowtoggle = false;
 
- pros::Distance sensor1(6); // right side
- pros::Distance sensor2(5); // right side middle
- pros::Distance sensor3(4); // left side middle
- pros::Distance sensor4(7); // left side
+ pros::Distance sensor1(12);
+ pros::Distance sensor2(20); 
+ pros::Distance sensor3(21); 
+ pros::Distance sensor4(19);
 
 double d = 1;
 double c = 1;
 double  a = 1;
 double  w = 1;
-int b = 7.5;
+double b = 172;
 double  d2 = 1;
 double  e2 = 1;
 double  y2 = 1;
 double  x2 = 1;
-int  width = 67;
-int  length = 15; 
+double  width = 279.4; // 13.5? // 11.5? // 12?
+double  length = 292.1; //  15?
 double  theta = 1;
 
 void rightdsr() {
@@ -62,7 +66,10 @@ e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent
 y2 = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
 x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
 
-chassis.setPose(e2,x2,theta);
+e2 = e2 / 25.4;
+x2 = x2 / 25.4;
+
+// chassis.setPose(e2,x2,theta);
 };
 
 void leftdsr() {
@@ -70,40 +77,50 @@ void leftdsr() {
 c = sensor2.get();
 a = sensor3.get();
 d = sensor4.get();
-if (c > a) {
-    w = c - a;
-}
-else {
-    w = a - c;
-}
+
+     w = c - a;
+
 theta = atan(w / b) * 180.0 / M_PI;
 
-d2 = d + (width / 2);
-e2 = cos(theta * M_PI / 180.0) * d2;
-y2 = ((c + a) / 2) + (length / 2);
-x2 = cos(theta * M_PI / 180.0) * y2;
+d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
+e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
 
-chassis.setPose(e2,x2,theta);
+//  back of robot? 
+y2 = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
+x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
+
+e2 = e2 / 25.4;
+x2 = x2 / 25.4;
+
+// chassis.setPose(e2,x2,theta);
 };
 
-void displaydata(){
+void backdsr(){
+    //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
-d = sensor4.get();
-if (c > a) {
     w = c - a;
-}
-else {
-    w = a - c;
-}
+
 theta = atan(w / b) * 180.0 / M_PI;
 
-d2 = d + (width / 2);
-e2 = cos(theta * M_PI / 180.0) * d2;
 y2 = ((c + a) / 2) + (length / 2);
 x2 = cos(theta * M_PI / 180.0) * y2;
+
 }
 
+void alldsr(bool right, bool left){
+    if (right == true){
+        rightdsr();
+        chassis.setPose(e2,x2,theta);
+    }
+    else if (left == true) {
+        leftdsr();
+        chassis.setPose(e2,x2,theta);
+    }
+    else {
+        backdsr();
+    }
+}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -123,15 +140,20 @@ void initialize() {
     // works, refer to the fmtlib docs
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
+        
         while (true) {
         double drivetrainTemp = (rightMotors.get_temperature() + leftMotors.get_temperature()) / 2;
-
         // print measurements from the rotation sensor
-        pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
-        pros::lcd::print(7, "Temp: %0.1f", drivetrainTemp);
-        pros::lcd::print(3, "c: %d mm\n", sensor2.get());
-        pros::lcd::print(4, "a: %d mm\n", sensor3.get());
-       
+        // pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
+        pros::lcd::print(3, "Temp: %0.1f", drivetrainTemp);
+        // pros::lcd::print(3, "c: %d mm\n", sensor2.get());
+        // pros::lcd::print(4, "a: %d mm\n", sensor3.get());
+        pros::lcd::print(4, "dR: %d mm\n", sensor1.get());
+        // // pros::lcd::print(1, "dL: %d mm\n", sensor4.get());
+        pros::lcd::print(5, "distance theta: %0.1f", theta); // heading
+        pros::lcd::print(6, "x2: %0.1f", x2); 
+        pros::lcd::print(7, "e2: %0.1f", e2); 
+
             if (currAuto == 1) {
             job = "right auto";
             } else if (currAuto == 2) {
@@ -154,7 +176,7 @@ void initialize() {
             // pros::lcd::print(3, "Auto: %d", currAuto);
             // pros::lcd::print(4, "Auto name: %s", job);
             // master.print(1, 2, "Auto: %d", currAuto);
-            master.print(1, 2, "Y: %f", chassis.getPose().y);
+            // master.print(1, 2, "Y: %f", chassis.getPose().y);
             //master.print(1, 2, "Auto?: %s", job);
 
 
@@ -178,7 +200,6 @@ void disabled() { // auto select
     nextState();
     }
     // master.print(1, 2, "Auto: %f", currAuto);
-    master.print(1, 3, "Y: %f", chassis.getPose().y);
 }
 }
 
@@ -199,7 +220,7 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 void autonomous() {
 
     int autonumber = currAuto;
-    switch (4) {
+    switch (70){
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -265,12 +286,25 @@ void autonomous() {
         break;
 
         case 67: // pid tuning 
+        alldsr(false, true);
+        pros::delay(3000);
+        // chassis.setPose(7.5, 6.75, 0);
+        chassis.moveToPoint(7.5, 31.5, 2000);
+        pros::delay(10000);
+        alldsr(false, true);
+        break;
+
+        case 69:
+        alldsr(false, true);
+        break;
+
+        case 70:
         chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
-    // chassis.moveToPose(0, 48, 0, 100000, {.maxSpeed = 40});
-    chassis.moveToPoint(0, 48, 3000);
-    // pros::delay(2000);
-    // chassis.moveToPoint(-10, 80, 3000);
+        // chassis.turnToHeading(90, 2000);
+        // chassis.turnToHeading(180, 2000);
+        // chassis.turnToHeading(0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE});
+        chassis.moveToPoint(0, 48, 5000);
+        chassis.moveToPoint(0, 0, 5000, {.forwards = false});
         break;
     }
 }
@@ -284,8 +318,6 @@ void opcontrol() {
     master.print(1, 3, "Y: %f", chassis.getPose().y);
     // loop to continuously update motors
     while (true) {
-
-        displaydata();
 
         // get joystick positions
         int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -318,7 +350,7 @@ void opcontrol() {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
                 intakeone(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                intakeone(12000);
+                intakeonemid(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
                 intakeall(-12000);
             } else {

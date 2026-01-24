@@ -14,12 +14,15 @@ void intakeout(int intakepower) {
         
 }
 
+
+
 void intakeone(int intakepower) {
     midgoal.set_value(false);
     intmotor1.move_voltage(intakepower);
     intmotor3.move_voltage(-intakepower + 6000 );
  
 }
+
 
 void intakeback(int intakepower) {
     midgoal.set_value(false);
