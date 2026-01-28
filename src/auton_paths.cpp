@@ -278,25 +278,75 @@ void sawp(){
   
 }
 
-void right_goal_rush() {
+void left_and_mid_rush() {
     chassis.setPose(0, 0, 0);
     intakeone(12000);
-    chassis.moveToPoint(0, 42, 1500, {.maxSpeed = 90});
-    chassis.turnToHeading(90, 500);
-    littlewill.toggle();
-    chassis.moveToPoint(14, 42, 1000, {.maxSpeed = 90});
-    pros::delay(200);
-    chassis.moveToPoint(16, 42, 1000, {.maxSpeed = 90});
-    pros::delay(200);
-    chassis.moveToPoint(-20, 42, 1000, {.forwards = false, .maxSpeed = 90});
-    pros::delay(300);
+        littlewill.toggle();
+    chassis.moveToPoint(0, 39, 1250, {.maxSpeed = 80});
+    chassis.turnToHeading(-90, 300);
+
+    chassis.moveToPoint(-18, 39, 1000, {.maxSpeed = 90});
+    pros::delay(650);
+    // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
+    intakeone(0);
+    // pros::delay(200);
+    chassis.moveToPoint(20, 39, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.waitUntilDone();
     intakeall(12000);
-    pros::delay(1000);
+    pros::delay(1200);
     intakeone(12000);
-    chassis.moveToPoint(-12, 36, 1000);
+    littlewill.toggle();
+
+    chassis.moveToPoint(20, 18, 1000);
+    chassis.waitUntilDone();
+    littlewill.toggle();
+
+    chassis.turnToHeading(-45, 500);
+    chassis.moveToPoint(32, 11, 750, {.forwards = false, .maxSpeed = 90});
+    chassis.waitUntilDone();
+    intakemiddle(12000);
+    pros::delay(1500);
+    intakeone(12000);
+littlewill.toggle();
+    chassis.moveToPoint(15, 25, 750, {.forwards = false});
+        chassis.turnToHeading(-270, 300, {.maxSpeed = 60});
+    chassis.moveToPoint(25, 45, 1000, {.forwards = true, .maxSpeed = 90});
+    chassis.turnToHeading(150, 500, {.maxSpeed = 60});
+
+}
+
+void right_goal_rush() {
+    pros::delay(20);
+    chassis.setPose(0, 0, 0);
+    intakeone(12000);
+        littlewill.toggle();
+    chassis.moveToPoint(0, 39, 1250, {.maxSpeed = 80});
     chassis.turnToHeading(90, 300);
-    chassis.moveToPoint(-44, 38, 1000, {.forwards = false, .maxSpeed = 90});
+
+    chassis.moveToPoint(18 , 37, 1000, {.maxSpeed = 90});
+    pros::delay(650);
+    // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
+    // pros::delay(200);
+    chassis.moveToPoint(-20, 39, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.waitUntilDone();
+    intakeall(12000);
+    pros::delay(400);
+    intakeall(-12000);
+    pros::delay(100);
+    intakeall(12000);
+    pros::delay(800);
+    intakeone(12000);
+    littlewill.toggle();
+
+    chassis.moveToPoint(-20, 14, 1000);
+    chassis.waitUntilDone();
+    littlewill.toggle();
+
+    chassis.moveToPoint(-17, 23.5, 500, {.forwards = false});
+        chassis.turnToHeading(90, 300, {.maxSpeed = 60});
+    chassis.moveToPoint(-35, 32, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(60, 500);
+    intakeall(0);
 }
 
 void right_mid(){

@@ -13,8 +13,10 @@ extern pros::Motor intmotor3; // top // 41
 
 extern pros::Imu imu;
 
-extern pros::Rotation rotation;
+extern pros::Rotation hrotation;
+extern pros::Rotation vrotation;
 extern lemlib::TrackingWheel horizontal_tracking_wheel;
+extern lemlib::TrackingWheel vertical_tracking_wheel;
 
 extern pros::adi::Pneumatics littlewill;
 extern pros::adi::Pneumatics chickenstars;

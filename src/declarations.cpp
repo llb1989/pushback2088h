@@ -6,6 +6,7 @@
 #include "pros/misc.h"
 #include "pros/rotation.hpp"
 #include "pros/rtos.hpp"
+#include <cstddef>
 
 
 // controller
@@ -35,7 +36,7 @@ pros::Imu imu(2);
 
 pros::Rotation hrotation(1);
 pros::Rotation vrotation(-7);
-lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_2, 1.377);
+lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_2, -1.377);
 lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, lemlib::Omniwheel::NEW_2, 0.114); // need to change
 
 pros::adi::Pneumatics littlewill('E', false);
@@ -52,14 +53,14 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(3.5, // proportional gain (kP) 5.58
+lemlib::ControllerSettings linearController(4.29543 , // proportional gain (kP) 5.58 4.15
                                             0, // integral gain (kI) 
-                                            1, // derivative gain (kD) 19.05
+                                            5.9, // derivative gain (kD) 19.05
                                             0, // anti windup
-                                            1, // small error range, in inches
-                                            500, // small error range timeout, in milliseconds
-                                            5, // large error range, in inches
-                                            1000, // large error range timeout, in milliseconds
+                                            0, // small error range, in inches
+                                            0, // small error range timeout, in milliseconds
+                                            0, // large error range, in inches
+                                            0, // large error range timeout, in milliseconds
                                             0 // maximum acceleration (slew)
 );
 
@@ -79,7 +80,7 @@ lemlib::ControllerSettings angularController(1.55, // proportional gain (kP)
 // sensors for odometry
 lemlib::OdomSensors sensors(
     // &vertical, // vertical tracking wheel
-                            &vertical_tracking_wheel, // &vertical, // vertical tracking wheel
+                        &vertical_tracking_wheel, // &vertical, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             &horizontal_tracking_wheel, // &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one

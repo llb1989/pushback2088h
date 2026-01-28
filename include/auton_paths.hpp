@@ -12,4 +12,5 @@ void right_mid(); // i love lyla
 void skills_freaky();
 void right_goal_rush(); // lyla my favourite gay girlie
 void leftmirrored(); // -- 2088H
+void left_and_mid_rush();
 // void tuning_pid (); 

@@ -148,7 +148,6 @@ void initialize() {
         pros::lcd::print(3, "Temp: %0.1f", drivetrainTemp);
         // pros::lcd::print(3, "c: %d mm\n", sensor2.get());
         // pros::lcd::print(4, "a: %d mm\n", sensor3.get());
-        pros::lcd::print(4, "dR: %d mm\n", sensor1.get());
         // // pros::lcd::print(1, "dL: %d mm\n", sensor4.get());
         pros::lcd::print(5, "distance theta: %0.1f", theta); // heading
         pros::lcd::print(6, "x2: %0.1f", x2); 
@@ -182,8 +181,11 @@ void initialize() {
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+                master.print(1, 1, "Y: %f", chassis.getPose().y);
+
             // delay to save resources
             pros::delay(50);
+            
         }
     });
 }
@@ -192,6 +194,8 @@ void initialize() {
  * Runs while the robot is disabled
  */
 void disabled() { // auto select
+        master.print(1, 1, "Y: %f", chassis.getPose().y);
+
     while (true) {
         if (autonselectbutton.get_new_press()) {
     nextState();
@@ -218,9 +222,10 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
+    master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (70){
+    switch (8){
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -242,6 +247,14 @@ void autonomous() {
 
         case 5: // skills
         skills();
+        break;
+
+        case 7:
+        right_goal_rush();
+        break;
+
+        case 8:
+        left_and_mid_rush();
         break;
 
         case 6: //right 
@@ -302,9 +315,9 @@ void autonomous() {
         chassis.setPose(0, 0, 0);
         // chassis.turnToHeading(90, 2000);
         // chassis.turnToHeading(180, 2000);
-        // chassis.turnToHeading(0, 2000, {.direction = AngularDirection::CCW_COUNTERCLOCKWISE});
-        chassis.moveToPoint(0, 48, 5000);
-        chassis.moveToPoint(0, 0, 5000, {.forwards = false});
+        // chassis.turnToHeading(0, 2000, {.direction = pAngularDirection::CCW_COUNTERCLOCKWISE});
+        pros::delay(10);
+        chassis.moveToPoint(0, 24, 10000, {.maxSpeed = 100});
         break;
     }
 }
@@ -313,11 +326,9 @@ void autonomous() {
  * Runs in driver control
  */
 void opcontrol() {
-    // controller
-    // master.print(1, 2, "Auto: %f", currAuto);
-    master.print(1, 3, "Y: %f", chassis.getPose().y);
-    // loop to continuously update motors
+
     while (true) {
+        master.print(1, 1, "Y: %f", chassis.getPose().y);
 
         // get joystick positions
         int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
