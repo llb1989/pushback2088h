@@ -43,6 +43,24 @@ pros::adi::Pneumatics littlewill('E', false);
 pros::adi::Pneumatics chickenstars('D', false);
 pros::adi::Pneumatics midgoal('B', false);
 
+pros::Distance sensor1(12);
+pros::Distance sensor2(20); 
+pros::Distance sensor3(21); 
+pros::Distance sensor4(19);
+
+double d = 1;
+double c = 1;
+double  a = 1;
+double  w = 1;
+double b = 172;
+double  d2 = 1;
+double  e2 = 1;
+double  y2 = 1;
+double  x2 = 1;
+double  width = 279.4; // 13.5? // 11.5? // 12?
+double  length = 292.1; //  15?
+double  theta = 1;
+
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group

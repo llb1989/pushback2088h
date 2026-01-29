@@ -41,3 +41,9 @@ void forwards(int intakepower, int left) {
     rightMotors.move_voltage(intakepower);
     leftMotors.move_voltage(left);
 }
+
+void intakeonemid(int intakepower) {
+    midgoal.set_value(true);
+    intmotor1.move_voltage(intakepower);
+    intmotor3.move_voltage(-intakepower + 6000 );
+}

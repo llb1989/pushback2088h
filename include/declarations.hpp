@@ -1,4 +1,4 @@
-// #include "main.h"
+#include "main.h"
 #include "lemlib/api.hpp"
 
 extern pros::Controller master;
@@ -24,3 +24,21 @@ extern pros::adi::Pneumatics midgoal;
 
 // extern lemlib::Drivetrain drivetrain;
 extern lemlib::Chassis chassis;
+
+extern pros::Distance sensor1;
+extern pros::Distance sensor2; 
+extern pros::Distance sensor3; 
+extern pros::Distance sensor4; 
+
+extern double d;
+extern double c;
+extern double a;
+extern double w;   
+extern double b;
+extern double d2;
+extern double e2;
+extern double y2;
+extern double x2;
+extern double width;
+extern double theta;   
+extern double length;
