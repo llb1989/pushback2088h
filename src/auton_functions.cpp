@@ -5,7 +5,7 @@ void rightdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
-d = sensor1.get();
+d = sensor1.get(); //blhr
      w = c - a;
 theta = atan(w / b) * 180.0 / M_PI;
 

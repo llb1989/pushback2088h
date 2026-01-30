@@ -79,7 +79,7 @@ void initialize() {
             // master.print(1, 2, "Auto: %d", currAuto);
             // master.print(1, 2, "Y: %f", chassis.getPose().y);
             //master.print(1, 2, "Auto?: %s", job);
-
+            pros::lcd::print(4, "Auto name: %s", job);
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
