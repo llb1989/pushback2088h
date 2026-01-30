@@ -318,7 +318,7 @@ void opcontrol() {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
                 intakeone(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-                intakeone(12000);
+                intakemiddle(12000);
             } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
                 intakeall(-12000);
             } else {
