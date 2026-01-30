@@ -24,87 +24,6 @@ void nextState() {
 bool locktoggle = false;
 // bool slowtoggle = false;
 
- pros::Distance sensor1(6); // right side
- pros::Distance sensor2(5); // right side middle
- pros::Distance sensor3(4); // left side middle
- pros::Distance sensor4(7); // left side
-
-double d = 1;
-double c = 1;
-double  a = 1;
-double  w = 1;
-int b = 7.5;
-double  d2 = 1;
-double  e2 = 1;
-double  y2 = 1;
-double  x2 = 1;
-int  width = 67;
-int  length = 15; 
-double  theta = 1;
-
-void rightdsr() {
-    //'*180.0/M_PI' converts radians to degrees
-c = sensor2.get();
-a = sensor3.get();
-d = sensor1.get();
-// if (c > a) {
-     w = c - a;
-// }
-// else {
-//     w = a - c;
-// }
-theta = atan(w / b) * 180.0 / M_PI;
-
-d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
-
-//  back of robot? 
-y2 = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
-x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
-
-chassis.setPose(e2,x2,theta);
-};
-
-void leftdsr() {
-    //'*180.0/M_PI' converts radians to degrees
-c = sensor2.get();
-a = sensor3.get();
-d = sensor4.get();
-if (c > a) {
-    w = c - a;
-}
-else {
-    w = a - c;
-}
-theta = atan(w / b) * 180.0 / M_PI;
-
-d2 = d + (width / 2);
-e2 = cos(theta * M_PI / 180.0) * d2;
-y2 = ((c + a) / 2) + (length / 2);
-x2 = cos(theta * M_PI / 180.0) * y2;
-
-chassis.setPose(e2,x2,theta);
-};
-
-void displaydata(){
-c = sensor2.get();
-a = sensor3.get();
-d = sensor4.get();
-if (c > a) {
-    w = c - a;
-}
-else {
-    w = a - c;
-}
-theta = atan(w / b) * 180.0 / M_PI;
-
-d2 = d + (width / 2);
-e2 = cos(theta * M_PI / 180.0) * d2;
-y2 = ((c + a) / 2) + (length / 2);
-x2 = cos(theta * M_PI / 180.0) * y2;
-}
-
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -123,15 +42,19 @@ void initialize() {
     // works, refer to the fmtlib docs
     // thread to for brain screen and position logging
     pros::Task screenTask([&]() {
+        
         while (true) {
         double drivetrainTemp = (rightMotors.get_temperature() + leftMotors.get_temperature()) / 2;
-
         // print measurements from the rotation sensor
-        pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
-        pros::lcd::print(7, "Temp: %0.1f", drivetrainTemp);
-        pros::lcd::print(3, "c: %d mm\n", sensor2.get());
-        pros::lcd::print(4, "a: %d mm\n", sensor3.get());
-       
+        // pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
+        pros::lcd::print(3, "Temp: %0.1f", drivetrainTemp);
+        // pros::lcd::print(3, "c: %d mm\n", sensor2.get());
+        // pros::lcd::print(4, "a: %d mm\n", sensor3.get());
+        // // pros::lcd::print(1, "dL: %d mm\n", sensor4.get());
+        pros::lcd::print(5, "distance theta: %0.1f", theta); // heading
+        pros::lcd::print(6, "x2: %0.1f", x2); 
+        pros::lcd::print(7, "e2: %0.1f", e2); 
+
             if (currAuto == 1) {
             job = "right auto";
             } else if (currAuto == 2) {
@@ -154,14 +77,17 @@ void initialize() {
             // pros::lcd::print(3, "Auto: %d", currAuto);
             // pros::lcd::print(4, "Auto name: %s", job);
             // master.print(1, 2, "Auto: %d", currAuto);
-            master.print(1, 2, "Y: %f", chassis.getPose().y);
+            // master.print(1, 2, "Y: %f", chassis.getPose().y);
             //master.print(1, 2, "Auto?: %s", job);
-
+            pros::lcd::print(4, "Auto name: %s", job);
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+                master.print(1, 1, "Y: %f", chassis.getPose().y);
+
             // delay to save resources
             pros::delay(50);
+            
         }
     });
 }
@@ -170,6 +96,8 @@ void initialize() {
  * Runs while the robot is disabled
  */
 void disabled() { // auto select
+        master.print(1, 1, "Y: %f", chassis.getPose().y);
+
     while (true) {
         if (autonselectbutton.get_new_press()) {
     nextState();
@@ -178,7 +106,6 @@ void disabled() { // auto select
     nextState();
     }
     // master.print(1, 2, "Auto: %f", currAuto);
-    master.print(1, 3, "Y: %f", chassis.getPose().y);
 }
 }
 
@@ -197,9 +124,10 @@ ASSET(example_txt); // '.' replaced with "_" to make c++ happy
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
+    master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (4) {
+    switch (8){
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -221,6 +149,14 @@ void autonomous() {
 
         case 5: // skills
         skills();
+        break;
+
+        case 7:
+        right_goal_rush();
+        break;
+
+        case 8:
+        left_and_mid_rush();
         break;
 
         case 6: //right 
@@ -265,12 +201,25 @@ void autonomous() {
         break;
 
         case 67: // pid tuning 
+        alldsr(false, true);
+        pros::delay(3000);
+        // chassis.setPose(7.5, 6.75, 0);
+        chassis.moveToPoint(7.5, 31.5, 2000);
+        pros::delay(10000);
+        alldsr(false, true);
+        break;
+
+        case 69:
+        alldsr(false, true);
+        break;
+
+        case 70:
         chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
-    // chassis.moveToPose(0, 48, 0, 100000, {.maxSpeed = 40});
-    chassis.moveToPoint(0, 48, 3000);
-    // pros::delay(2000);
-    // chassis.moveToPoint(-10, 80, 3000);
+        // chassis.turnToHeading(90, 2000);
+        // chassis.turnToHeading(180, 2000);
+        // chassis.turnToHeading(0, 2000, {.direction = pAngularDirection::CCW_COUNTERCLOCKWISE});
+        pros::delay(10);
+        chassis.moveToPoint(0, 24, 10000, {.maxSpeed = 100});
         break;
     }
 }
@@ -279,13 +228,9 @@ void autonomous() {
  * Runs in driver control
  */
 void opcontrol() {
-    // controller
-    // master.print(1, 2, "Auto: %f", currAuto);
-    master.print(1, 3, "Y: %f", chassis.getPose().y);
-    // loop to continuously update motors
-    while (true) {
 
-        displaydata();
+    while (true) {
+        master.print(1, 1, "Y: %f", chassis.getPose().y);
 
         // get joystick positions
         int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

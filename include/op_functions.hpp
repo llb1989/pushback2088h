@@ -5,3 +5,4 @@ void intakeback(int intakepower);
 void intakemiddle(int intakepower);
 void intakefreaky(int intakepower);
 void forwards(int intakepower, int left);
+void intakeonemid(int intakepower);
