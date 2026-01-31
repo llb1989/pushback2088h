@@ -127,7 +127,7 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (8){
+    switch (4){
 
         case 1: // forwards
         forwards(8000, 8000);
@@ -268,7 +268,7 @@ void opcontrol() {
                 intakeall(-12000);
             } else {
                 intakeall(0);
-            } 
+            }  
         } else {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
                 intakeall(12000);
