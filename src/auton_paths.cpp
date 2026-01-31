@@ -176,16 +176,16 @@ void sawp(){
     chassis.setPose(0, 0, 0);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(0, 39.5, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(0, 38.5, 1200, {.maxSpeed = 80});
     chassis.turnToHeading(90, 300);
 
-    chassis.moveToPoint(19 , 39.5, 1000, {.maxSpeed = 90});
+    chassis.moveToPoint(19 , 38.5, 1000, {.maxSpeed = 90});
     pros::delay(250);
 
-    chassis.moveToPoint(-20, 40, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.moveToPoint(-20, 39, 1000, {.forwards = false, .maxSpeed = 90});
     chassis.waitUntilDone();
     intakeall(12000);
-    pros::delay(1000);
+    pros::delay(1100);
     littlewill.toggle();
     intakeone(12000);
 
@@ -194,25 +194,29 @@ void sawp(){
 
     chassis.moveToPoint(-17.5, -33, 1200, {.maxSpeed = 90, .minSpeed = 30});
     chassis.waitUntilDone();
-    littlewill.toggle();
-    chassis.moveToPoint(-17.5, -32, 200, {.maxSpeed = 90, .minSpeed = 30});
     chassis.turnToHeading(135, 350, {.minSpeed = 40});
-
-    chassis.moveToPoint(-33.5, -11, 750, {.forwards = false, .maxSpeed = 70});
-    chassis.waitUntilDone();
+    littlewill.toggle();
+    chassis.moveToPoint(-24, -21, 200, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+    chassis.turnToHeading(135, 150, {.minSpeed = 40});
+    
+    chassis.moveToPoint(-32, -10.5, 750, {.forwards = false, .maxSpeed = 70});
+    // chassis.waitUntilDone();
+    intakeall(-12000);
+    chassis.turnToHeading(135, 350, {.minSpeed = 40});
+    pros::delay(100);
     intakemiddle(12000);
     pros::delay(1400);
-    intakeone(12000);
-    chassis.turnToHeading(135, 250);
+    midgoal.set_value(true);
 
-    chassis.moveToPoint(10, -58.5, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(10, -57.5, 1200, {.maxSpeed = 80});
+    intakeone(12000);
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 300, {.minSpeed = 40});
-    chassis.moveToPoint(25, -58.5, 500, {.maxSpeed = 80});
+    chassis.moveToPoint(25, -56.5, 500, {.maxSpeed = 80});
     pros::delay(200);
-    chassis.moveToPoint(27.2, -57.5, 400, {.minSpeed = 40});
+    chassis.moveToPoint(27.2, -56, 400, {.minSpeed = 40});
     pros::delay(600);
-    chassis.moveToPoint(-20, -56.75, 1000, {.forwards = false});
+    chassis.moveToPoint(-18.5, -57, 1000, {.forwards = false});
     chassis.waitUntilDone();
     intakeall(12000);
 
