@@ -284,7 +284,7 @@ void sawp(){
 }
 
 void left_and_mid_rush() {
-    // pros::delay(10000000000000);
+    // pros::delay(100);
     pros::delay(200);
 
     chassis.setPose(0, 0, 0);
@@ -311,6 +311,7 @@ void left_and_mid_rush() {
     chassis.moveToPoint(28, 7, 850, {.forwards = false, .maxSpeed = 70});
     chassis.turnToHeading(-45, 200);
     chassis.waitUntilDone();
+    
     intakemiddle(12000);
     pros::delay(1500);
     intakeone(12000);
