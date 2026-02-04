@@ -176,13 +176,14 @@ void sawp(){
     chassis.setPose(0, 0, 0);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(0, 39.5, 1200, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 300);
+    chassis.moveToPoint(0, 41.5, 1200, {.maxSpeed = 80});
+    chassis.turnToHeading(90, 400);
+    chassis.waitUntilDone();
 
-    chassis.moveToPoint(19 , 39.5, 1000, {.maxSpeed = 90});
+    chassis.moveToPoint(19 , 40, 1000, {.maxSpeed = 100});
     pros::delay(250);
 
-    chassis.moveToPoint(-20, 40, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.moveToPoint(-18, 40.8, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1100);
@@ -192,15 +193,14 @@ void sawp(){
     chassis.moveToPoint(-21, 14, 600, {.maxSpeed = 80});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(-17.5, -33, 1200, {.maxSpeed = 90, .minSpeed = 30});
+    chassis.moveToPoint(-21, -32, 1500, {.maxSpeed = 90, .minSpeed = 30});
     chassis.waitUntilDone();
     chassis.turnToHeading(135, 350, {.minSpeed = 40});
     littlewill.toggle();
-    chassis.moveToPoint(-24, -21, 200, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
-    chassis.turnToHeading(135, 150, {.minSpeed = 40});
+    // chassis.moveToPoint(-24, -21, 300, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+    // chassis.turnToHeading(135, 150, {.minSpeed = 40});
     
-    chassis.moveToPoint(-32, -10.5, 750, {.forwards = false, .maxSpeed = 70});
-    // chassis.waitUntilDone();
+    chassis.moveToPoint(-32, -12, 800, {.forwards = false, .maxSpeed = 70});
     intakeall(-12000);
     chassis.turnToHeading(135, 350, {.minSpeed = 40});
     pros::delay(100);
@@ -208,15 +208,15 @@ void sawp(){
     pros::delay(1400);
     midgoal.set_value(true);
 
-    chassis.moveToPoint(10, -57.5, 1200, {.maxSpeed = 80});
+    chassis.moveToPoint(2, -53.5, 1000, {.maxSpeed = 90});
     intakeone(12000);
     chassis.waitUntilDone();
-    chassis.turnToHeading(90, 300, {.minSpeed = 40});
-    chassis.moveToPoint(25, -56.5, 500, {.maxSpeed = 80});
-    pros::delay(200);
-    chassis.moveToPoint(27.2, -56, 400, {.minSpeed = 40});
-    pros::delay(600);
-    chassis.moveToPoint(-18.5, -57, 1000, {.forwards = false});
+    chassis.turnToHeading(90, 300, {.maxSpeed = 70});
+    chassis.moveToPoint(22, -52, 900, {.maxSpeed = 80});
+    pros::delay(800);
+    // chassis.moveToPoint(27, -56, 400, {.minSpeed = 40});
+    // pros::delay(600);
+    chassis.moveToPoint(-18, -53, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
 
@@ -290,35 +290,35 @@ void left_and_mid_rush() {
     chassis.setPose(0, 0, 0);
     intakeone(12000);
         littlewill.toggle();
-    chassis.moveToPoint(0, 41.8, 1250, {.maxSpeed = 80});
+    chassis.moveToPoint(0, 39.5, 1250, {.maxSpeed = 80});
     chassis.turnToHeading(-90, 300);
 
-    chassis.moveToPoint(-16, 40.2, 1000, {.maxSpeed = 90});
+    chassis.moveToPoint(-16, 39, 1000, {.maxSpeed = 90});
     pros::delay(250);
-    chassis.moveToPoint(20, 40.2, 1000, {.forwards = false, .maxSpeed = 90});
+    chassis.moveToPoint(18, 39.5, 1000, {.forwards = false, .maxSpeed = 90});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1200);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(8, 40.2, 500, {.forwards = true, .maxSpeed = 90});
+    // chassis.moveToPoint(6, 40.2, 500, {.forwards = true, .maxSpeed = 90});
 
-    chassis.turnToPoint(21, 14, 500);
+    // chassis.turnToPoint(21, 14, 500);
     chassis.moveToPoint(21, 14, 500);
-    chassis.waitUntilDone();
+    chassis.waitUntilDone();                       
     littlewill.toggle();
-    chassis.turnToHeading(-45, 200);
-    chassis.moveToPoint(28, 7, 850, {.forwards = false, .maxSpeed = 70});
+    chassis.turnToHeading(45, 200);
+    chassis.moveToPoint(36, 6, 850, {.forwards = false, .maxSpeed = 70});
     chassis.turnToHeading(-45, 200);
     chassis.waitUntilDone();
-    
+
     intakemiddle(12000);
     pros::delay(1500);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(8, 46, 1200, {.forwards = true});
+    chassis.moveToPoint(6,31.5, 1200, {.forwards = true});
     chassis.turnToHeading(90, 500, {.maxSpeed = 90});
-    chassis.moveToPoint(40, 49, 2000, {.forwards = true, .maxSpeed = 90});
+    chassis.moveToPoint(35, 31.5, 2000, {.forwards = true, .maxSpeed = 90});
     chassis.turnToHeading(150, 500, {.maxSpeed = 100});
 
 }

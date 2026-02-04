@@ -36,8 +36,8 @@ pros::Imu imu(2);
 
 pros::Rotation hrotation(1);
 pros::Rotation vrotation(-7);
-lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_2, -1.377);
-lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, lemlib::Omniwheel::NEW_2, 0.114); // need to change
+lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, 2, 1.377);//negative
+lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, 2, 0.114); // need to change
 
 pros::adi::Pneumatics littlewill('E', false);
 pros::adi::Pneumatics chickenstars('D', false);
@@ -100,7 +100,7 @@ lemlib::OdomSensors sensors(
     // &vertical, // vertical tracking wheel
                         &vertical_tracking_wheel, // &vertical, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
-                            &horizontal_tracking_wheel, // &horizontal, // horizontal tracking wheel
+                        &horizontal_tracking_wheel, // &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
