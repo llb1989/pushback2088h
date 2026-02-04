@@ -375,9 +375,9 @@ void left_and_mid_rush() {
 
     chassis.moveToPoint(21, 14, 600, {.maxSpeed = 80});
     chassis.waitUntilDone();
-    chassis.turnToHeading(315);
+    chassis.turnToHeading(315, 500);
     chassis.moveToPoint(32, 5, 1000, {.forwards = false, .maxSpeed = 40}); //help
-    chassis.turnToHeading(315);
+    chassis.turnToHeading(315, 500);
     intakemiddle(12000);
     pros::delay(1000);
 
