@@ -45,7 +45,11 @@ void initialize() {
         
         while (true) {
         double drivetrainTemp = (rightMotors.get_temperature() + leftMotors.get_temperature()) / 2;
-        // print measurements from the rotation sensor
+
+        pros::lcd::print(0, "cur X: %f", chassis.getPose().x); // x
+        pros::lcd::print(1, "cur Y: %f", chassis.getPose().y); // y
+        pros::lcd::print(2, "lem imu theta: %f", chassis.getPose().theta); // heading
+
         // pros::lcd::print(6, "Rotation Sensor: %i", rotation.get_position());
         pros::lcd::print(3, "Temp: %0.1f", drivetrainTemp);
         // pros::lcd::print(3, "c: %d mm\n", sensor2.get());
@@ -54,6 +58,9 @@ void initialize() {
         pros::lcd::print(5, "distance theta: %0.1f", theta); // heading
         pros::lcd::print(6, "x2: %0.1f", x2); 
         pros::lcd::print(7, "e2: %0.1f", e2); 
+        
+        pros::lcd::print(8, "sensor 1: %d mm\n", sensor1.get());
+        pros::lcd::print(9, "sensor 4: %d mm\n", sensor4.get());
 
             if (currAuto == 1) {
             job = "right auto";
@@ -70,16 +77,13 @@ void initialize() {
             }else {
                 job = "no auto selected";
             }
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "imu theta: %f", chassis.getPose().theta); // heading
+
             // pros::lcd::print(3, "Auto: %d", currAuto);
             // pros::lcd::print(4, "Auto name: %s", job);
             // master.print(1, 2, "Auto: %d", currAuto);
             // master.print(1, 2, "Y: %f", chassis.getPose().y);
             //master.print(1, 2, "Auto?: %s", job);
-            pros::lcd::print(4, "Auto name: %s", job);
+            // pros::lcd::print(4, "Auto name: %s", job);
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
@@ -221,6 +225,26 @@ void autonomous() {
         pros::delay(10);
         chassis.moveToPoint(0, 24, 10000, {.maxSpeed = 100});
         break;
+
+        case 21: 
+        // chassis.setPose(0, 0, 0);
+        // pros::delay(10);
+        // chassis.moveToPoint(0, 6, 1000, {.maxSpeed = 40});
+        // chassis.waitUntilDone();
+        // pros::delay(2000);
+        // leftonlydsr(false, 0);
+        // pros::delay(100000);
+
+        chassis.setPose(0, 0, 0);
+        lemleftdsr();
+
+        chassis.moveToPoint(e2, 12, 3000, {.maxSpeed = 40});
+
+        pros::delay(3000);
+
+        lemleftdsr();
+
+        break;
     }
 }
 
@@ -288,6 +312,25 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();
     }
+
+    if(master.get_digital_new_press(DIGITAL_LEFT)) {
+        leftonlydsr(false, 0);
+    }
+
+    if(master.get_digital_new_press(DIGITAL_A)) {
+        rightonlydsr(false, 0);
+    }
+
+    if(master.get_digital_new_press(DIGITAL_UP)) {
+        lemleftdsr();
+    }
+
+    if(master.get_digital_new_press(DIGITAL_X)) {
+        lemrightdsr();
+    }
+
+
+        // delay to save resources
     pros::delay(10);
     }
 }

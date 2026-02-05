@@ -13,16 +13,16 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups   
-pros::MotorGroup leftMotors({-17, 9, -18}, pros::MotorGearset::blue);   
-pros::MotorGroup rightMotors({5, -16, 14 }, pros::MotorGearset::blue);  
+pros::MotorGroup leftMotors({10, -3, -18}, pros::MotorGearset::blue);   
+pros::MotorGroup rightMotors({-17, 9, 4 }, pros::MotorGearset::blue);  
 
-// top right is 1 - acc 20 real
-// bottom back right is 6 - acc 16 real 69
-// bottom front right is 12 - acc 14 real
+// top right is 1 - acc 17 real
+// bottom back right is 6 - acc 9 real 69
+// bottom front right is  - acc 4 real
 
-// top left is 15 - acc 17 real
-// bottom back left is 8 - acc 11 real
-// bottom front left is 14 - acc 18 real
+// top left is 15 - acc 10 real
+// bottom back left is 8 - acc 11 real 
+// bottom front left is 14 - acc 3 real
 
 pros::adi::Button autonselectbutton('C');
 
@@ -36,12 +36,12 @@ pros::Imu imu(2);
 
 pros::Rotation hrotation(1);
 pros::Rotation vrotation(-7);
-lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, 2, 1.377);//negative
-lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, 2, 0.114); // need to change
+lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_2, -1.377);//negative
+lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, lemlib::Omniwheel::NEW_2, 0.114); // need to change
 
 pros::adi::Pneumatics littlewill('E', false);
-pros::adi::Pneumatics chickenstars('D', false);
-pros::adi::Pneumatics midgoal('B', false);
+pros::adi::Pneumatics chickenstars('B', false);
+pros::adi::Pneumatics midgoal('A', false);
 
 pros::Distance sensor1(12);
 pros::Distance sensor2(20); 
