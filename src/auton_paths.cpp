@@ -548,7 +548,7 @@ chassis.moveToPoint(10, 30, 2500);
 pros::delay(5000);
 intakeall(0);
 chassis.moveToPoint(10, -5, 1000, {.forwards = false});
-
+// euwiwi
   
 }
 //left elims
