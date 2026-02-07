@@ -131,14 +131,14 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (5){
+    switch (1){
 
         case 1: // forwards
         forwards(8000, 8000);
         pros::delay(100);
         forwards(0, 0);
         break;
-                                                                                                                                                                      
+                                                                                                                                                                       
         case 2: // left
         left_auto();
         break;
@@ -151,10 +151,10 @@ void autonomous() {
         sawp();
         break;
 
-        case 5: // skills
+        case 5: // skillshhg
         skills();
         break;
-
+ 
         case 7:
         right_goal_rush();
         break;
