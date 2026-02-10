@@ -687,7 +687,7 @@ class Chassis {
     double targetX = pose.x + distance * cos(headingRad);
     double targetY = pose.y + distance * sin(headingRad);
 
-    chassis.moveToPose(targetX, targetY, pose.theta, timeout);
+    chassis.moveToPose(targetX, targetY, pose.theta, timeout, {});
 }
 
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = true);
