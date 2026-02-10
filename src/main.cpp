@@ -134,9 +134,7 @@ void autonomous() {
     switch (9){
 
         case 1: // forwards
-        forwards(8000, 8000);
-        pros::delay(100);
-        forwards(0, 0);
+test();
         break;
                                                                                                                                                                        
         case 2: // left

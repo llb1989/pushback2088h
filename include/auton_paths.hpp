@@ -1,7 +1,7 @@
 // #include "main.h"
 #include "lemlib/api.hpp"
 #include "pros/screen.h"
-
+void test();
 void left_auto();
 void right_auto();
 void sawp();

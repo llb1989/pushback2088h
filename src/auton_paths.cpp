@@ -3,6 +3,11 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 #include "auton_paths.hpp"
+void test(){
+    chassis.driveRelative(10, 1000);
+    chassis.turnToHeading(90, 1000);
+    chassis.driveRelative(5, 1000);
+}
 //left
 void left_auto(){
     pros::delay(200);
