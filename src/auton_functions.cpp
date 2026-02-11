@@ -5,82 +5,82 @@ void rightdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
-d = sensor1.get(); //blhr
-     w = c - a;
-theta = atan(w / b) * 180.0 / M_PI;
+sideSensorReading = sensor1.get(); //blhr
+     opposite = c - a;
+theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
-d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+trackingCentreToWallSide = sideSensorReading + (width / 2); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
 //  back of robot? 
-y2 = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
-x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
+distanceFromCentreBack = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
+distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack; // idek but its x 
 
-e2 = e2 / 25.4;
-x2 = x2 / 25.4;
+centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
+distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 };
 
 void leftdsr() {
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
-d = sensor4.get();
+sideSensorReading = sensor4.get();
 
-     w = c - a;
+     opposite = c - a;
 
-theta = atan(w / b) * 180.0 / M_PI;
+theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
-d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+trackingCentreToWallSide = sideSensorReading + (width / 2); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
 //  back of robot? 
-y2 = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
-x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
+distanceFromCentreBack = ((c + a) / 2) + (length / 2); // y distance from tracking center, length / 2 is tracking center
+distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack; // idek but its x 
 
-e2 = e2 / 25.4;
-x2 = x2 / 25.4;
+centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
+distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 };
 
 void backdsr(){
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
-    w = c - a;
+    opposite = c - a;
 
-theta = atan(w / b) * 180.0 / M_PI;
+theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
-y2 = ((c + a) / 2) + (length / 2);
-x2 = cos(theta * M_PI / 180.0) * y2;
+distanceFromCentreBack = ((c + a) / 2) + (length / 2);
+distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack;
 
 }
 
 void rightonlydsr(bool override, double x){
 
 if (override == true) {
-    d = sensor1.get();
+    sideSensorReading = sensor1.get();
 
     theta = chassis.getPose().theta;
 
-    d2 = d + (width / 2); 
-    e2 = cos(theta * M_PI / 180.0) * d2;
+    trackingCentreToWallSide = sideSensorReading + (width / 2); 
+    centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide;
 
-    e2 = e2 / 25.4;
+    centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
 
-    e2 = x - e2;
+    centreToWallSideAccount4Angle = x - centreToWallSideAccount4Angle;
 
-    chassis.setPose(e2,chassis.getPose().y, theta);
+    chassis.setPose(centreToWallSideAccount4Angle,chassis.getPose().y, theta);
     
 } else if (override == false) {
-    d = sensor1.get();
+    sideSensorReading = sensor1.get();
 
     theta = chassis.getPose().theta;
 
-    d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-    e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+    trackingCentreToWallSide = sideSensorReading + (width / 2); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+    centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
-    e2 = e2 / 25.4;
+    centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
 
-    chassis.setPose(e2,chassis.getPose().y, theta);
+    chassis.setPose(centreToWallSideAccount4Angle,chassis.getPose().y, theta);
 } // i gotta work on abstraction
 
 }
@@ -88,30 +88,30 @@ if (override == true) {
 void leftonlydsr(bool override, double x){
 
 if (override == true) {
-    d = sensor4.get();
+    sideSensorReading = sensor4.get();
 
     theta = chassis.getPose().theta;
 
-    d2 = d + (width / 2); 
-    e2 = cos(theta * M_PI / 180.0) * d2;
+    trackingCentreToWallSide = sideSensorReading + (width / 2); 
+    centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide;
 
-    e2 = e2 / 25.4;
+    centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
 
-    e2 = x - e2;
+    centreToWallSideAccount4Angle = x - centreToWallSideAccount4Angle;
 
-    chassis.setPose(e2, chassis.getPose().y, theta);
+    chassis.setPose(centreToWallSideAccount4Angle, chassis.getPose().y, theta);
 
 } else if (override == false) {
-    d = sensor4.get();
+    sideSensorReading = sensor4.get();
 
     theta = chassis.getPose().theta;
 
-    d2 = d + (width / 2); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-    e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+    trackingCentreToWallSide = sideSensorReading + (width / 2); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+    centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
-    e2 = e2 / 25.4;
+    centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
 
-    chassis.setPose(e2,chassis.getPose().y, theta);
+    chassis.setPose(centreToWallSideAccount4Angle,chassis.getPose().y, theta);
 } // i gotta work on abstraction
 
 }
@@ -122,21 +122,21 @@ length = -50.8;
 
 c = sensor2.get();
 a = sensor3.get();
-d = sensor1.get(); //blhr
-     w = c - a;
-theta = atan(w / b) * 180.0 / M_PI;
+sideSensorReading = sensor1.get(); //blhr
+     opposite = c - a;
+theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
-d2 = d + (width); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+trackingCentreToWallSide = sideSensorReading + (width); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
 //  back of robot? 
-y2 = ((c + a) / 2) + (length); // y distance from tracking center, length / 2 is tracking center
-x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
+distanceFromCentreBack = ((c + a) / 2) + (length); // y distance from tracking center, length / 2 is tracking center
+distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack; // idek but its x 
 
-e2 = e2 / 25.4;
-x2 = x2 / 25.4;
+centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
+distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 
-chassis.setPose(e2,x2,theta);
+chassis.setPose(centreToWallSideAccount4Angle,distanceFromCentreBackAccount4Angle,theta);
 
 }
 
@@ -147,32 +147,32 @@ length = -50.8;
 
 c = sensor2.get();
 a = sensor3.get();
-d = sensor4.get(); //blhr
-     w = c - a;
-theta = atan(w / b) * 180.0 / M_PI;
+sideSensorReading = sensor4.get(); //blhr
+     opposite = c - a;
+theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
-d2 = d + (width); // adjacent from tracking center to wall, d is from sensor to wall, width / 2 adds tracking center distance
-e2 = cos(theta * M_PI / 180.0) * d2; // cos theta*hypotenuse = adjacent 
+trackingCentreToWallSide = sideSensorReading + (width); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
 
 //  back of robot? 
-y2 = ((c + a) / 2) + (length); // y distance from tracking center, length / 2 is tracking center
-x2 = cos(theta * M_PI / 180.0) * y2; // idek but its x 
+distanceFromCentreBack = ((c + a) / 2) + (length); // y distance from tracking center, length / 2 is tracking center
+distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack; // idek but its x 
 
-e2 = e2 / 25.4;
-x2 = x2 / 25.4;
+centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
+distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 
-chassis.setPose(e2,x2,theta);
+chassis.setPose(centreToWallSideAccount4Angle,distanceFromCentreBackAccount4Angle,theta);
 
 }
 
 void alldsr(bool right, bool left){
     if (right == true){
         rightdsr();
-        chassis.setPose(e2,x2,theta);
+        chassis.setPose(centreToWallSideAccount4Angle,distanceFromCentreBackAccount4Angle,theta);
     }
     else if (left == true) {
         leftdsr();
-        chassis.setPose(e2,x2,theta);
+        chassis.setPose(centreToWallSideAccount4Angle,distanceFromCentreBackAccount4Angle,theta);
     }
     else {
         backdsr();

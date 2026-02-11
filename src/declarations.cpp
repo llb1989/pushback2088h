@@ -48,15 +48,15 @@ pros::Distance sensor2(20);
 pros::Distance sensor3(21); 
 pros::Distance sensor4(19);
 
-double d = 1;
+double sideSensorReading = 1;
 double c = 1;
 double  a = 1;
-double  w = 1;
-double b = 172;
-double  d2 = 1;
-double  e2 = 1;
-double  y2 = 1;
-double  x2 = 1;
+double  opposite = 1;
+double distanceBetweenBackSensors = 172;
+double  trackingCentreToWallSide = 1;
+double  centreToWallSideAccount4Angle = 1;
+double  distanceFromCentreBack = 1;
+double  distanceFromCentreBackAccount4Angle = 1;
 double  width = 279.4; // 13.5? // 11.5? // 12?
 double  length = 292.1; //  15?
 double  theta = 1;

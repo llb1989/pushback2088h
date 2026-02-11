@@ -30,15 +30,15 @@ extern pros::Distance sensor2;
 extern pros::Distance sensor3; 
 extern pros::Distance sensor4; 
 
-extern double d;
+extern double sideSensorReading;
 extern double c;
 extern double a;
-extern double w;   
-extern double b;
-extern double d2;
-extern double e2;
-extern double y2;
-extern double x2;
-extern double width;
+extern double opposite;   
+extern double distanceBetweenBackSensors;
+extern double trackingCentreToWallSide;
+extern double centreToWallSideAccount4Angle;
+extern double distanceFromCentreBack;
+extern double distanceFromCentreBackAccount4Angle;
+extern double width;//of bot
 extern double theta;   
-extern double length;
+extern double length;//of bot
