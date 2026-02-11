@@ -676,9 +676,11 @@ class Chassis {
          * chassis.moveToPoint(10, 10, 4000, {.maxSpeed = 60, .minSpeed = 20});
          * // move the robot to x = 7.5, y = 7.5 with a timeout of 4000ms
          * // with a minSpeed of 60, and exit the movement if the robot is within 5 inches of the target
-         * chassis.moveToPoint(7.5, 7.5, 4000, {.minSpeed = 60, .earlyExitRange = 5});
+         * chassis.moveToPoint(7.5, 7.5, 4000, {.minSpeed = 60, .earlyExitRange = 5}); 
          * @endcode
          */
+        void moveRelative(float y, int timeout, MoveToPointParams params = {}, bool async = true);                                                                                              
+        \
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = true);
         /**
          * @brief Move the chassis along a path

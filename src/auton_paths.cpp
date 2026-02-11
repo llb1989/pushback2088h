@@ -3,6 +3,29 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 #include "auton_paths.hpp"
+
+
+// void driveRelative(double distance, int timeout) {
+//     lemlib::Pose pose = chassis.getPose();
+
+
+//     double headingRad = pose.theta * M_PI / 180.0;
+
+
+//     double targetX = pose.x + distance * cos(headingRad);
+//     double targetY = pose.y + distance * sin(headingRad);
+
+
+//     chassis.moveToPose(targetX, targetY, pose.theta, timeout);
+// }
+
+
+
+void eztemplate_test() {
+    // chassis.turnToHeading(45, 1000);
+    // driveRelative(24, 1000);
+}
+
 //left
 void left_auto(){
     pros::delay(200);
@@ -370,7 +393,7 @@ void left_and_mid_rush() {
 
 }
 
-void right_goal_rush() {
+void right_goal_rush_skills() {
     //pros::delay(200);
         littlewill.toggle();
         intakeone(12000);
@@ -378,15 +401,15 @@ void right_goal_rush() {
     
 
 
-    chassis.moveToPoint(0, 37.7, 2000, {.maxSpeed = 80});
-    chassis.turnToHeading(90, 700);
+    chassis.moveToPoint(0, 37.7, 3000, {.maxSpeed = 60});
+    chassis.turnToHeading(90, 700, {.maxSpeed = 60});
 
     chassis.moveToPoint(20.5 , 37.7, 1000, {.maxSpeed = 90});
     pros::delay(900);
     // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
     // pros::delay(200);
     chassis.moveToPoint(-18, 38.5, 2000, {.forwards = false, .maxSpeed = 60});
-    chassis.waitUntilDone();
+    chassis.waitUntilDone(); 
     intakeall(1200);
     pros::delay(700);  //1300
     intakeall(-12000);
@@ -404,6 +427,48 @@ void right_goal_rush() {
     chassis.moveToPoint(-17, 31.3, 500, {.forwards = false});
         chassis.turnToHeading(90, 300, {.maxSpeed = 60});
     chassis.moveToPoint(-34, 36.5, 1000, {.forwards = false, .maxSpeed = 80});
+intakeall(12000);
+    chassis.moveToPoint(-17, 31.3, 500, {.forwards = false});
+    chassis.turnToPoint(20, 7, 2000, {.maxSpeed = 60});
+        chassis.moveToPoint(20, 7, 2000, {.maxSpeed = 60});
+        chassis.turnToHeading(160, 500);
+        chassis.moveToPoint(20, -30, 2000, {.maxSpeed = 70});
+        chassis.moveToPoint(17, -7, 2000, {.forwards = false, .maxSpeed = 70});
+}
+
+void right_goal_rush() {
+    //pros::delay(200);
+        littlewill.toggle();
+        intakeone(12000);
+    chassis.setPose(0, 0, 0);
+
+    chassis.moveToPoint(0, 41.5, 1700, {.maxSpeed = 70});
+    chassis.turnToHeading(90, 700);
+
+    chassis.moveToPoint(20.5 , 42, 1000, {.maxSpeed = 90});
+    pros::delay(900);
+    // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
+    // pros::delay(200);
+    chassis.turnToHeading(90, 200);
+    chassis.moveToPoint(-18, 42, 1500, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+    chassis.waitUntilDone();
+    intakeall(1200);
+    pros::delay(500);  //1300
+    intakeall(0);
+    pros::delay(100);
+    intakeall(12000);
+    pros::delay(4000);  //1300
+
+    intakeone(12000);
+    littlewill.toggle();
+
+    chassis.moveToPoint(-21, 12, 1000);
+    chassis.waitUntilDone();
+    littlewill.toggle();
+
+    chassis.moveToPoint(-9, 35, 700, {.forwards = false});
+        chassis.turnToHeading(90, 300, {.maxSpeed = 60});
+    chassis.moveToPoint(-23, 39, 780, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(40, 500);
     intakeall(0);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
