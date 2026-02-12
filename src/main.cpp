@@ -56,8 +56,8 @@ void initialize() {
         // pros::lcd::print(4, "a: %d mm\n", sensor3.get());
         // // pros::lcd::print(1, "dL: %d mm\n", sensor4.get());
         pros::lcd::print(5, "distance theta: %0.1f", theta); // heading
-        pros::lcd::print(6, "x2: %0.1f", x2); 
-        pros::lcd::print(7, "e2: %0.1f", e2); 
+        pros::lcd::print(6, "distanceFromCentreBackAccount4Angle: %0.1f", distanceFromCentreBackAccount4Angle); 
+        pros::lcd::print(7, "centreToWallSideAccount4Angle: %0.1f", centreToWallSideAccount4Angle); 
         
         pros::lcd::print(8, "sensor 1: %d mm\n", sensor1.get());
         pros::lcd::print(9, "sensor 4: %d mm\n", sensor4.get());
@@ -240,7 +240,7 @@ test();
         chassis.setPose(0, 0, 0);
         lemleftdsr();
 
-        chassis.moveToPoint(e2, 12, 3000, {.maxSpeed = 40});
+        chassis.moveToPoint(centreToWallSideAccount4Angle, 12, 3000, {.maxSpeed = 40});
 
         pros::delay(3000);
 
