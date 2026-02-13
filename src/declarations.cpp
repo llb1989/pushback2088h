@@ -39,9 +39,9 @@ pros::Rotation vrotation(1);
 lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_275, -1.377);//negative
 lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, lemlib::Omniwheel::NEW_2, 0.114); // need to change
 
-pros::adi::Pneumatics littlewill('E', false);
-pros::adi::Pneumatics chickenstars('B', false);
-pros::adi::Pneumatics midgoal('A', false);
+pros::adi::Pneumatics littlewill('B', false);
+pros::adi::Pneumatics chickenstars('A', false);
+pros::adi::Pneumatics midgoal('C', false);
 
 pros::Distance sensor1(12);
 pros::Distance sensor2(20); 
