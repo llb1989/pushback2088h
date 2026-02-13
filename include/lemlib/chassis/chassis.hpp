@@ -679,16 +679,6 @@ class Chassis {
          * chassis.moveToPoint(7.5, 7.5, 4000, {.minSpeed = 60, .earlyExitRange = 5});
          * @endcode
          */
-        void driveRelative(double distance, int timeout, MoveToPointParams = {}) {
-    lemlib::Pose pose = chassis.getPose();
-
-    double headingRad = pose.theta * M_PI / 180.0;
-
-    double targetX = pose.x + distance * cos(headingRad);
-    double targetY = pose.y + distance * sin(headingRad);
-
-    chassis.moveToPose(targetX, targetY, pose.theta, timeout, {});
-}
 
         void moveToPoint(float x, float y, int timeout, MoveToPointParams params = {}, bool async = true);
         /**

@@ -13,30 +13,30 @@
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // motor groups   
-pros::MotorGroup leftMotors({10, -3, -18}, pros::MotorGearset::blue);   
-pros::MotorGroup rightMotors({-17, 9, 4 }, pros::MotorGearset::blue);  
+pros::MotorGroup leftMotors({15, -11, -16}, pros::MotorGearset::blue);   
+pros::MotorGroup rightMotors({-18, 20, 13}, pros::MotorGearset::blue);  
 
-// top right is 1 - acc 17 real
-// bottom back right is 6 - acc 9 real 69
-// bottom front right is  - acc 4 real
+// top right is 1 - acc 17 real 18
+// bottom back right is 6 - acc 9 real 69 20
+// bottom front right is  - acc 4 real 13
 
-// top left is 15 - acc 10 real
-// bottom back left is 8 - acc 11 real 
-// bottom front left is 14 - acc 3 real
+// top left is 15 - acc 10 real 15
+// bottom back left is 8 - acc 11 real  16
+// bottom front left is 14 - acc 3 real 11
 
 pros::adi::Button autonselectbutton('C');
 
 
 //intake mototro
-pros::Motor intmotor1(-8); // first stage // 4
-pros::Motor intmotor3(-15); // top // 19
+pros::Motor intmotor1(-12); // first stage // 4 12
+pros::Motor intmotor3(-19); // top // 19
 
 // Inertial Sensor on port 19
 pros::Imu imu(2);
 
-pros::Rotation hrotation(1);
-pros::Rotation vrotation(-7);
-lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_2, -1.377);//negative
+pros::Rotation hrotation(10);
+pros::Rotation vrotation(1);
+lemlib::TrackingWheel horizontal_tracking_wheel(&hrotation, lemlib::Omniwheel::NEW_275, -1.377);//negative
 lemlib::TrackingWheel vertical_tracking_wheel(&vrotation, lemlib::Omniwheel::NEW_2, 0.114); // need to change
 
 pros::adi::Pneumatics littlewill('E', false);
