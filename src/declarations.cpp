@@ -61,6 +61,9 @@ double  width = 279.4; // 13.5? // 11.5? // 12?
 double  length = 292.1; //  15?
 double  theta = 1;
 
+double min_x = 1;
+double min_y = 1;
+
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group

@@ -42,3 +42,6 @@ extern double distanceFromCentreBackAccount4Angle;
 extern double width;//of bot
 extern double theta;   
 extern double length;//of bot
+
+extern double min_x;
+extern double min_y;

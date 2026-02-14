@@ -3,31 +3,6 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 #include "auton_paths.hpp"
-<<<<<<< HEAD
-
-
-// void driveRelative(double distance, int timeout) {
-//     lemlib::Pose pose = chassis.getPose();
-
-
-//     double headingRad = pose.theta * M_PI / 180.0;
-
-
-//     double targetX = pose.x + distance * cos(headingRad);
-//     double targetY = pose.y + distance * sin(headingRad);
-
-
-//     chassis.moveToPose(targetX, targetY, pose.theta, timeout);
-// }
-
-
-
-void eztemplate_test() {
-    // chassis.turnToHeading(45, 1000);
-    // driveRelative(24, 1000);
-}
-
-=======
 float Maxspeed = 127;
 float Minspeed = 0;
 bool Forwards = true;
@@ -47,7 +22,6 @@ void test(){
     // chassis.turnToHeading(90, 1000);
     // driveRelative(5, 1000);
 }
->>>>>>> 39567459b4931649eb1259965cc11ff2d8348a54
 //left
 void left_auto(){
     pros::delay(200);

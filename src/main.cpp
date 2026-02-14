@@ -132,17 +132,9 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-<<<<<<< HEAD
-    switch (1) {
-
-        case 1: // forwards
-void eztemplate_test();
-=======
     switch (1){
-
         case 1: // forwards
-test();
->>>>>>> 39567459b4931649eb1259965cc11ff2d8348a54
+        test();
         break;
                                                                                                                                                                        
         case 2: // left
@@ -172,52 +164,6 @@ test();
 
         case 9:
         right_goal_rush_skills();
-        break;
-
-        case 67: // pid tuning 
-        alldsr(false, true);
-        pros::delay(3000);
-        // chassis.setPose(7.5, 6.75, 0);
-        chassis.moveToPoint(7.5, 31.5, 2000);
-        pros::delay(10000);
-        alldsr(false, true);
-        break;
-
-        case 69:
-        alldsr(false, true);
-        break;
-
-        case 1234:
-        chassis.moveToPoint(0, 24,1000);
-        break;
-
-        case 70:
-        chassis.setPose(0, 0, 0);
-        // chassis.turnToHeading(90, 2000);
-        // chassis.turnToHeading(180, 2000);
-        // chassis.turnToHeading(0, 2000, {.direction = pAngularDirection::CCW_COUNTERCLOCKWISE});
-        pros::delay(10);
-        chassis.moveToPoint(0, 24, 10000, {.maxSpeed = 100});
-        break;
-
-        case 21: 
-        // chassis.setPose(0, 0, 0);
-        // pros::delay(10);
-        // chassis.moveToPoint(0, 6, 1000, {.maxSpeed = 40});
-        // chassis.waitUntilDone();
-        // pros::delay(2000);
-        // leftonlydsr(false, 0);
-        // pros::delay(100000);
-
-        chassis.setPose(0, 0, 0);
-        lemleftdsr();
-
-        chassis.moveToPoint(centreToWallSideAccount4Angle, 12, 3000, {.maxSpeed = 40});
-
-        pros::delay(3000);
-
-        lemleftdsr();
-
         break;
     }
 }
@@ -286,24 +232,6 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();
     }
-
-    if(master.get_digital_new_press(DIGITAL_LEFT)) {
-        leftonlydsr(false, 0);
-    }
-
-    if(master.get_digital_new_press(DIGITAL_A)) {
-        rightonlydsr(false, 0);
-    }
-
-    if(master.get_digital_new_press(DIGITAL_UP)) {
-        lemleftdsr();
-    }
-
-    if(master.get_digital_new_press(DIGITAL_X)) {
-        lemrightdsr();
-    }
-
-
         // delay to save resources
     pros::delay(10);
     }
