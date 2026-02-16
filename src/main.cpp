@@ -132,7 +132,7 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (1){
+    switch (7){
         case 1: // forwards
         test();
         break;
@@ -225,9 +225,9 @@ void opcontrol() {
             }
         }
 
-    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
         chickenstars.toggle();
-      }
+    }
     
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();

@@ -445,20 +445,20 @@ void right_goal_rush() {
     pros::delay(900);
     // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
     // pros::delay(200);
-    chassis.turnToHeading(90, 200);
-    chassis.moveToPoint(-18, 42, 1500, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+    // chassis.turnToHeading(90, 200);
+    chassis.moveToPoint(-18, 44, 1500, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
     chassis.waitUntilDone();
-    intakeall(1200);
-    pros::delay(500);  //1300
-    intakeall(0);
-    pros::delay(100);
+    // intakeall(1200);
+    // pros::delay(500);  //1300
+    // intakeall(0);
+    // pros::delay(100);
     intakeall(12000);
-    pros::delay(4000);  //1300
+    pros::delay(1700);  //1300
 
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(-21, 12, 1000);
+    chassis.moveToPoint(-28, 15, 1000);
     chassis.waitUntilDone();
     littlewill.toggle();
 
