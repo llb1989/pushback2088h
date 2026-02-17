@@ -59,8 +59,10 @@ void initialize() {
         pros::lcd::print(6, "distanceFromCentreBackAccount4Angle: %0.1f", distanceFromCentreBackAccount4Angle); 
         pros::lcd::print(7, "centreToWallSideAccount4Angle: %0.1f", centreToWallSideAccount4Angle); 
         
-        pros::lcd::print(8, "sensor 1: %d mm\n", sensor1.get());
-        pros::lcd::print(9, "sensor 4: %d mm\n", sensor4.get());
+        // pros::lcd::print(3, "sensor 1 left: %d mm\n", sensor1.get());
+        // pros::lcd::print(4, "sensor 4 right: %d mm\n", sensor4.get());
+        // pros::lcd::print(5, "sensor 2: %d mm\n", sensor2.get());
+        // pros::lcd::print(6, "sensor 3: %d mm\n", sensor3.get());
 
             if (currAuto == 1) {
             job = "right auto";
@@ -132,7 +134,7 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (1){
+    switch (13){
         case 1: // forwards
         test();
         break;
@@ -165,6 +167,73 @@ void autonomous() {
         case 9:
         right_goal_rush_skills();
         break;
+
+        case 10:
+        chassis.setPose(0, 0, 0);
+        pros::delay(100);
+        chassis.moveToPoint(0, -24, 2000, {.forwards = false, .maxSpeed = 70});
+        pros::delay(5000);
+        lemreset(true, 1, false, true, true, 0, 15, -48, 0, true);
+        break;
+
+        case 11:
+        chassis.setPose(0, 0, 0);
+        pros::delay(1000);
+        chassis.turnToHeading(90, 1000);
+        chassis.turnToHeading(00, 1000);
+        break;
+
+        case 12:
+        chassis.setPose(0, 0, 0);
+        pros::delay(1000);
+        chassis.moveToPoint(0, 48, 10000);
+        break;
+        
+        case 13:
+        pros::delay(200);
+        chassis.setPose(0, 0, 0);
+        pros::delay(100);
+        intakeone(12000);
+        chassis.moveToPoint(0, 42, 2000, {.forwards = true, .maxSpeed = 70});
+        littlewill.toggle();
+        chassis.waitUntilDone();
+        chassis.turnToHeading(90, 1000);
+        chassis.moveToPoint(16, 42, 1000);
+        pros::delay(5000);
+        lemreset(true, 2, true, false, false, -120, 16, -76, 58, true);
+        pros::delay(600);
+        chassis.moveToPoint(17, 42, 1000);
+        pros::delay(600);
+        chassis.moveToPoint(17.5, 42, 200);
+        chassis.moveToPoint(-20, 42, 1500, {.forwards = false, .maxSpeed = 70});
+        intakeall(12000);
+        pros::delay(2000);
+        chassis.moveToPoint(0, 42, 1000, {.forwards = true, .maxSpeed = 70});
+        chassis.turnToHeading(180, 1000);
+        chassis.moveToPoint(0, 60, 1500, {.forwards = false});
+        pros::delay(5000);
+        lemreset(true, 3, true, false, true, 0, 16, -76, 58, true);
+        pros::delay(1000);
+        chassis.turnToHeading(270, 600);
+        pros::delay(100);
+        chickenstars.toggle();
+        chassis.moveToPoint(-80, 60, 3000, {.forwards = true, .maxSpeed = 70});
+        chassis.waitUntilDone();
+        chickenstars.toggle();
+        chassis.turnToHeading(180, 600);
+        pros::delay(5000);
+        lemreset(true, 3, true, false, true, -120, 16, -76, 58, true);
+        pros::delay(5000);
+        lemreset(true, 3, false, true, true, -120, 16, -76, 58, true);
+        // max y is 58
+        // min y is -76
+        // min x is bleh -120
+        // max x is 16 
+
+        // one tile is 62mm 
+        // 58.82
+        // 57.97
+        // acc = 2 tiles plus 23 inch and 1 quarter inch
     }
 }
 
@@ -232,6 +301,18 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_Y)) {
         littlewill.toggle();
     }
+
+    if(master.get_digital_new_press(DIGITAL_UP)) {
+    rightdsr();
+    chassis.setPose(centreToWallSideAccount4Angle, chassis.getPose().y, chassis.getPose().theta);
+    }
+
+    if(master.get_digital_new_press(DIGITAL_X)) {
+    backdsr();  
+    chassis.setPose(chassis.getPose().x, distanceFromCentreBackAccount4Angle, chassis.getPose().theta);
+
+    }
+
         // delay to save resources
     pros::delay(10);
     }

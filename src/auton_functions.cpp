@@ -4,6 +4,8 @@
 // #include <iterator>
 
 void rightdsr() {
+width = -38.1;
+length = -100;
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
@@ -23,6 +25,8 @@ distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4
 };
 
 void leftdsr() {
+width = -38.1;
+length = -100;
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
@@ -44,6 +48,8 @@ distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4
 };
 
 void backdsr(){
+    width = -25.4;
+length = -100;
     //'*180.0/M_PI' converts radians to degrees
 c = sensor2.get();
 a = sensor3.get();
@@ -53,6 +59,8 @@ theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 
 distanceFromCentreBack = ((c + a) / 2) + (length / 2);
 distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCentreBack;
+
+distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 }
 
 
@@ -74,7 +82,10 @@ distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCe
 //     }
 // }
 
-void lemreset(int setwall, int wall, bool left, bool right, bool back, double min_x, double max_x, double min_y, double max_y, bool setpose){ //1 is left
+// max y = 58
+// min y = -76
+
+void lemreset(bool setwall, int wall, bool left, bool right, bool back, double min_x, double max_x, double min_y, double max_y, bool setpose){ //1 is left
    
     if (setwall == true) {
         wall = wall;
@@ -109,6 +120,7 @@ void lemreset(int setwall, int wall, bool left, bool right, bool back, double mi
             if (back == true) {
                 backdsr();
                 distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle + min_y;
+                
                 if (setpose == true) {
                     chassis.setPose(chassis.getPose().x,distanceFromCentreBackAccount4Angle, chassis.getPose().theta);
                 }
@@ -210,8 +222,8 @@ void lemreset(int setwall, int wall, bool left, bool right, bool back, double mi
 
 
 void lemrightdsr(){
-width = -25.4;
-length = -50.8;
+// width = -25.4;
+// length = -50.8;
 
 c = sensor2.get();
 a = sensor3.get();
@@ -231,8 +243,8 @@ distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4
 }
 
 void lemleftdsr(){
-width = -25.4;
-length = -50.8;
+// width = -25.4;
+// length = -50.8;
 
 c = sensor2.get();
 a = sensor3.get();
@@ -252,13 +264,13 @@ distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4
 }
 
 void lembackdsr() {
-width = -25.4;
-length = -50.8;
+// width = -25.4;
+// length = -50.8;
 
 c = sensor2.get();
 a = sensor3.get();
 
-     opposite = c - a;
+opposite = c - a;
 theta = atan(opposite / distanceBetweenBackSensors) * 180.0 / M_PI;
 //  back of robot? 
 distanceFromCentreBack = ((c + a) / 2) + (length); // y distance from tracking center, length / 2 is tracking center
