@@ -7,3 +7,4 @@ void lemrightdsr();
 void lemleftdsr();
 void lembackdsr();
 void alldsr(bool right, bool left);
+void rightdsrstupid(double width, double length, double heading);

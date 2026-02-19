@@ -24,6 +24,18 @@ centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
 distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 };
 
+void rightdsrstupid(double width, double length, double heading) { // width = -38.1, length = -100
+    //'*180.0/M_PI' converts radians to degrees
+sideSensorReading = sensor1.get(); //blhr
+theta = chassis.getPose().theta - heading; // account for heading
+
+trackingCentreToWallSide = sideSensorReading + (width / 2); // adjacent from tracking center to wall, sideSensorReading is from sensor to wall, width / 2 adds tracking center distance
+centreToWallSideAccount4Angle = cos(theta * M_PI / 180.0) * trackingCentreToWallSide; // cos theta*hypotenuse = adjacent 
+
+centreToWallSideAccount4Angle = centreToWallSideAccount4Angle / 25.4;
+};
+
+
 void leftdsr() {
 width = -38.1;
 length = -100;
@@ -62,6 +74,7 @@ distanceFromCentreBackAccount4Angle = cos(theta * M_PI / 180.0) * distanceFromCe
 
 distanceFromCentreBackAccount4Angle = distanceFromCentreBackAccount4Angle / 25.4;
 }
+
 
 
 // void setdsrpose(bool left, bool right, bool back){
