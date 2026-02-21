@@ -115,32 +115,29 @@ void right_auto() {
      chassis.moveToPoint(5.273, 40.067, 1000, {.maxSpeed = 90});
     pros::delay(500);
     littlewill.toggle();
-    chassis.turnToPoint(31.8, 18,600, {.maxSpeed = 90});
-    chassis.moveToPoint(31.8, 18, 1000);
+    chassis.turnToPoint(31, 18,700, {.maxSpeed = 100});
+    chassis.moveToPoint(31, 18, 1200);
 
-    chassis.turnToHeading(180, 1050);
+    chassis.turnToHeading(180, 800);
     pros::delay(50); 
     intakeall(-12000);
     pros::delay(100);
-    intakeone(12000);
-    chassis.moveToPoint(33, 2, 900, {.maxSpeed = 100});
-    pros::delay(200);
-    chassis.moveToPoint(33.5, -1, 200, {.minSpeed = 80});
-    pros::delay(350);
+    intakeone(8000);
+    chassis.moveToPoint(31, 2, 750, {.maxSpeed = 100});
+    chassis.moveToPoint(31, -1, 100, {.minSpeed = 80});
 
+    chassis.moveToPoint(31, 41, 1200, {.forwards = false, .minSpeed = 40});
     chassis.turnToHeading(180, 300);
-    chassis.moveToPoint(33.8, 41, 1200, {.forwards = false, .minSpeed = 40});
-    pros::delay(1000);
+    pros::delay(800);
     intakeall(12000);
-    // chassis.moveToPoint(35.5, 43, 100, {.minSpeed = 60});
     pros::delay(1500); // commit
     intakeall(-12000);
-    pros::delay(300); // commit
+    pros::delay(300);
     intakeall(12000);
     pros::delay(1400);
     intakeall(0);
-    chassis.moveToPoint(22.5, 28, 1200, {.minSpeed = 65});// og 20.5
-    chassis.moveToPoint(24.6, 48, 2000, {.forwards = false, .maxSpeed = 100, .minSpeed = 65});
+    chassis.moveToPoint(20.5, 28, 1200, {.minSpeed = 35});// og 20.5
+    chassis.moveToPoint(30, 30, 2000, {.forwards = false, .maxSpeed = 100, .minSpeed = 35});
     chassis.turnToHeading(150, 1000, {.maxSpeed = 40});
     pros::delay(10); //
 }
