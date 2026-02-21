@@ -3,22 +3,30 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/rtos.hpp"
 #include "auton_paths.hpp"
+
 float Maxspeed = 127;
 float Minspeed = 0;
 bool Forwards = true;
-        void driveRelative(double distance, int timeout, float Maxspeed = 127, float Minspeed = 0, bool Forwards = true) {
+
+void driveRelative(double distance, int timeout, float Maxspeed = 127, float Minspeed = 0, bool Forwards = true) {
     lemlib::Pose pose = chassis.getPose();
 
-    double headingRad = pose.theta;
+//turn theta from degrees to radians because cos and sin calculations require radians
+    double headingRad = pose.theta * M_PI / 180.0;
+//calculate new position 
     double targetX = pose.x + distance * cos(headingRad);
     double targetY = pose.y + distance * sin(headingRad);
 
+//using new coordinates, moveToPose
     chassis.moveToPose(targetX, targetY, pose.theta, timeout, {.forwards = Forwards, .maxSpeed = Maxspeed, .minSpeed = Minspeed});
 }
 
+
+
 void test(){
+        driveRelative(10, 1000, 127, 127);
     chassis.turnToHeading(50, 500);
-    driveRelative(50, 1000, 127, 127);
+    driveRelative(20, 1000, 127, 127);
     // chassis.turnToHeading(90, 1000);
     // driveRelative(5, 1000);
 }
