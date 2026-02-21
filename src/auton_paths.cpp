@@ -188,55 +188,103 @@ void leftmirrored(){
 //sawp
 
 void sawp(){
+
     pros::delay(20);
     chassis.setPose(0, 0, 0);
     intakeone(12000);
     littlewill.toggle();
-    chassis.moveToPoint(0, 40, 1200, {.maxSpeed = 100});
-    pros::delay(10);
-    chassis.turnToHeading(90, 400);
+
+    chassis.moveToPoint(0, 39.5, 1100, {.forwards = true, .maxSpeed = 70});
     chassis.waitUntilDone();
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(16, 43.5, 800);
+    pros::delay(50);
 
-    chassis.moveToPoint(21.5, 37.5, 1150, {.maxSpeed = 90});
-    pros::delay(350);
-
-    chassis.moveToPoint(-20, 38.5, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-22, 44.25, 1000, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
-    pros::delay(1100);
+    pros::delay(1200);
     littlewill.toggle();
     intakeone(12000);
 
-    chassis.moveToPoint(-24, 14, 800, {.maxSpeed = 80});
+    chassis.moveToPoint(-28, 16, 950, {.maxSpeed = 80});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(-20, -30.5, 1500, {.maxSpeed = 90, .minSpeed = 30});
-    chassis.waitUntilDone();
-
+    chassis.moveToPoint(-26, -30.5, 1500, {.maxSpeed = 80, .minSpeed = 20});
+    pros::delay(900);
     littlewill.toggle();
-    //     chassis.turnToHeading(135, 350, {.minSpeed = 40});
-    chassis.moveToPoint(-29, -20, 200, {.forwards = false, .maxSpeed = 90}); // suspiviouys
+    // chassis.waitUntilDone();
 
-    chassis.moveToPoint(-37, -11.5, 1000, {.forwards = false, .maxSpeed = 90});
-    chassis.turnToHeading(135, 350, {.minSpeed = 40});
-    intakemiddle(12000);
-    pros::delay(1600);
-    intakeone(12000); 
+    chassis.moveToPoint(-7, -54, 1200, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
+    chassis.waitUntilDone();
 
-    chassis.moveToPoint(5, -54, 1400, {.maxSpeed = 90, .minSpeed = 30});
-    midgoal.set_value(false);
-    intakeone(12000);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(90, 350, {.maxSpeed = 70});
-    chassis.waitUntilDone();
-    chassis.moveToPoint(30, -54, 1150, {.maxSpeed = 70, .minSpeed = 30});
-    pros::delay(1000);
-    // chassis.moveToPoint(27, -56, 400, {.minSpeed = 40});
-    // pros::delay(600);
-    chassis.moveToPoint(-16, -53, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(90, 500);
+    chassis.moveToPoint(-24, -56, 1200, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
+    pros::delay(1250); // score long goal
+    intakeone(12000);
+    chassis.moveToPoint(20, -54, 1250, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
+    pros::delay(150);
 
+    chassis.moveToPoint(5, -54, 800, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+
+    chassis.turnToHeading(135, 600);
+
+    chassis.moveToPoint(-43, -12.5, 1200, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+
+    // ## older sawp ##
+    // pros::delay(20);
+    // chassis.setPose(0, 0, 0);
+    // intakeone(12000);
+    // littlewill.toggle();
+    // chassis.moveToPoint(0, 40, 1200, {.maxSpeed = 100});
+    // pros::delay(10);
+    // chassis.turnToHeading(90, 400);
+    // chassis.waitUntilDone();
+
+    // chassis.moveToPoint(21.5, 37.5, 1150, {.maxSpeed = 90});
+    // pros::delay(350);
+
+    // chassis.moveToPoint(-20, 38.5, 1000, {.forwards = false, .maxSpeed = 80});
+    // chassis.waitUntilDone();
+    // intakeall(12000);
+    // pros::delay(1100);
+    // littlewill.toggle();
+    // intakeone(12000);
+
+    // chassis.moveToPoint(-24, 14, 800, {.maxSpeed = 80});
+    // chassis.waitUntilDone();
+
+    // chassis.moveToPoint(-20, -30.5, 1500, {.maxSpeed = 90, .minSpeed = 30});
+    // chassis.waitUntilDone();
+
+    // littlewill.toggle();
+    // //     chassis.turnToHeading(135, 350, {.minSpeed = 40});
+    // chassis.moveToPoint(-29, -20, 200, {.forwards = false, .maxSpeed = 90}); // suspiviouys
+
+    // chassis.moveToPoint(-37, -11.5, 1000, {.forwards = false, .maxSpeed = 90});
+    // chassis.turnToHeading(135, 350, {.minSpeed = 40});
+    // intakemiddle(12000);
+    // pros::delay(1600);
+    // intakeone(12000); 
+
+    // chassis.moveToPoint(5, -54, 1400, {.maxSpeed = 90, .minSpeed = 30});
+    // midgoal.set_value(false);
+    // intakeone(12000);
+    // chassis.waitUntilDone();
+    // chassis.turnToHeading(90, 350, {.maxSpeed = 70});
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(30, -54, 1150, {.maxSpeed = 70, .minSpeed = 30});
+    // pros::delay(1000);
+    // // chassis.moveToPoint(27, -56, 400, {.minSpeed = 40});
+    // // pros::delay(600);
+    // chassis.moveToPoint(-16, -53, 1000, {.forwards = false, .maxSpeed = 80});
+    // chassis.waitUntilDone();
+    // intakeall(12000);
+
+
+    // ## old old sawp ##
     // chassis.moveToPoint(-22, 34, 2000, {.forwards = true});
     // ToPoint(-22, 34, lemlib::DriveSide::LEFT, 2000, {.forwards = true});
     // ToPose(-22, 34, 190, 2000, {.forwards = true});
