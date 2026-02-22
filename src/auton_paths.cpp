@@ -206,40 +206,46 @@ void sawp(){
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
     chassis.moveToPoint(16, 43.5, 800);
-    pros::delay(50);
+    pros::delay(100);
 
     chassis.moveToPoint(-22, 44.25, 1000, {.forwards = false, .maxSpeed = 80});
-    chassis.waitUntilDone();
+pros::delay(900);
     intakeall(12000);
-    pros::delay(1200);
+    pros::delay(800);
     littlewill.toggle();
     intakeone(12000);
 
     chassis.moveToPoint(-28, 16, 950, {.maxSpeed = 80});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(-26, -30.5, 1500, {.maxSpeed = 80, .minSpeed = 20});
+    chassis.moveToPoint(-26, -30.5, 1200, {.maxSpeed = 80, .minSpeed = 20});
     pros::delay(900);
     littlewill.toggle();
     // chassis.waitUntilDone();
 
-    chassis.moveToPoint(-7, -54, 1200, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
+    chassis.moveToPoint(-6, -53, 800, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
     chassis.waitUntilDone();
 
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(-24, -56, 1200, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(90, 300);
+    chassis.moveToPoint(-26, -57, 500, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
-    pros::delay(1250); // score long goal
+    pros::delay(1400); // score long goal
     intakeone(12000);
-    chassis.moveToPoint(20, -54, 1250, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(20, -57, 1250, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
     pros::delay(150);
 
     chassis.moveToPoint(5, -54, 800, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
 
     chassis.turnToHeading(135, 600);
 
-    chassis.moveToPoint(-43, -12.5, 1200, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(-42, -13.5, 1200, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
+    chassis.waitUntilDone();
+    intakeall(-12000);
+    pros::delay(100);
+    intakemiddle(12000);
+    pros::delay(2000);
+    intakeall(0);
 
     // ## older sawp ##
     // pros::delay(20);
