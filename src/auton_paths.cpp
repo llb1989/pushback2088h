@@ -198,48 +198,51 @@ void leftmirrored(){
 void sawp(){
 
     pros::delay(20);
-    chassis.setPose(0, 0, 0);
+    chassis.setPose(0, 1, 0);
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(0, 39.5, 1100, {.forwards = true, .maxSpeed = 70});
+    chassis.moveToPoint(0, 40, 1000, {.forwards = true, .maxSpeed = 90});
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(16, 43.5, 800);
-    pros::delay(50);
-
-    chassis.moveToPoint(-22, 44.25, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(16, 42.5, 800);
+    pros::delay(75);
+// 
+    chassis.moveToPoint(-22, 42.5, 1000, {.forwards = false, .maxSpeed = 80, .minSpeed = 20});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1200);
     littlewill.toggle();
     intakeone(12000);
 
-    chassis.moveToPoint(-28, 16, 950, {.maxSpeed = 80});
+    chassis.moveToPoint(-28, 16, 950, {.maxSpeed = 90});
     chassis.waitUntilDone();
 
-    chassis.moveToPoint(-26, -30.5, 1500, {.maxSpeed = 80, .minSpeed = 20});
+    chassis.moveToPoint(-26, -30.5, 1500, {.maxSpeed = 90, .minSpeed = 20});
     pros::delay(900);
     littlewill.toggle();
     // chassis.waitUntilDone();
 
-    chassis.moveToPoint(-7, -54, 1200, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
+    chassis.moveToPoint(-7, -57, 1200, {.maxSpeed = 90, .minSpeed = 20}); // move to other quadrant
     chassis.waitUntilDone();
 
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(-24, -56, 1200, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(90, 700);
+    chassis.moveToPoint(-28, -57.7, 1200, {.forwards = false, .maxSpeed = 90, .minSpeed = 20});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1250); // score long goal
     intakeone(12000);
-    chassis.moveToPoint(20, -54, 1250, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
-    pros::delay(150);
+    chassis.moveToPoint(20, -57.5, 1000, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
+    pros::delay(100);
 
-    chassis.moveToPoint(5, -54, 800, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+    chassis.moveToPoint(0, -57.5, 850, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+    chassis.waitUntilDone();
 
     chassis.turnToHeading(135, 600);
 
-    chassis.moveToPoint(-43, -12.5, 1200, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(-43, -14, 1200, {.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    intakemiddle(12000);
 
     // ## older sawp ##
     // pros::delay(20);
@@ -486,7 +489,6 @@ intakeall(12000);
 }
 
 void right_goal_rush() {
-    //pros::delay(200);
         littlewill.toggle();
         intakeone(12000);
     chassis.setPose(0, 0, 0);
@@ -495,29 +497,24 @@ void right_goal_rush() {
     chassis.turnToHeading(90, 700);
 
     chassis.moveToPoint(20.5 , 42, 1000, {.maxSpeed = 90});
-    pros::delay(900);
-    // chassis.moveToPoint(16, 40, 1000, {.maxSpeed = 90});
-    // pros::delay(200);
-    // chassis.turnToHeading(90, 200);
+    pros::delay(300);
+
     chassis.moveToPoint(-18, 44, 1500, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
     chassis.waitUntilDone();
-    // intakeall(1200);
-    // pros::delay(500);  //1300
-    // intakeall(0);
-    // pros::delay(100);
+
     intakeall(12000);
-    pros::delay(1700);  //1300
+    pros::delay(1200);  //1300
 
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(-28, 15, 1000);
+    chassis.moveToPoint(-32, 19, 1000);
     chassis.waitUntilDone();
     littlewill.toggle();
 
-    chassis.moveToPoint(-9, 35, 700, {.forwards = false});
+    chassis.moveToPoint(-9, 30, 700, {.forwards = false});
         chassis.turnToHeading(90, 300, {.maxSpeed = 60});
-    chassis.moveToPoint(-23, 39, 780, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-40, 32, 1700, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(40, 500);
     intakeall(0);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
