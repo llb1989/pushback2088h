@@ -135,7 +135,8 @@ void autonomous() {
 
     int autonumber = currAuto;
     switch (7){
-        case 1: // forwards
+        case 1: // forwards // bleh
+        
         test();
         break;
                                                                                                                                                                        
