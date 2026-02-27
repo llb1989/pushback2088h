@@ -8,7 +8,7 @@
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 
-std::string job = "thanks";
+std::string job = "thanks"; //lyla is the best most awesomesyt coder ever and nolan is a jewtwinkigga
 
     const int numAutos = 9;
 int states[numAutos] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -134,9 +134,9 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (7){
+    switch (13){
         case 1: // forwards // bleh
-        
+
         test();
         break;
                                                                                                                                                                        
@@ -200,20 +200,20 @@ void autonomous() {
         chassis.waitUntilDone();
         chassis.turnToHeading(90, 800);
         chassis.moveToPoint(16, 40, 1000);
-        pros::delay(1500);
+        pros::delay(800);
         intakeone(8000);
         chassis.moveToPoint(17, 40, 1000);
         pros::delay(1500);
         chassis.moveToPoint(0, 40, 1000, {.forwards = false, .maxSpeed = 80});
         chassis.turnToHeading(180, 1000);
         chassis.moveToPoint(0, 68, 1500, {.forwards = false, .maxSpeed = 90});
-        intakeall(0);
+        // intakeall(0);
         chassis.waitUntilDone();
         pros::delay(200);
         lemreset(true, 3, true, false, true, 0, 16, -76, 58, true);
         pros::delay(500);
         chassis.turnToHeading(270, 600);
-        chickenstars.toggle();
+
         chassis.moveToPoint(-90, 59, 3500, {.forwards = true, .maxSpeed = 80});
         littlewill.toggle();
         chassis.waitUntilDone();
@@ -221,10 +221,12 @@ void autonomous() {
         chassis.turnToHeading(180, 600);
         chassis.moveToPoint(-90, 68, 600, {.forwards = false, .maxSpeed = 90});
         chassis.waitUntilDone();
+        littlewill.toggle();
         pros::delay(200);
-        chickenstars.toggle();
+  
         lemreset(true, 3, false, true, true, -120, 16, -76, 58, true); // reset the right
         pros::delay(500);
+
         chassis.moveToPoint(-90, 41, 1000, {.maxSpeed = 80}); // make 40
         chassis.turnToHeading(270, 800);
         chassis.moveToPoint(-80, 41, 800, {.forwards = false, .maxSpeed = 110, .minSpeed = 50});
@@ -232,19 +234,16 @@ void autonomous() {
         pros::delay(300);
         intakeall(12000);
         pros::delay(1000);
-        intakeall(-12000);
-        pros::delay(300);
         intakeall(12000);
         pros::delay(3000);
         intakeone(12000);
-        littlewill.toggle();
         chassis.turnToHeading(270, 400);
-        chassis.moveToPoint(-115, 42, 800, {.forwards = true, .maxSpeed = 80});
+        chassis.moveToPoint(-115, 41, 800, {.forwards = true, .maxSpeed = 80});
         pros::delay(500);
         intakeone(8000);
-        chassis.moveToPoint(-116.5, 42, 800, {.forwards = true, .maxSpeed = 90});
+        chassis.moveToPoint(-116.5, 41, 800, {.forwards = true, .maxSpeed = 90});
         pros::delay(2000);
-        chassis.moveToPoint(-80, 42, 1000, {.forwards = false, .maxSpeed = 110, .minSpeed = 50});
+        chassis.moveToPoint(-80, 40, 1000, {.forwards = false, .maxSpeed = 110, .minSpeed = 50});
         chassis.waitUntilDone();
          pros::delay(300);
         intakeall(12000);
@@ -258,71 +257,80 @@ void autonomous() {
         intakeall(12000);
         pros::delay(2000);
         intakeone(12000);
-        chassis.moveToPoint(-100, 42, 1000, {.forwards = true, .maxSpeed = 80});
+        chassis.moveToPoint(-100, 40, 1000, {.forwards = true, .maxSpeed = 80});
         // littlewill.toggle();
         chassis.turnToHeading(0, 600);
         chassis.waitUntilDone();
 
         intakeall(-12000);
-        chassis.moveToPoint(-100, -80, 3500, {.forwards = false, .maxSpeed = 80});
+        chassis.moveToPoint(-107, -80, 3500, {.forwards = false, .maxSpeed = 80});
         chassis.turnToHeading(0, 600);
         chassis.waitUntilDone();
-        pros::delay(200);
+        // littlewill.toggle(); // erase later ##########
         lemreset(true, 1, true, false, true, -120, 16, -73, 58, true); // reset the left
-        pros::delay(500);
+        pros::delay(200);
         intakeone(12000);
-        chassis.moveToPoint(-100, -55, 1000, {.forwards = true, .maxSpeed = 80});
-        chassis.turnToHeading(270, 800);
+        chassis.moveToPoint(-100, -56, 800, {.forwards = true, .maxSpeed = 90});
+        chassis.turnToHeading(270, 700);
 
-        
-        chassis.moveToPoint(-115, -54, 1000, {.forwards = true, .maxSpeed = 90}); // why no working help
-        pros::delay(2000); 
-        chassis.turnToHeading(270, 800);
-        chassis.moveToPoint(-116, -54, 1000, {.forwards = true, .maxSpeed = 90}); // why no working help
-        pros::delay(2000); 
+        chassis.moveToPoint(-116, -54, 1000, {.forwards = true, .maxSpeed = 70}); // matchloader
+        pros::delay(1400); 
         
         chassis.moveToPoint(-100, -55, 1000, {.forwards = false, .maxSpeed = 80});
         chassis.turnToHeading(0, 600);
         chassis.waitUntilDone(); 
-        chassis.moveToPoint(-100, -84, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+        chassis.moveToPoint(-100, -90, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
         pros::delay(200);
         lemreset(true, 1, true, false, true, -120, 16, -73, 58, true);
         pros::delay(1000);
-        imu.reset();
-        chassis.setPose(chassis.getPose().x, chassis.getPose().y, 0);
-        pros::delay(1000);
-        chickenstars.toggle();
+
         chassis.turnToHeading(90, 600);
         littlewill.toggle();
         chassis.moveToPoint(-10, -78, 3500, {.forwards = true, .maxSpeed = 90});
-        chassis.turnToHeading(0, 600);
-        chassis.moveToPoint(-10, -80, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+        chassis.turnToHeading(0, 600); // og angle
+        chassis.moveToPoint(-10, -84, 1000, {.forwards = false, .maxSpeed = 90});
         pros::delay(200);
-        lemreset(true, 1, false, true, true, -120, 16, -73, 58, true);
+        lemreset(true, 1, false, true, true, -120, 16, -73, 58, true); // reset 4th quad?
         pros::delay(500);
-        chassis.moveToPoint(-10, -58, 1000, {.forwards = true, .maxSpeed = 90});
+        chassis.turnToHeading(0, 200); // og angle
+        chassis.moveToPoint(-10, -56, 1000, {.forwards = true, .maxSpeed = 90});
         chassis.waitUntilDone();
-        pros::delay(200);
-        chassis.turnToHeading(90, 600);
+        chassis.turnToHeading(90, 1000);
         littlewill.toggle();
+        chassis.waitUntilDone();
         
-        chassis.moveToPoint(-20, -58, 800, {.forwards = false, .maxSpeed = 110, .minSpeed = 40});
+        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90});
+        chassis.waitUntilDone();
         intakeall(12000);
         pros::delay(2000);
         intakeone(12000);
-        chassis.moveToPoint(16, -58, 1000, {.forwards = true, .maxSpeed = 100});
-        pros::delay(2000);
-        chassis.moveToPoint(17, -58, 1000, {.forwards = true, .maxSpeed = 100});
-        pros::delay(2000);
-        chassis.moveToPoint(-20, -58, 800, {.forwards = false, .maxSpeed = 70});
+        chassis.moveToPoint(16, -56, 1000, {.forwards = true, .maxSpeed = 50});
+        pros::delay(500);
+        chassis.moveToPoint(17.7, -56, 1000, {.forwards = true, .maxSpeed = 50});
+        pros::delay(1000);
+
+        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90});
+        chassis.waitUntilDone();
         intakeall(12000);
+        pros::delay(3000);
 
-        pros::delay(2000);
-        chassis.moveToPoint(0, -60, 800);
-        chassis.turnToHeading(0, 0);
+        littlewill.toggle(); // heh
+        chassis.moveToPoint(0, -60, 800, {.forwards = true});
+        pros::delay(100);
+
+        chassis.moveToPose(20, -16, 0, 2000, {.forwards = true});
+        chassis.waitUntilDone();
+        pros::delay(200);
+        lemreset(true, 1, false, true, false, -120, 16, -73, -58, true);
+        pros::delay(500);
+        chickenstars.toggle();
+        chassis.moveToPoint(20, -18, 2000, {.forwards = true});
+        littlewill.toggle();
+        chassis.waitUntilDone();
+        
+        chassis.moveToPoint(20, 0, 2000, {.forwards = true}); // was -4
 
 
-  
         // ## double clear ##
         // chassis.turnToHeading(-135, 800);
         // chassis.moveToPoint(-116, 30, 800);

@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "jews",
+    "project_name": "lylas code",
     "target": "v5",
     "templates": {
       "LemLib": {
