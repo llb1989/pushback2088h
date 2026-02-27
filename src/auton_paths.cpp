@@ -196,19 +196,22 @@ void leftmirrored(){
 //sawp
 
 void sawp(){
-
+    
     pros::delay(20);
-    chassis.setPose(0, 1, 0);
+    
+    chassis.setPose(0, 1, 0);  
+      rightMotors.set_brake_mode(pros::MotorBrake::hold);
+    leftMotors.set_brake_mode(pros::MotorBrake::hold);
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(0, 40, 1000, {.forwards = true, .maxSpeed = 90});
+    chassis.moveToPoint(0, 38, 1000, {.forwards = true, .maxSpeed = 90});
     chassis.waitUntilDone();
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(16, 43.5, 800);
-    pros::delay(100);
+    chassis.turnToHeading(90, 600);
+    chassis.moveToPoint(16, 38, 800);
+    pros::delay(50);
 
-    chassis.moveToPoint(-22, 44.25, 1000, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-20, 39, 1000, {.forwards = false, .maxSpeed = 80});
 pros::delay(900);
     intakeall(12000);
     pros::delay(800);
@@ -223,27 +226,27 @@ pros::delay(900);
     littlewill.toggle();
     // chassis.waitUntilDone();
 
-    chassis.moveToPoint(-6, -53, 800, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
+    chassis.moveToPoint(-6, -59, 800, {.maxSpeed = 80, .minSpeed = 10}); // move to other quadrant
     chassis.waitUntilDone();
 
     chassis.turnToHeading(90, 300);
-    chassis.moveToPoint(-26, -57, 500, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-28, -59, 800, {.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1400); // score long goal
     intakeone(12000);
-    chassis.moveToPoint(20, -57, 1250, {.forwards = true, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(18, -58, 1250, {.forwards = true, .maxSpeed = 70, .minSpeed = 20});
     pros::delay(150);
 
-    chassis.moveToPoint(0, -57.5, 850, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+    chassis.moveToPoint(0, -58, 700, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
     chassis.waitUntilDone();
 
     chassis.turnToHeading(135, 600);
 
-    chassis.moveToPoint(-42, -13.5, 1200, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
+    chassis.moveToPoint(-45.5, -14.8, 1300, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
     chassis.waitUntilDone();
     intakeall(-12000);
-    pros::delay(100);
+    pros::delay(200);
     intakemiddle(12000);
     pros::delay(2000);
     intakeall(0);
