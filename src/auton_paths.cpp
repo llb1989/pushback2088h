@@ -529,7 +529,7 @@ void right_goal_rush() {
 
     chassis.moveToPoint(-9, 30, 700, {.forwards = false});
         chassis.turnToHeading(90, 300, {.maxSpeed = 60});
-    chassis.moveToPoint(-40, 32, 1700, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-43, 32, 1500, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(40, 500);
     intakeall(0);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
