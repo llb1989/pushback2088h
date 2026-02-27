@@ -191,81 +191,81 @@ void autonomous() {
         break;
         
         case 13:
-        pros::delay(200);
-        chassis.setPose(0, 0, 0);
-        pros::delay(100);
-        intakeone(12000);
-        chassis.moveToPoint(0, 40, 1200, {.forwards = true, .maxSpeed = 80});
-        littlewill.toggle();
-        chassis.waitUntilDone();
-        chassis.turnToHeading(90, 800);
-        chassis.moveToPoint(16, 40, 1000);
-        pros::delay(800);
-        intakeone(8000);
-        chassis.moveToPoint(17, 40, 1000);
-        pros::delay(1500);
-        chassis.moveToPoint(0, 40, 1000, {.forwards = false, .maxSpeed = 80});
-        chassis.turnToHeading(180, 1000);
-        chassis.moveToPoint(0, 68, 1500, {.forwards = false, .maxSpeed = 90});
-        // intakeall(0);
-        chassis.waitUntilDone();
-        pros::delay(200);
-        lemreset(true, 3, true, false, true, 0, 16, -76, 58, true);
-        pros::delay(500);
-        chassis.turnToHeading(270, 600);
-
-        chassis.moveToPoint(-90, 59, 3500, {.forwards = true, .maxSpeed = 80});
-        littlewill.toggle();
-        chassis.waitUntilDone();
-        chassis.waitUntilDone();
-        chassis.turnToHeading(180, 600);
-        chassis.moveToPoint(-90, 68, 600, {.forwards = false, .maxSpeed = 90});
-        chassis.waitUntilDone();
-        littlewill.toggle();
-        pros::delay(200);
-  
-        lemreset(true, 3, false, true, true, -120, 16, -76, 58, true); // reset the right
-        pros::delay(500);
-
-        chassis.moveToPoint(-90, 41, 1000, {.maxSpeed = 80}); // make 40
-        chassis.turnToHeading(270, 800);
-        chassis.moveToPoint(-80, 41, 800, {.forwards = false, .maxSpeed = 110, .minSpeed = 50});
-        chassis.waitUntilDone();
-        pros::delay(300);
-        intakeall(12000);
-        pros::delay(1000);
-        intakeall(12000);
-        pros::delay(3000);
-        intakeone(12000);
-        chassis.turnToHeading(270, 400);
-        chassis.moveToPoint(-115, 41, 800, {.forwards = true, .maxSpeed = 80});
-        pros::delay(500);
-        intakeone(8000);
-        chassis.moveToPoint(-116.5, 41, 800, {.forwards = true, .maxSpeed = 90});
-        pros::delay(2000);
-        chassis.moveToPoint(-80, 40, 1000, {.forwards = false, .maxSpeed = 110, .minSpeed = 50});
-        chassis.waitUntilDone();
-         pros::delay(300);
-        intakeall(12000);
-        pros::delay(1000);
-        intakeall(-12000);
-        pros::delay(300);
-        intakeall(12000);
-        pros::delay(3000);
-        intakeall(-12000);
-        pros::delay(100);
-        intakeall(12000);
-        pros::delay(2000);
-        intakeone(12000);
-        chassis.moveToPoint(-100, 40, 1000, {.forwards = true, .maxSpeed = 80});
+        // pros::delay(200);
+        // chassis.setPose(0, 0, 0);
+        // pros::delay(100);
+        // intakeone(12000);
+        // chassis.moveToPoint(0, 40, 1200, {.forwards = true, .maxSpeed = 80}); // first loader right side
         // littlewill.toggle();
-        chassis.turnToHeading(0, 600);
-        chassis.waitUntilDone();
+        // chassis.waitUntilDone();
+        // chassis.turnToHeading(90, 800);
+        // chassis.moveToPoint(16, 40, 1000); //matchload
+        // pros::delay(800);
+        // intakeone(8000);
+        // chassis.moveToPoint(17, 40, 1000); 
+        // pros::delay(1500);
+        // chassis.moveToPoint(0, 40, 1000, {.forwards = false, .maxSpeed = 80}); // reset epstein
+        // chassis.turnToHeading(180, 1000);
+        // chassis.moveToPoint(0, 68, 1500, {.forwards = false, .maxSpeed = 90}); // reset epstein
+        // // intakeall(0);
+        // chassis.waitUntilDone();
+        // pros::delay(200);
+        // lemreset(true, 3, true, false, true, 0, 16, -76, 58, true); // reset epstein
+        // pros::delay(2000);
+        // chassis.turnToHeading(270, 1000);
 
-        intakeall(-12000);
-        chassis.moveToPoint(-107, -80, 3500, {.forwards = false, .maxSpeed = 80});
-        chassis.turnToHeading(0, 600);
-        chassis.waitUntilDone();
+        // chassis.moveToPoint(-90, 59, 3500, {.forwards = true, .maxSpeed = 80}); // next quadrant
+        // littlewill.toggle();
+        // chassis.waitUntilDone();
+        // chassis.waitUntilDone();
+        // chassis.turnToHeading(180, 600);
+        // chassis.moveToPoint(-90, 68, 600, {.forwards = false, .maxSpeed = 90}); // line up to goal
+        // chassis.waitUntilDone();
+        // littlewill.toggle();
+        // pros::delay(200);
+  
+        // lemreset(true, 3, false, true, true, -120, 16, -76, 58, true); // reset the right
+        // pros::delay(500);
+
+        // chassis.moveToPoint(90, 41, 1000, {.maxSpeed = 80}); // make 40
+        // chassis.turnToHeading(270, 800);
+        // chassis.moveToPoint(-80, 41, 800, {.forwards = false, .maxSpeed = 110, .minSpeed = 50}); // score long goal
+        // chassis.waitUntilDone();
+        // pros::delay(300);
+        // intakeall(12000);
+        // pros::delay(1000);
+        // intakeall(12000);
+        // pros::delay(3000);
+        // intakeone(12000);
+        // chassis.turnToHeading(270, 400);
+        // chassis.moveToPoint(-115, 41, 800, {.forwards = true, .maxSpeed = 80}); // matchload 
+        // pros::delay(500);
+        // intakeone(8000);
+        // chassis.moveToPoint(-116.5, 41, 800, {.forwards = true, .maxSpeed = 90}); // matchload
+        // pros::delay(2000);
+        // chassis.moveToPoint(-80, 40, 1000, {.forwards = false, .maxSpeed = 110, .minSpeed = 50}); //score epstein
+        // chassis.waitUntilDone();
+        //  pros::delay(300);
+        // intakeall(12000);
+        // pros::delay(1000);
+        // intakeall(-12000);
+        // pros::delay(300);
+        // intakeall(12000);
+        // pros::delay(3000);
+        // intakeall(-12000);
+        // pros::delay(100);
+        // intakeall(12000);
+        // pros::delay(2000);
+        // intakeone(12000);
+        // chassis.moveToPoint(-100, 40, 1000, {.forwards = true, .maxSpeed = 80}); // set up to go other half
+        // // littlewill.toggle();
+        // chassis.turnToHeading(0, 600);
+        // chassis.waitUntilDone();
+
+        // intakeall(-12000); // why?????????
+        // chassis.moveToPoint(-107, -80, 3500, {.forwards = false, .maxSpeed = 80}); // other half i think
+        // chassis.turnToHeading(0, 600);
+        // chassis.waitUntilDone();
         // littlewill.toggle(); // erase later ##########
         lemreset(true, 1, true, false, true, -120, 16, -73, 58, true); // reset the left
         pros::delay(200);
@@ -279,37 +279,37 @@ void autonomous() {
         chassis.moveToPoint(-100, -55, 1000, {.forwards = false, .maxSpeed = 80});
         chassis.turnToHeading(0, 600);
         chassis.waitUntilDone(); 
-        chassis.moveToPoint(-100, -90, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 30});
+        chassis.moveToPoint(-100, -90, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); // set up go to other quadrant
         pros::delay(200);
         lemreset(true, 1, true, false, true, -120, 16, -73, 58, true);
         pros::delay(1000);
 
         chassis.turnToHeading(90, 600);
         littlewill.toggle();
-        chassis.moveToPoint(-10, -78, 3500, {.forwards = true, .maxSpeed = 90});
+        chassis.moveToPoint(-10, -78, 3500, {.forwards = true, .maxSpeed = 90}); // keep going 
         chassis.turnToHeading(0, 600); // og angle
         chassis.moveToPoint(-10, -84, 1000, {.forwards = false, .maxSpeed = 90});
         pros::delay(200);
         lemreset(true, 1, false, true, true, -120, 16, -73, 58, true); // reset 4th quad?
         pros::delay(500);
         chassis.turnToHeading(0, 200); // og angle
-        chassis.moveToPoint(-10, -56, 1000, {.forwards = true, .maxSpeed = 90});
+        chassis.moveToPoint(-10, -56, 1000, {.forwards = true, .maxSpeed = 90}); // move off wall reset
         chassis.waitUntilDone();
         chassis.turnToHeading(90, 1000);
         littlewill.toggle();
         chassis.waitUntilDone();
         
-        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90});
+        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90}); // score left bottom
         chassis.waitUntilDone();
         intakeall(12000);
         pros::delay(2000);
         intakeone(12000);
-        chassis.moveToPoint(16, -56, 1000, {.forwards = true, .maxSpeed = 50});
+        chassis.moveToPoint(16, -56, 1000, {.forwards = true, .maxSpeed = 50}); // matchload again i think
         pros::delay(500);
-        chassis.moveToPoint(17.7, -56, 1000, {.forwards = true, .maxSpeed = 50});
+        chassis.moveToPoint(17.7, -56, 1000, {.forwards = true, .maxSpeed = 50}); // matchlaod again i think
         pros::delay(1000);
 
-        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90});
+        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90}); // score again left bottom
         chassis.waitUntilDone();
         intakeall(12000);
         pros::delay(3000);
@@ -318,7 +318,7 @@ void autonomous() {
         chassis.moveToPoint(0, -60, 800, {.forwards = true});
         pros::delay(100);
 
-        chassis.moveToPose(20, -16, 0, 2000, {.forwards = true});
+        chassis.moveToPose(20, -16, 0, 2000, {.forwards = true}); // set up for park, moce towards
         chassis.waitUntilDone();
         pros::delay(200);
         lemreset(true, 1, false, true, false, -120, 16, -73, -58, true);

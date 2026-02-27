@@ -34,7 +34,7 @@ void intakeback(int intakepower) {
 void intakemiddle(int intakepower) {
     midgoal.set_value(true);
     intmotor1.move_voltage(intakepower);
-    intmotor3.move_voltage(- intakepower);
+    intmotor3.move_voltage(intakepower);
 } 
 
 void forwards(int intakepower, int left) {
