@@ -134,7 +134,7 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (13){
+    switch (8){
         case 1: // forwards // bleh
 
         test();
@@ -316,7 +316,7 @@ void autonomous() {
         chassis.moveToPoint(20.5, -57, 200, {.forwards = true, .maxSpeed = 90}); // matchlaod again i think
         pros::delay(700);
 
-        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90}); // score again left bottom
+        chassis.moveToPoint(-25, -56, 1000, {.forwards = false, .maxSpeed = 90, .minSpeed = 20}); // score again left bottom
         chassis.waitUntilDone();
         intakeall(12000);
         pros::delay(1200);
@@ -443,10 +443,14 @@ void opcontrol() {
     }
 
     if(master.get_digital_new_press(DIGITAL_UP)) {
-    lemreset(true, 1, true, false, true, -120, 16, -76, 58, true);
+    lemreset(true, 3, true, false, true, -120, 16, -76, 58, true);
     }
 
     if(master.get_digital_new_press(DIGITAL_X)) {
+    lemreset(true, 3, false, true, true, -120, 16, -76, 58, true);
+    }
+
+    if(master.get_digital_new_press(DIGITAL_A)) {
     backdsr();  
     chassis.setPose(chassis.getPose().x, distanceFromCentreBackAccount4Angle, chassis.getPose().theta);
 
