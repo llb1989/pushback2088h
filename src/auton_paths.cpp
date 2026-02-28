@@ -517,10 +517,10 @@ void right_goal_rush() {
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(0, 38, 1050, {.forwards = true, .maxSpeed = 90});
+    chassis.moveToPoint(0, 42, 1050, {.forwards = true, .maxSpeed = 90});
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(16, 38, 800);
+    chassis.moveToPoint(16, 42, 800);
     pros::delay(50);
 
     //     littlewill.toggle();
