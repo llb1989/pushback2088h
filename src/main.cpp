@@ -134,7 +134,7 @@ void autonomous() {
     master.print(1, 1, "Y: %f", chassis.getPose().y);
 
     int autonumber = currAuto;
-    switch (8){
+    switch (7){
         case 1: // forwards // bleh
 
         test();
