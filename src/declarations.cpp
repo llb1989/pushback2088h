@@ -46,7 +46,7 @@ pros::adi::Pneumatics midgoal('C', false);
 pros::Distance sensor1(3);
 pros::Distance sensor2(8); 
 pros::Distance sensor3(17); 
-pros::Distance sensor4(5);
+pros::Distance sensor4(6);
 
 double sideSensorReading = 1;
 double c = 1;

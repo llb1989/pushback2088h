@@ -197,55 +197,58 @@ void leftmirrored(){
 
 void sawp(){
     
+
+    // its killing me
     pros::delay(20);
-        rightMotors.set_brake_mode(pros::MotorBrake::hold);
-    leftMotors.set_brake_mode(pros::MotorBrake::hold);
-    chassis.setPose(0, 1, 0);  
+    chassis.setPose(0, 0, 0); 
+
+    rightMotors.set_brake_mode(pros::MotorBrake::hold);
+    leftMotors.set_brake_mode(pros::MotorBrake::hold); 
 
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(0, 37, 1050, {.forwards = true, .maxSpeed = 90});
+    chassis.moveToPoint(0, 39, 1050, {.forwards = true, .maxSpeed = 90});
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(16, 37, 800);
+    chassis.moveToPoint(16, 39, 800);
     pros::delay(50);
 
-    chassis.moveToPoint(-24, 37, 1000, {.forwards = false, .maxSpeed = 80});
-pros::delay(900);
+    chassis.moveToPoint(-24, 40, 1000, {.forwards = false, .maxSpeed = 80});
+    pros::delay(900);
     intakeall(12000);
     pros::delay(1000);
     littlewill.toggle();
     intakeone(12000);
-        rightMotors.set_brake_mode(pros::MotorBrake::hold);
-    leftMotors.set_brake_mode(pros::MotorBrake::hold);
+    //     rightMotors.set_brake_mode(pros::MotorBrake::hold);
+    // leftMotors.set_brake_mode(pros::MotorBrake::hold);
     chassis.moveToPoint(-29, 14, 950, {.maxSpeed = 90});
+    
+    chassis.moveToPoint(-27, -24, 1150, {.maxSpeed = 80, .minSpeed = 15});
     chassis.waitUntilDone();
+    pros::delay(300);
+    littlewill.toggle();
 
-    chassis.moveToPoint(-27, -26, 1150, {.maxSpeed = 80, .minSpeed = 15});
-    pros::delay(800);
-
-    // chassis.waitUntilDone();
     chassis.turnToHeading(-230, 300, {.maxSpeed = 80, .minSpeed = 20});
-    chassis.moveToPoint(-4, -55, 800, {.maxSpeed = 80, .minSpeed = 30}); // move to other quadrant
+    chassis.moveToPoint(5, -56, 900, {.maxSpeed = 90, .minSpeed = 30}); // move to other quadrant
     chassis.waitUntilDone();
 
     chassis.turnToHeading(90, 300);
-        littlewill.toggle();
-    chassis.moveToPoint(-28, -55, 900, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+    // littlewill.toggle();
+    chassis.moveToPoint(-28, -56, 900, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
     chassis.waitUntilDone();
     intakeall(12000);
     pros::delay(1400); // score long goal
     intakeone(12000);
-    chassis.moveToPoint(0, -56, 700, {.forwards = true, .maxSpeed = 90, .minSpeed = 20});
-        chassis.moveToPoint(20, -52, 650, {.forwards = true, .maxSpeed = 30, .minSpeed = 20});
+    // chassis.moveToPoint(0, -25, 700, {.forwards = true, .maxSpeed = 90, .minSpeed = 20});
+    chassis.moveToPoint(20, -56, 650, {.forwards = true, .maxSpeed = 70, .minSpeed = 20});
     pros::delay(250);
 
-    chassis.moveToPoint(-5, -53, 600, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+    chassis.moveToPoint(-5, -56, 600, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
 
     chassis.turnToHeading(140, 400);
 
-    chassis.moveToPoint(-47, -12, 1300, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
+    chassis.moveToPoint(-48.5, 26, 1300, {.forwards = false, .maxSpeed = 70, .minSpeed = 30}); // i dont think its 26 anymore
     pros::delay(200);
     intakeall(-12000);
     pros::delay(300);
@@ -413,27 +416,25 @@ void left_and_mid_rush() {
     // chassis.moveToPoint(35, 31.5, 2000, {.forwards = true, .maxSpeed = 90});
     // chassis.turnToHeading(150, 500, {.maxSpeed = 100});
 
-    chassis.setPose(0, 1, 0);
+    chassis.setPose(0, 0, 0);
     intakeone(12000);
         littlewill.toggle();
-    chassis.moveToPoint(0, 39, 1050, {.maxSpeed = 100});
+    chassis.moveToPoint(0, 39, 1050, {.maxSpeed = 90});
     chassis.turnToHeading(-90, 300);
-    chassis.moveToPoint(-20, 40, 800, {.maxSpeed = 90, .minSpeed = 20});
+    chassis.moveToPoint(-20, 39, 900, {.maxSpeed = 70});
     chassis.waitUntilDone();
-    pros::delay(150);
 
-    chassis.moveToPoint(24, 43, 1200, {.forwards = false, .maxSpeed = 80}); // 37 overshooted in match
+    chassis.moveToPoint(24, 42.5, 1200, {.forwards = false, .maxSpeed = 70}); // 37 overshooted in match
     chassis.waitUntilDone();
-    chassis.moveToPoint(28, 42.5, 100, {.forwards = false, .maxSpeed = 80}); 
+    chassis.moveToPoint(28, 42, 100, {.forwards = false, .maxSpeed = 80}); 
     intakeall(12000);
     pros::delay(1400);
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(31.5, 19, 1000, {.maxSpeed = 70});
+    chassis.moveToPoint(33, 20, 1100, {.maxSpeed = 70});
     chassis.waitUntilDone();
     littlewill.toggle();
-
 
     chassis.turnToHeading(-45, 500);
     pros::delay(100);
@@ -444,7 +445,7 @@ void left_and_mid_rush() {
     pros::delay(200);
     intakemiddle(12000);
     pros::delay(1000);
-    intakemiddle(8000);
+    intakemiddle(12000); // was 8000
     pros::delay(1500);
     intakeall(0);
     midgoal.set_value(true);
@@ -508,10 +509,11 @@ intakeall(12000);
 void right_goal_rush() {
 
     pros::delay(20);
+    chassis.setPose(0, 0, 0);
     
-    chassis.setPose(0, 0, 0);  
     rightMotors.set_brake_mode(pros::MotorBrake::hold);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
+  
     intakeone(12000);
     littlewill.toggle();
 
@@ -531,7 +533,7 @@ void right_goal_rush() {
     // chassis.moveToPoint(20.5 , 42, 1000, {.maxSpeed = 90});
     // pros::delay(200);
 
-    chassis.moveToPoint(-18, 42, 1500, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(-24, 40, 1500, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
     chassis.waitUntilDone();
 
     intakeall(12000);
@@ -544,9 +546,9 @@ void right_goal_rush() {
     chassis.waitUntilDone();
     littlewill.toggle();
 
-    chassis.moveToPoint(-9, 30.5, 700, {.forwards = false});
-        chassis.turnToHeading(90, 300, {.maxSpeed = 60});
-    chassis.moveToPoint(-43, 32, 1500, {.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-9, 26, 700, {.forwards = false});
+    chassis.turnToHeading(90, 300, {.maxSpeed = 60});
+    chassis.moveToPoint(-47, 28, 1500, {.forwards = false, .maxSpeed = 80});
     chassis.turnToHeading(40, 500);
     intakeall(0);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
