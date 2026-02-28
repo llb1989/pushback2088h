@@ -635,12 +635,7 @@
       }
     },
     "upload_options": {
-<<<<<<< HEAD
-      "slot": 1
-=======
-      "slot": 1,
-      "description": "nolan "
->>>>>>> 2f29e0b500e6cc953c64c168d396ba3263c38450
+    "slot": 1
     },
     "use_early_access": false
   }

@@ -199,20 +199,20 @@ void sawp(){
     
     pros::delay(20);
     
-    chassis.setPose(0, 1, 0);  
+    chassis.setPose(0, 0.5, 0);  
     rightMotors.set_brake_mode(pros::MotorBrake::hold);
     leftMotors.set_brake_mode(pros::MotorBrake::hold);
     intakeone(12000);
     littlewill.toggle();
 
-    chassis.moveToPoint(0, 42, 1050, {.forwards = true, .maxSpeed = 90});
+    chassis.moveToPoint(0, 38, 1050, {.forwards = true, .maxSpeed = 90});
     chassis.waitUntilDone();
     chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(16, 42, 800);
+    chassis.moveToPoint(16, 38.5, 800);
     pros::delay(50);
 
-    chassis.moveToPoint(-22, 43, 1000, {.forwards = false, .maxSpeed = 80});
-pros::delay(900);
+    chassis.moveToPoint(-22, 41, 1000, {.forwards = false, .maxSpeed = 80});
+    pros::delay(900);
     intakeall(12000);
     pros::delay(1000);
     littlewill.toggle();
@@ -226,34 +226,30 @@ pros::delay(900);
     littlewill.toggle();
     // chassis.waitUntilDone();
 
-    chassis.moveToPoint(-4, -56, 800, {.maxSpeed = 80, .minSpeed = 30}); // move to other quadrant
+    chassis.moveToPoint(4, -54, 900, {.maxSpeed = 80, .minSpeed = 30}); // move to other quadrant
     chassis.waitUntilDone();
 
     chassis.turnToHeading(90, 300);
-    chassis.moveToPoint(-28, -55.5, 900, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
+    chassis.moveToPoint(-28, -52.5, 900, {.forwards = false, .maxSpeed = 80, .minSpeed = 30});
     chassis.waitUntilDone();
-    intakeall(12000);
-    pros::delay(1400); // score long goal
-    intakeone(12000);
-    chassis.moveToPoint(0, -56, 700, {.forwards = true, .maxSpeed = 90, .minSpeed = 20});
-        chassis.moveToPoint(20, -57, 650, {.forwards = true, .maxSpeed = 30, .minSpeed = 20});
-    pros::delay(250);
-
-    chassis.moveToPoint(-5, -55, 600, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
-
-    chassis.turnToHeading(140, 400);
-
-    chassis.moveToPoint(-47, -12, 1300, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
-    pros::delay(200);
     intakeall(-12000);
-    pros::delay(300);
-    intakeall(0);
+    pros::delay(250); // score long goal
+    intakeall(12000);
+    pros::delay(1000); // score long goal
+    intakeone(12000);
+    chassis.moveToPoint(0, -52, 700, {.forwards = true, .maxSpeed = 90, .minSpeed = 20});
+    chassis.moveToPoint(20.5, -53, 800, {.forwards = true, .maxSpeed = 60});
+    pros::delay(75);
+
+    chassis.moveToPoint(-5, -54, 600, {.forwards = false, .maxSpeed = 90, .minSpeed = 30}); //pull out
+
+    chassis.turnToHeading(135, 400);
+
+    chassis.moveToPoint(-48, -4.5, 1300, {.forwards = false, .maxSpeed = 70, .minSpeed = 30});
     chassis.waitUntilDone();
     chassis.turnToHeading(135, 100);
-
-    intakemiddle(12000);
-    pros::delay(3000);
-    intakeall(0);
+    chassis.waitUntilDone();
+    intakeall(8500);
 
     // ## older sawp ##
     // pros::delay(20);
